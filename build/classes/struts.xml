@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+
+<struts>
+	<constant name="struts.objectFactory.spring.autoWire" value="type" />
+	<constant name="struts.ui.theme" value="simple" />
+	<package name="default" namespace="/" extends="struts-default">
+	
+		<action name="" class="actions.IndexAction">
+			<result name="success">/pages/index/index.jsp</result>
+			<result name="input">/pages/index/index.jsp</result>	
+			<result name="error">/pages/index/index.jsp</result>		
+		</action>	
+		
+		<action name="login" class="actions.LoginAction" method="input" >
+			<result name="success">/pages/login/loginForm.jsp</result>
+			<result name="input">/pages/login/loginForm.jsp</result>
+			<result name="error">/pages/login/loginForm.jsp</result>			
+		</action>
+		
+		<action name="register" class="actions.RegisterAction" method="input">
+			<result name="success">/pages/register/registerForm.jsp</result>
+			<result name="input">/pages/register/registerForm.jsp</result>
+			<result name="error">/pages/register/registerForm.jsp</result>
+		</action>
+		
+	
+	</package>
+	
+	<package name="login" namespace="/login" extends="struts-default">		
+		<action name="autenticar" class="actions.LoginAction">
+			<result name="error">/pages/login/loginForm.jsp</result>
+			<result name="success">/pages/index/index.jsp</result>
+			<result name="input">/pages/login/loginForm.jsp</result>
+		</action>	 
+	</package>
+	
+	<package name="register" namespace="/register" extends="struts-default">		
+		<action name="registrar" class="actions.RegisterAction">
+			<result name="error">/pages/register/registerForm.jsp</result>
+			<result name="success">/pages/index/index.jsp</result>
+			<result name="input">/pages/register/registerForm.jsp</result>
+		</action>
+	</package>
+	
+
+
+</struts>
