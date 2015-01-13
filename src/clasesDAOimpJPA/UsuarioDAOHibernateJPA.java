@@ -18,7 +18,7 @@ public class UsuarioDAOHibernateJPA extends GenericDAOHibernateJPA<Usuario> impl
 			Query consulta = this
 					.getEm()
 					.createQuery(
-							"select u from Usuario as u  where u.mail=? and u.clave=?");
+							"select u from Usuario as u  where u.email=? and u.password=?");
 			consulta.setParameter(1, mail);
 			consulta.setParameter(2, password);
 			return (Usuario) consulta.getSingleResult();

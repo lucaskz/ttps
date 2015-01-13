@@ -23,7 +23,7 @@ public class RegisterAction extends ActionSupport {
 
 	public String execute() {
 		Usuario u = usuarioDAO.existeUsuario(getEmail(), getPassword());
-		if (u != null) {
+		if (u == null) {
 			u = new Pasajero();
 			u.setEmail(getEmail());
 			u.setPassword(getPassword());
