@@ -10,8 +10,8 @@
 <body>
 	<s:fielderror />
 	<s:form namespace="/login" action="autenticar">
-		<s:textfield label="Nombre de Usuario: " name="identificacion" />
-		<s:password label="Contraseña: " name="clave" />
+		<s:textfield label="Nombre de Usuario: " name="email" />
+		<s:password label="Contraseña: " name="password" />
 		<s:submit />
 	</s:form>
 </body>

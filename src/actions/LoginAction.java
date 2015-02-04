@@ -41,6 +41,28 @@ public class LoginAction extends ActionSupport {
 			return "conectado";
 		}
 	}
+	
+	public String autenticarUsuario(){
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		String user = (String) session.get("user");
+		if (user == null) {
+			Usuario u = usuarioDAO.existeUsuario(getEmail(), getPassword());
+			if (u != null) {
+				if(u.isAdministrador())
+					session.put("perfil", "adminisrador");
+				else
+					session.put("perfil","viajero");
+				session.put("usuario", u.getNombre());
+				session.put("usrLogin", u);
+				return SUCCESS;
+			} else {
+				addFieldError("usuario", "Datos Incorrectos");
+				return INPUT;
+			}
+		} else {
+			return "conectado";
+		}		
+	}
 
 	public void validate() {
 		

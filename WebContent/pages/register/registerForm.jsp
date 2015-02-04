@@ -8,7 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bootstrap 101 Template</title>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
 <style>
   body {
     padding-top: 60px;
@@ -21,7 +21,7 @@
 </style>
 
 <!-- Bootstrap -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -73,7 +73,7 @@
 		<!-- Example row of columns -->
 		<div class="row">
 			<div class="col-md-6 col-md-offset-1">
-				<s:form  namespace="/register" action="registrar" role="form">
+				<s:form  name="register" action="register" method="post" role="form">
 					<div class="form-group">
 						<label for="inputName">Nombre</label> <input
 							type="text" class="form-control" id="inputName" name="nombre"
