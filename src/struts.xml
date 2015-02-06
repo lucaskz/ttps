@@ -49,6 +49,21 @@
 		</action>
 	</package>
 	
+	<package name="recorridos" namespace="/recorridos" extends="struts-default">
+		<action name="recorridos" class="actions.AdministradorRecorridoAction">
+			<result name="success">/pages/recorridos/listarRecorridos.jsp</result>
+		</action>
+	</package>
+	
+	<package name="eventos" namespace="/eventos" extends="struts-default">
+		<action name="listarEventos" method="listarEventos" class="actions.AdministradorEventoAction">
+			<result name="success">/pages/eventos/listarEventos.jsp</result>
+		</action>
+		<action name="crearEvento" method="crearEvento" class="actions.AdministradorEventoAction">
+			<result name="success">/pages/eventos/crearEvento.jsp</result>
+		</action>
+	</package>
+	
 
 
 </struts>
