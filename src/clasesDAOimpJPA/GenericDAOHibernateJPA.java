@@ -1,6 +1,7 @@
 package clasesDAOimpJPA;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -70,9 +71,9 @@ public class GenericDAOHibernateJPA<T> implements GenericDAO<T> {
 	}
 
 	@Override
-	public Collection<T> recuperarTodos() {
+	public List<T> recuperarTodos() {
     Query consulta=this.getEm().createQuery(" from "+ getPersistentClass().getSimpleName());
-	Collection<T>resultado=consulta.getResultList();
+	List<T>resultado=consulta.getResultList();
 	return resultado;
 		
 		

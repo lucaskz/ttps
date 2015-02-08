@@ -1,5 +1,8 @@
 package clases;
 
+import java.sql.Time;
+import java.util.Date;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,11 +13,18 @@ public class Mensaje {
 	
 	private String texto;
 	
-	@OneToOne(optional=false)
-	private Pasajero creador;
+	private Date fecha;
 	
-	@OneToOne(optional=false)
-	private Pasajero destinatario;
+	private Time hora;
+	
+	
+	@ManyToOne
+	@JoinColumn(name="u_creador_id")
+	private Usuario creador;
+	
+	@ManyToOne
+	@JoinColumn(name="u_receptor_id")
+	private Usuario receptor;
 	
 	
 	public int getId() {
@@ -29,17 +39,30 @@ public class Mensaje {
 	public void setTexto(String texto) {
 		this.texto = texto;
 	}
-	public Pasajero getCreador() {
+	public Date getFecha() {
+		return fecha;
+	}
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+	public Time getHora() {
+		return hora;
+	}
+	public void setHora(Time hora) {
+		this.hora = hora;
+	}
+	public Usuario getCreador() {
 		return creador;
 	}
-	public void setCreador(Pasajero creador) {
+	public void setCreador(Usuario creador) {
 		this.creador = creador;
 	}
-	public Pasajero getDestinatario() {
-		return destinatario;
+	public Usuario getReceptor() {
+		return receptor;
 	}
-	public void setDestinatario(Pasajero destinatario) {
-		this.destinatario = destinatario;
+	public void setReceptor(Usuario receptor) {
+		this.receptor = receptor;
 	}
+
 
 }

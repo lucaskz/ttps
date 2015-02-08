@@ -17,21 +17,43 @@ public class LoginAction extends ActionSupport {
 	private String email;
 	private String password;
 	private String perfil;
-	
+
 	private UsuarioDAO usuarioDAO;
 
-	public String execute() {
+	// public String execute() {
+	// Map<String, Object> session = ActionContext.getContext().getSession();
+	// String user = (String) session.get("user");
+	// if (user == null) {
+	// Usuario u = usuarioDAO.existeUsuario(getEmail(), getPassword());
+	// if (u != null) {
+	// if(u.isAdministrador())
+	// session.put("perfil", "adminisrador");
+	// else
+	// session.put("perfil","viajero");
+	// session.put("usuario", u.getNombre());
+	// session.put("usrLogin", u);
+	// return SUCCESS;
+	// } else {
+	// addFieldError("usuario", "Datos Incorrectos");
+	// return INPUT;
+	// }
+	// } else {
+	// return "conectado";
+	// }
+	// }
+
+	public String autenticarUsuario() {
 		Map<String, Object> session = ActionContext.getContext().getSession();
-		String user = (String) session.get("user");
+		Usuario user = (Usuario) session.get("usrLogin");
 		if (user == null) {
 			Usuario u = usuarioDAO.existeUsuario(getEmail(), getPassword());
 			if (u != null) {
-				if(u.isAdministrador())
+				if (u.isAdministrador())
 					session.put("perfil", "adminisrador");
 				else
-					session.put("perfil","viajero");
-				session.put("usuario", u.getNombre());
+					session.put("perfil", "pasajero");
 				session.put("usrLogin", u);
+				session.put("logined", true);
 				return SUCCESS;
 			} else {
 				addFieldError("usuario", "Datos Incorrectos");
@@ -41,39 +63,31 @@ public class LoginAction extends ActionSupport {
 			return "conectado";
 		}
 	}
-	
-	public String autenticarUsuario(){
+
+	public String logout() throws Exception {
+		// HttpSession session = ServletActionContext.getRequest().getSession();
+		// session.removeAttribute("logined");
+		// session.removeAttribute("context");
 		Map<String, Object> session = ActionContext.getContext().getSession();
-		String user = (String) session.get("user");
-		if (user == null) {
-			Usuario u = usuarioDAO.existeUsuario(getEmail(), getPassword());
-			if (u != null) {
-				if(u.isAdministrador())
-					session.put("perfil", "adminisrador");
-				else
-					session.put("perfil","viajero");
-				session.put("usuario", u.getNombre());
-				session.put("usrLogin", u);
-				return SUCCESS;
-			} else {
-				addFieldError("usuario", "Datos Incorrectos");
-				return INPUT;
-			}
-		} else {
-			return "conectado";
-		}		
+		session.remove("logined");
+		session.remove("usrLogin");
+		session.remove("perfil");
+		session.remove("context");
+		return SUCCESS;
+	}
+
+	public String showLogin() {
+		return "success";
 	}
 
 	public void validate() {
-		
+
 		if (getEmail() == null || getEmail().isEmpty())
 			addFieldError("identificacion",
 					"Se requiere una identificación de usuario");
 		if (getPassword() == null || getPassword().isEmpty())
 			addFieldError("clave", "Se requiere una contraseña");
 	}
-
-	
 
 	public String getPerfil() {
 		return perfil;

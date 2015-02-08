@@ -17,5 +17,6 @@
 		<class>clases.Recorrido</class>
 		<class>clases.Telefono</class>
 		<class>clases.Voto</class>		
+		<class>clases.Foto</class>
 	</persistence-unit>
 </persistence>

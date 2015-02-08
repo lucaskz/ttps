@@ -12,14 +12,15 @@
 <!-- Bootstrap -->
 <link href="../css/bootstrap.min.css" rel="stylesheet">
 <style>
-  body {
-    padding-top: 60px;
-  }
-  @media (max-width: 980px) {
-    body {
-      padding-top: 0;
-    }
-  }
+body {
+	padding-top: 60px;
+}
+
+@media ( max-width : 980px) {
+	body {
+		padding-top: 0;
+	}
+}
 </style>
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -49,8 +50,9 @@
 					<li><a href="#about">About</a></li>
 					<li><a href="#contact">Contact</a></li>
 				</ul>
-				<form class="navbar-form navbar-right" role="form" id="autenticar" name="autenticar" action="login/autenticar.action" method="post" >
-					
+				<form class="navbar-form navbar-right" role="form" id="autenticar"
+					name="autenticar" action="login/autenticar.action" method="post">
+
 					<div class="form-group">
 						<input type="text" placeholder="Email" class="form-control">
 					</div>
@@ -59,7 +61,7 @@
 					</div>
 					<button type="submit" class="btn btn-success">Sign in</button>
 				</form>
-					
+
 			</div>
 			<!--/.navbar-collapse -->
 		</div>
@@ -73,43 +75,52 @@
 	<!-- Home news -->
 	<div class="container">
 		<div class="row">
-			<div class="col-md-6 col-md-offset-1">
-				<s:form  name="register" action="register" method="post" role="form">
+			<s:form name="register" action="register" method="post" role="form" enctype="multipart/form-data">
+				<div class="col-md-6 col-md-offset-1">
+
 					<div class="form-group">
-						<label for="inputName">Nombre</label> <input
-							type="text" class="form-control" id="inputName" name="nombre"
+						<label for="inputName">Nombre del evento</label> <input type="text"
+							class="form-control" id="inputName" name="nombre"
 							placeholder="Ingresa tu nombre">
 					</div>
 					<div class="form-group">
-						<label for="inputApellido">Apellido</label> <input
-							type="text" class="form-control" id="inputApellido" name="apellido"
-							placeholder="Ingresa tu apellido">
+						<label for="inputFecha">Fecha</label> <input type="datetime"
+							class="form-control" id="inputFecha" name="fecha"
+							placeholder="Selcciona una fecha">
 					</div>
 					<div class="form-group">
-						<label for="inputTelefono">Teléfono</label> <input
-							type="text" class="form-control" id="inputTelefono" name="telefono"
-							placeholder="Ingresa tu teléfono">
+						<label for="inputDireccion">Direccion</label> <input type="text"
+							class="form-control" id="inputDireccion" name="direccion"
+							placeholder="Ingresa la dirección">
 					</div>
 					<div class="form-group">
-						<label for="inputEmail">Dirección de Correo</label> <input name="email"
-							type="email" class="form-control" id="inputEmail"
-							placeholder="Ingresa tu email">
-
+						<label for="inputHora">Hora</label> <input
+							name="hora" type="time" class="form-control" id="inputHora"
+							placeholder="Hora del evento">
 					</div>
 					<div class="form-group">
-						<label for="inputPassword">Password</label> <input name="password"
-							type="password" class="form-control" id="inputPassword"
-							placeholder="Password">
+						<label for="inputCiudad">Ciudad</label> <input
+							name="ciudad" type="text" class="form-control" id="inputCiudad"
+							placeholder="Ciudad del evento">
 					</div>
 
-					<div class="checkbox">
-						<label> <input type="checkbox"> Check me out
-						</label>
-					</div>
-					<button type="submit" class=" btn btn-primary btn-lg btn btn-success">Submit</button>
-				</s:form>
-			</div>
 
+
+					<button type="submit"
+						class=" btn btn-primary btn-lg btn btn-success">Submit</button>
+
+				</div>
+				<div class="col-md-4 ">
+					<div class="form-group">
+						<label for="inputFile">Foto Evento</label> <s:file name="foto" label="Select a File to upload" size="40" />
+						<p class="help-block">Suba una foto del evento.</p>
+					</div>
+				</div>
+				<div class="col-md-4 ">
+					<img src="photo.jpg" alt="..." class="img-thumbnail"
+						style="max-height: 290px"">
+				</div>
+			</s:form>
 
 		</div>
 

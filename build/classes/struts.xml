@@ -7,63 +7,75 @@
 <struts>
 	<constant name="struts.objectFactory.spring.autoWire" value="type" />
 	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.multipart.maxSize" value="10000000" />
 
 
-	
+
 	<package name="default" namespace="/" extends="struts-default">
-	
+
 		<action name="" class="actions.IndexAction">
 			<result name="success">/pages/index/index.jsp</result>
-			<result name="input">/pages/index/index.jsp</result>	
-			<result name="error">/pages/error/error.jsp</result>		
-		</action>	
-		
-		<action name="login" class="actions.LoginAction"  >
+			<result name="input">/pages/index/index.jsp</result>
+			<result name="error">/pages/error/error.jsp</result>
+		</action>
+
+		<action name="login" class="actions.LoginAction" method="input">
 			<result name="success">/pages/login/loginForm.jsp</result>
 			<result name="input">/pages/login/loginForm.jsp</result>
-			<result name="error">/pages/error/error.jsp</result>			
+			<result name="error">/pages/error/error.jsp</result>
 		</action>
-		
-		<action name="register" class="actions.RegisterAction" >
+
+		<action name="register" class="actions.RegisterAction">
 			<result name="success">/pages/index/index.jsp</result>
 			<result name="input">/pages/register/registerForm.jsp</result>
 			<result name="error">/pages/error/error.jsp</result>
 		</action>
-		
-	
+
+
 	</package>
-	
-	<package name="login" namespace="/login" extends="struts-default">		
-		<action name="autenticar" method="autenticarUsuario" class="actions.LoginAction" >
+
+	<package name="login" namespace="/login" extends="struts-default">
+		<action name="autenticar" method="autenticarUsuario" class="actions.LoginAction">
 			<result name="error">/pages/error/error.jsp</result>
 			<result name="SUCCESS">/pages/index/index.jsp</result>
 			<result name="input">/pages/login/loginForm.jsp</result>
-		</action>	 
+		</action>
+
 	</package>
-	
-	<package name="register" namespace="/register" extends="struts-default">		
+
+	<package name="register" namespace="/register" extends="struts-default">
 		<action name="register" class="actions.RegisterAction">
 			<result name="error">/pages/error/error.jsp</result>
 			<result name="success">/pages/index/index.jsp</result>
 			<result name="input">/pages/register/registerForm.jsp</result>
 		</action>
 	</package>
-	
+
 	<package name="recorridos" namespace="/recorridos" extends="struts-default">
 		<action name="recorridos" class="actions.AdministradorRecorridoAction">
 			<result name="success">/pages/recorridos/listarRecorridos.jsp</result>
 		</action>
 	</package>
-	
+
 	<package name="eventos" namespace="/eventos" extends="struts-default">
-		<action name="listarEventos" method="listarEventos" class="actions.AdministradorEventoAction">
+		<action name="listarEventos" method="listarEventos"
+			class="actions.AdministradorEventoAction">
 			<result name="success">/pages/eventos/listarEventos.jsp</result>
 		</action>
-		<action name="crearEvento" method="crearEvento" class="actions.AdministradorEventoAction">
+		<action name="crearEvento" method="crearEvento"
+			class="actions.AdministradorEventoAction">
 			<result name="success">/pages/eventos/crearEvento.jsp</result>
 		</action>
+		<action name="register" method="registrarEvento"
+			class="actions.AdministradorEventoAction">
+<!-- 			<interceptor-ref name="fileUpload"> -->
+<!-- 				<param name="allowedTypes">image/jpeg,image/gif</param> -->
+<!-- 			</interceptor-ref>			 -->
+			<result name="success" type="redirect">listarEventos</result>
+			<result name="input">/pages/eventos/crearEvento.jsp</result>
+		</action>
 	</package>
-	
+
 
 
 </struts>

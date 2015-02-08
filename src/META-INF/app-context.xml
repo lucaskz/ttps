@@ -43,6 +43,10 @@
 	<context:annotation-config />
 	
 	<bean id="usuarioDAO" class="clasesDAOimpJPA.UsuarioDAOHibernateJPA" />
+	
+	<bean id="eventoDAO" class="clasesDAOimpJPA.EventoDAOHibernateJPA"/>
+	
+	<bean id="fotoDAO" class="clasesDAOimpJPA.FotoDAOHibernateJPA"/>
 
 </beans>
 
