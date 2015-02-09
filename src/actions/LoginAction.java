@@ -112,4 +112,12 @@ public class LoginAction extends ActionSupport {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public UsuarioDAO getUsuarioDAO() {
+		return usuarioDAO;
+	}
+
+	public void setUsuarioDAO(UsuarioDAO usuarioDAO) {
+		this.usuarioDAO = usuarioDAO;
+	}
 }

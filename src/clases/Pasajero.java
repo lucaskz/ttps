@@ -10,6 +10,9 @@ public class Pasajero extends Usuario {
 	@JoinColumn(name = "reco_id")
 	private Recorrido recorrido;
 
+	public Pasajero () {
+		super();
+	}
 
 	@Override
 	public boolean isPasajero() {

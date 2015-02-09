@@ -37,6 +37,12 @@
 	<package name="login" namespace="/login" extends="struts-default">
 		<action name="autenticar" method="autenticarUsuario" class="actions.LoginAction">
 			<result name="error">/pages/error/error.jsp</result>
+			<result name="success">/pages/index/index.jsp</result>
+			<result name="input">/pages/login/loginForm.jsp</result>
+		</action>
+		
+		<action name="logout" method="logout" class="actions.LoginAction">
+			<result name="error">/pages/error/error.jsp</result>
 			<result name="SUCCESS">/pages/index/index.jsp</result>
 			<result name="input">/pages/login/loginForm.jsp</result>
 		</action>

@@ -23,7 +23,7 @@ public abstract class Usuario {
 
 
 	@Id @GeneratedValue
-	protected int id;
+	private int id;
 
 	private String email;
 	

@@ -1,5 +1,6 @@
 <%@tag description="Overall Page template" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="b" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 
 
 <html lang="en">
@@ -10,7 +11,10 @@
 <title>Viajes Informáticos @ 2015</title>
 
 <!-- Bootstrap -->
-<link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/signin.css"
+	rel="stylesheet">
 <style>
 body {
 	padding-top: 60px;
@@ -31,13 +35,20 @@ body {
     <![endif]-->
 </head>
 <body>
+	<s:if test="#session.usrLogin eq null">
+		<b:header />
+	</s:if>
+	<s:else>
+		<b:header user="#session.usrLogin" />
+	</s:else>
 
-	<jsp:doBody/>
+	<jsp:doBody />
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/functions.js"></script>
 </body>
 </html>

@@ -39,8 +39,8 @@ public class RegisterAction extends ActionSupport {
 			u.setNombre(getNombre());
 			u.setApellido(getApellido());
 			Foto foto = new Foto();
-			foto.setDescripcion(getFotoFileName());
 			foto.setImagen(getFoto());
+			foto.setDescripcion(getFotoFileName());
 			u.setFoto(foto);
 			usuarioDAO.alta(u);
 			return SUCCESS;
