@@ -43,10 +43,10 @@ public class RegisterAction extends ActionSupport {
 			foto.setDescripcion(getFotoFileName());
 			u.setFoto(foto);
 			usuarioDAO.alta(u);
-			return SUCCESS;
+			return "success";
 		} else {
 			addFieldError("email", "Dirección de correo en uso");
-			return INPUT;
+			return "input";
 		}
 	}
 

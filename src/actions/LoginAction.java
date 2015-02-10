@@ -49,18 +49,18 @@ public class LoginAction extends ActionSupport {
 			Usuario u = usuarioDAO.existeUsuario(getEmail(), getPassword());
 			if (u != null) {
 				if (u.isAdministrador())
-					session.put("perfil", "adminisrador");
+					session.put("perfil", "administrador");
 				else
 					session.put("perfil", "pasajero");
 				session.put("usrLogin", u);
-				session.put("logined", true);
-				return SUCCESS;
+				session.put("status", "autenticado");
+				return "success";
 			} else {
 				addFieldError("usuario", "Datos Incorrectos");
-				return INPUT;
+				return "input";
 			}
 		} else {
-			return "conectado";
+			return "success";
 		}
 	}
 
@@ -69,16 +69,22 @@ public class LoginAction extends ActionSupport {
 		// session.removeAttribute("logined");
 		// session.removeAttribute("context");
 		Map<String, Object> session = ActionContext.getContext().getSession();
-		session.remove("logined");
+		session.remove("status");
 		session.remove("usrLogin");
 		session.remove("perfil");
 		session.remove("context");
-		return SUCCESS;
-	}
-
-	public String showLogin() {
 		return "success";
 	}
+	
+	public String showLogin(){
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		Usuario user = (Usuario) session.get("usrLogin");
+		if(user==null){
+			return "success";
+		}
+		return "logged";
+	}
+
 
 	public void validate() {
 

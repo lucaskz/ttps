@@ -6,7 +6,7 @@
 
 
 <t:base>
-	<t:header></t:header>
+	<t:header user="${usrLogin}"  />
 	<!-- Home news -->
 	<div class="container">
 		<div class="row">

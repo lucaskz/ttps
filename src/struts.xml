@@ -13,22 +13,64 @@
 
 	<package name="default" namespace="/" extends="struts-default">
 
-		<action name="" class="actions.IndexAction">
+<!-- 		<interceptors> -->
+<!-- 			<interceptor name="Authorizeuser" class="interceptors.AlreadyLogInterceptor"></interceptor> -->
+
+
+
+<!-- 			<interceptor-stack name="myStack"> -->
+<!-- 				<interceptor-ref name="defaultStack" /> -->
+<!-- 				<interceptor-ref name="Authorizeuser" /> -->
+
+<!-- 			</interceptor-stack> -->
+<!-- 		</interceptors> -->
+
+<!-- 		<default-interceptor-ref name="myStack" /> -->
+		<global-results>
+			<result name="login" type="redirect">index</result>
+		</global-results>
+
+		<action name="" class="actions.IndexAction" method="execute">
+			<result name="success">/pages/index/index.jsp</result>
+			<result name="input">/pages/index/index.jsp</result>
+			<result name="error">/pages/error/error.jsp</result>
+		</action>
+		
+		<action name="loadDB" class="util.DBLoaderAction" method="execute">
+			<result name="success">/pages/error/loaded.jsp</result>
+			<result name="input">/pages/index/index.jsp</result>
+			<result name="error">/pages/error/error.jsp</result>
+		</action>
+
+		<action name="index" class="actions.IndexAction" method="execute">
 			<result name="success">/pages/index/index.jsp</result>
 			<result name="input">/pages/index/index.jsp</result>
 			<result name="error">/pages/error/error.jsp</result>
 		</action>
 
-		<action name="login" class="actions.LoginAction" method="input">
+		<action name="login" class="actions.LoginAction" method="showLogin">
+		<interceptor-ref name="validation">
+				<param name="excludeMethods">showLogin</param>
+			</interceptor-ref>
 			<result name="success">/pages/login/loginForm.jsp</result>
 			<result name="input">/pages/login/loginForm.jsp</result>
 			<result name="error">/pages/error/error.jsp</result>
+			<result name="logged" type="redirect">index</result>
 		</action>
 
 		<action name="register" class="actions.RegisterAction">
-			<result name="success">/pages/index/index.jsp</result>
+			<result name="success" type="redirect">index</result>
 			<result name="input">/pages/register/registerForm.jsp</result>
 			<result name="error">/pages/error/error.jsp</result>
+		</action>
+
+		<action name="logout" method="logout" class="actions.LoginAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">logout</param>
+			</interceptor-ref>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success">/pages/index/index.jsp</result>
+			<result name="input">/pages/login/loginForm.jsp</result>
 		</action>
 
 
@@ -37,25 +79,19 @@
 	<package name="login" namespace="/login" extends="struts-default">
 		<action name="autenticar" method="autenticarUsuario" class="actions.LoginAction">
 			<result name="error">/pages/error/error.jsp</result>
-			<result name="success">/pages/index/index.jsp</result>
-			<result name="input">/pages/login/loginForm.jsp</result>
-		</action>
-		
-		<action name="logout" method="logout" class="actions.LoginAction">
-			<result name="error">/pages/error/error.jsp</result>
-			<result name="SUCCESS">/pages/index/index.jsp</result>
+			<result name="success"  type="redirect">/index</result>
 			<result name="input">/pages/login/loginForm.jsp</result>
 		</action>
 
 	</package>
 
-	<package name="register" namespace="/register" extends="struts-default">
-		<action name="register" class="actions.RegisterAction">
-			<result name="error">/pages/error/error.jsp</result>
-			<result name="success">/pages/index/index.jsp</result>
-			<result name="input">/pages/register/registerForm.jsp</result>
-		</action>
-	</package>
+	<!-- <package name="register" namespace="/register" extends="struts-default"> -->
+	<!-- <action name="register" class="actions.RegisterAction"> -->
+	<!-- <result name="error">/pages/error/error.jsp</result> -->
+	<!-- <result name="success" type="redirect">index</result> -->
+	<!-- <result name="input">/pages/register/registerForm.jsp</result> -->
+	<!-- </action> -->
+	<!-- </package> -->
 
 	<package name="recorridos" namespace="/recorridos" extends="struts-default">
 		<action name="recorridos" class="actions.AdministradorRecorridoAction">
@@ -74,9 +110,9 @@
 		</action>
 		<action name="register" method="registrarEvento"
 			class="actions.AdministradorEventoAction">
-<!-- 			<interceptor-ref name="fileUpload"> -->
-<!-- 				<param name="allowedTypes">image/jpeg,image/gif</param> -->
-<!-- 			</interceptor-ref>			 -->
+			<!-- <interceptor-ref name="fileUpload"> -->
+			<!-- <param name="allowedTypes">image/jpeg,image/gif</param> -->
+			<!-- </interceptor-ref> -->
 			<result name="success" type="redirect">listarEventos</result>
 			<result name="input">/pages/eventos/crearEvento.jsp</result>
 		</action>

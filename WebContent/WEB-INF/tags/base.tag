@@ -1,5 +1,5 @@
 <%@tag description="Overall Page template" pageEncoding="UTF-8"%>
-<%@ taglib prefix="b" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
 
@@ -35,12 +35,14 @@ body {
     <![endif]-->
 </head>
 <body>
-	<s:if test="#session.usrLogin eq null">
-		<b:header />
-	</s:if>
-	<s:else>
-		<b:header user="#session.usrLogin" />
-	</s:else>
+
+	
+	
+		
+
+
+
+
 
 	<jsp:doBody />
 

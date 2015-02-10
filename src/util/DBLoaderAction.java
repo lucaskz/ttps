@@ -4,22 +4,31 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.opensymphony.xwork2.ActionSupport;
+
 import clases.Administrador;
 import clases.Foto;
 import clases.Pasajero;
 import clases.Telefono;
-//import clasesDAOimpJPA.EventoDAOHibernateJPA;
+import clasesDAO.EventoDAO;
+import clasesDAO.FotoDAO;
+import clasesDAO.UsuarioDAO;
 import clasesDAOimpJPA.FotoDAOHibernateJPA;
 import clasesDAOimpJPA.UsuarioDAOHibernateJPA;
 
-public class DBLoader {
-	public static void main(String[] args) {
+public class DBLoaderAction extends ActionSupport {
 
-		// DECLARAR DAOS
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 493989382615950942L;
+	
+	private UsuarioDAO usuarioDAO;
+	private EventoDAO eventoDAO;
+	private FotoDAO fotoDAO;
 
-		UsuarioDAOHibernateJPA userDao = new UsuarioDAOHibernateJPA();
-//		EventoDAOHibernateJPA eventDao = new EventoDAOHibernateJPA();
-		FotoDAOHibernateJPA fotoDAO = new FotoDAOHibernateJPA();
+	public String loadDB() {
+
 
 		// Fotos DEFAULT
 
@@ -69,22 +78,35 @@ public class DBLoader {
 		ad.setEmail("admin");
 		ad.setPassword("admin");
 
-		userDao.alta(traveler1);
-		userDao.alta(traveler2);
-		userDao.alta(ad);
-
-//		// Agregar evento
-//		Evento event = new Evento();
-//		event.setDate(new Date());
-//		event.setDescription("Este es un event");
-//		event.setLocation("La Plata");
-//		event.setName("EVENTO");
-//		event = eventDao.update(event);
-//
-//		ad.addEvent(event);
-//
-//		// Agregar un evento a un viaje
-//		trav.addEvent(event);
-//		travelDao.update(trav);
+		usuarioDAO.alta(traveler1);
+		usuarioDAO.alta(traveler2);
+		usuarioDAO.alta(ad);
+		
+		return "success";
 	}
+
+	public UsuarioDAO getUsuarioDAO() {
+		return usuarioDAO;
+	}
+
+	public void setUsuarioDAO(UsuarioDAO usuarioDAO) {
+		this.usuarioDAO = usuarioDAO;
+	}
+
+	public EventoDAO getEventoDAO() {
+		return eventoDAO;
+	}
+
+	public void setEventoDAO(EventoDAO eventoDAO) {
+		this.eventoDAO = eventoDAO;
+	}
+
+	public FotoDAO getFotoDAO() {
+		return fotoDAO;
+	}
+
+	public void setFotoDAO(FotoDAO fotoDAO) {
+		this.fotoDAO = fotoDAO;
+	}
+
 }

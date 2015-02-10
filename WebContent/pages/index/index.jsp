@@ -22,11 +22,11 @@
 			<!-- Wrapper for slides -->
 			<div class="carousel-inner">
 				<div class="item active">
-					<img src="img/Google-Maps-logo.jpg" alt="...">
+					<img src="${pageContext.request.contextPath}/img/Google-Maps-logo.jpg" alt="...">
 					<div class="carousel-caption">...</div>
 				</div>
 				<div class="item">
-					<img src="img/Google-Maps-logo.jpg" alt="...">
+					<img src="${pageContext.request.contextPath}/img/Google-Maps-logo.jpg" alt="...">
 					<div class="carousel-caption">...</div>
 				</div>
 				...
@@ -51,7 +51,7 @@
 				<h2>Heading</h2>
 				<div class="row">
 					<div class="col-xs-8 col-sm-6">
-						<img src="img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"
+						<img src="${pageContext.request.contextPath}/img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"
 								style="max-height: 140px;">
 					</div>
 					<div class="col-xs-4 col-sm-6">
@@ -70,7 +70,7 @@
 				<h2>Heading</h2>
 				<div class="row">
 					<div class="col-xs-8 col-sm-6">
-						<img src="img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"
+						<img src="${pageContext.request.contextPath}/img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"
 								style="max-height: 140px;">
 					</div>
 					<div class="col-xs-4 col-sm-6">
@@ -89,7 +89,7 @@
 				<h2>Heading</h2>
 				<div class="row">
 					<div class="col-xs-8 col-sm-6">
-						<img src="img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"
+						<img src="${pageContext.request.contextPath}/img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"
 								style="max-height: 140px;">
 					</div>
 					<div class="col-xs-4 col-sm-6">
@@ -110,7 +110,7 @@
 				<h2>Heading</h2>
 				<div class="row">
 					<div class="col-xs-8 col-sm-6">
-						<img src="img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"
+						<img src="${pageContext.request.contextPath}/img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"
 								style="max-height: 140px;">
 					</div>
 					<div class="col-xs-4 col-sm-6">
@@ -129,7 +129,7 @@
 				<h2>Heading</h2>
 				<div class="row">
 					<div class="col-xs-8 col-sm-6">
-						<img src="img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"
+						<img src="${pageContext.request.contextPath}/img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"
 								style="max-height: 140px;">
 					</div>
 					<div class="col-xs-4 col-sm-6">
