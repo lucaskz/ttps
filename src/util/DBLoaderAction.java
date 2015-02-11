@@ -1,12 +1,34 @@
 package util;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+//import org.hibernate.Hibernate;
+
+
+
+
+
+
+
+
+
+
+
+import org.hibernate.Hibernate;
+
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import clases.Administrador;
+import clases.Evento;
 import clases.Foto;
 import clases.Pasajero;
 import clases.Telefono;
@@ -27,24 +49,46 @@ public class DBLoaderAction extends ActionSupport {
 	private EventoDAO eventoDAO;
 	private FotoDAO fotoDAO;
 
-	public String loadDB() {
+	public String loadDB() throws ParseException {
 
 
 		// Fotos DEFAULT
 
 		Foto avatarDefault = new Foto();
 		avatarDefault.setDescripcion("avatar_default");
-		File foto_arch1 = new File("avatar_default.png");
-		avatarDefault.setImagen(foto_arch1);
-		fotoDAO.alta(avatarDefault);
+		File foto_arch1 = new File("C:\\avatar_default.png");
+
+		byte[] imageData = new byte[(int) foto_arch1.length()];
+		try {
+		     FileInputStream fileInputStream = new FileInputStream(foto_arch1);
+		     //convert file into array of bytes
+		     fileInputStream.read(imageData);
+		     fileInputStream.close();
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+		avatarDefault.setImagen(imageData);
 
 		Foto eventoDefault = new Foto();
 		eventoDefault.setDescripcion("evento_default");
-		File foto_arch2 = new File("evento_default.png");
-		avatarDefault.setImagen(foto_arch2);
+		File foto_arch2 = new File("C:\\evento_default.png");
+		byte[] imageData2 = new byte[(int) foto_arch2.length()];
+		try {
+		     FileInputStream fileInputStream = new FileInputStream(foto_arch2);
+		     //convert file into array of bytes
+		     fileInputStream.read(imageData2);
+		     fileInputStream.close();
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+		eventoDefault.setImagen(imageData2);
+		
 		fotoDAO.alta(eventoDefault);
+		fotoDAO.alta(avatarDefault);
 
 		// AGREGAR USUARIOS
+		
+//		Foto avatar_default = fotoDAO.getFotoByDes("avatar_default");
 
 		Pasajero traveler1 = new Pasajero();
 		traveler1.setEmail("lkaseta@mail.com");
@@ -77,10 +121,47 @@ public class DBLoaderAction extends ActionSupport {
 		Administrador ad = new Administrador();
 		ad.setEmail("admin");
 		ad.setPassword("admin");
+		ad.setNombre("Administrador");
+		ad.setFoto(fotoDAO.getFotoByDes("avatar_default"));
 
-		usuarioDAO.alta(traveler1);
-		usuarioDAO.alta(traveler2);
-		usuarioDAO.alta(ad);
+		usuarioDAO.modificacion(traveler1);
+		usuarioDAO.modificacion(traveler2);
+		usuarioDAO.modificacion(ad);
+		
+		
+		// Creacion de eventos test
+		
+		SimpleDateFormat formatter_date = new SimpleDateFormat("dd/MM/yyyy");
+
+		
+		Evento evento = new Evento();
+		evento.setDireccion("15 esq 41");
+		evento.setFecha( formatter_date.parse("07/06/2015"));
+		evento.setNombre("Evento 1 !");
+		evento.setCiudad("La Plata");
+
+		DateFormat formatter = new SimpleDateFormat("HH:mm");
+		java.sql.Time timeValue = new java.sql.Time(formatter.parse("12:30").getTime());
+		evento.setHora(timeValue);
+		evento.setFoto(fotoDAO.getFotoByDes("evento_default"));
+		eventoDAO.modificacion(evento);
+		
+		Evento evento2 = new Evento();
+		evento2.setDireccion("7 y 50");
+		evento2.setFecha( formatter_date.parse("05/01/2016"));
+		evento2.setNombre("Evento 2 !");
+		evento2.setCiudad("City Bell");
+		timeValue= new java.sql.Time(formatter.parse("15:30").getTime());
+		evento2.setHora(timeValue);
+
+
+		java.sql.Time timeValue2 = new java.sql.Time(formatter.parse("15:30").getTime());
+		evento.setHora(timeValue2);
+		evento.setFoto(fotoDAO.getFotoByDes("evento_default"));
+		eventoDAO.modificacion(evento2);
+		
+		
+		
 		
 		return "success";
 	}

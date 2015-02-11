@@ -12,15 +12,14 @@ public class UsuarioDAOHibernateJPA extends GenericDAOHibernateJPA<Usuario> impl
 		super(Usuario.class);
 	}
 	
-	public Usuario existeUsuario(String mail, String password) {
+	public Usuario existeUsuario(String mail) {
 
 		try {
 			Query consulta = this
 					.getEm()
 					.createQuery(
-							"select u from Usuario as u  where u.email=? and u.password=?");
+							"select u from Usuario as u  where u.email=?");
 			consulta.setParameter(1, mail);
-			consulta.setParameter(2, password);
 			return (Usuario) consulta.getSingleResult();
 		}
 
@@ -30,6 +29,25 @@ public class UsuarioDAOHibernateJPA extends GenericDAOHibernateJPA<Usuario> impl
 			return null;
 		}
 
+	}
+
+	@Override
+	public Usuario autenticateUser(String email,String password) {
+		try {
+			Query consulta = this
+					.getEm()
+					.createQuery(
+							"select u from Usuario as u  where u.email=? and u.password=?");
+			consulta.setParameter(1, email);
+			consulta.setParameter(2,password);
+			return (Usuario) consulta.getSingleResult();
+		}
+
+		catch (NoResultException e) {
+
+
+			return null;
+		}
 	}
 
 }

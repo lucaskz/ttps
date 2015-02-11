@@ -8,9 +8,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 //import javax.persistence.JoinColumn;
 //import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -22,7 +24,7 @@ public abstract class Usuario {
 	
 
 
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
 	private String email;
@@ -34,6 +36,7 @@ public abstract class Usuario {
 	private String apellido;
 	
 	@OneToOne(optional=true,cascade = CascadeType.ALL)
+	@JoinColumn(name="foto_fk")
 	private Foto foto;
 	
 //	@ElementCollection

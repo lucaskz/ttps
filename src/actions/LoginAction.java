@@ -1,6 +1,13 @@
 package actions;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import clases.Usuario;
 import clasesDAO.UsuarioDAO;
@@ -42,11 +49,11 @@ public class LoginAction extends ActionSupport {
 	// }
 	// }
 
-	public String autenticarUsuario() {
+	public String autenticarUsuario() throws IOException {
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		Usuario user = (Usuario) session.get("usrLogin");
 		if (user == null) {
-			Usuario u = usuarioDAO.existeUsuario(getEmail(), getPassword());
+			Usuario u = usuarioDAO.autenticateUser(getEmail(),getPassword());
 			if (u != null) {
 				if (u.isAdministrador())
 					session.put("perfil", "administrador");
@@ -54,6 +61,8 @@ public class LoginAction extends ActionSupport {
 					session.put("perfil", "pasajero");
 				session.put("usrLogin", u);
 				session.put("status", "autenticado");
+				
+				session.put("avatar", u.getFoto().getId());
 				return "success";
 			} else {
 				addFieldError("usuario", "Datos Incorrectos");

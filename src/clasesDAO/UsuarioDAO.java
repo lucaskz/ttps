@@ -4,5 +4,7 @@ import clases.Usuario;
 
 public interface UsuarioDAO extends GenericDAO<Usuario> {
 
-	public Usuario existeUsuario(String usuario, String password);
+	public Usuario existeUsuario(String usuario);
+
+	public Usuario autenticateUser(String email,String password);
 }

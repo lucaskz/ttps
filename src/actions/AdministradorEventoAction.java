@@ -1,7 +1,11 @@
 package actions;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +15,7 @@ import clases.Foto;
 import clasesDAO.EventoDAO;
 import clasesDAO.FotoDAO;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 	
@@ -32,7 +37,7 @@ public class AdministradorEventoAction extends ActionSupport{
 	private File foto;
 	private String fotoContentType;
     private String fotoFileName;
-    private Time hora;
+    private String hora;
     private List<Evento> eventos;
 	
 	
@@ -52,18 +57,35 @@ public class AdministradorEventoAction extends ActionSupport{
 		return forward;
 	}
 	
-	public String registrarEvento(){
+	public String registrarEvento() throws ParseException{
 		String forward = KEY_SUCCESS;
+		
+		if (ActionContext.getContext().getSession().get("perfil")!="administrador"){
+			return "restricted";
+		}
 		
 		Evento evento = new Evento();
 		evento.setDireccion(getDireccion());
 		evento.setFecha(getFecha());
 		evento.setNombre(getNombre());
 		evento.setCiudad(getCiudad());
-		evento.setHora(getHora());
+
+		DateFormat formatter = new SimpleDateFormat("HH:mm");
+		java.sql.Time timeValue = new java.sql.Time(formatter.parse(getHora()).getTime());
+		evento.setHora(timeValue);
 		Foto foto = new Foto();
-		foto.setImagen(getFoto());
 		foto.setDescripcion(getFotoFileName());
+		byte[] imageData = new byte[(int) getFoto().length()];
+		try {
+		     FileInputStream fileInputStream = new FileInputStream(getFoto());
+		     //convert file into array of bytes
+		     fileInputStream.read(imageData);
+		     fileInputStream.close();
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+		foto.setImagen(imageData);
+		
 
        
 		evento.setFoto(foto);
@@ -73,7 +95,9 @@ public class AdministradorEventoAction extends ActionSupport{
 	
 	public String crearEvento(){
 		String forward = KEY_SUCCESS;
-		
+		if (ActionContext.getContext().getSession().get("perfil")!="administrador"){
+			return "restricted";
+		}
 		
 		return forward;
 	}
@@ -159,13 +183,15 @@ public class AdministradorEventoAction extends ActionSupport{
 		this.eventos = eventos;
 	}
 
-	public Time getHora() {
+	public String getHora() {
 		return hora;
 	}
 
-	public void setHora(Time hora) {
+	public void setHora(String hora) {
 		this.hora = hora;
 	}
+
+
 
 
 

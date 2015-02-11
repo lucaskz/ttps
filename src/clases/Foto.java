@@ -1,29 +1,27 @@
 package clases;
 
 import java.io.File;
+import java.sql.Blob;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 @Entity
 public class Foto {
 
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
 
-	private File imagen;
+	@Lob
+	private byte[] imagen;
 	
 	private String descripcion;
 
-	public File getImagen() {
-		return imagen;
-	}
 
-	public void setImagen(File imagen) {
-		this.imagen = imagen;
-	}
 
 	public String getDescripcion() {
 		return descripcion;
@@ -32,4 +30,21 @@ public class Foto {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public byte[] getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(byte[] imagen) {
+		this.imagen = imagen;
+	}
+
 }

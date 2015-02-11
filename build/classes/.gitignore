@@ -1,8 +1,8 @@
-/actions/
-/META-INF/
-/clases/
+/clasesDAO/
+/clasesDAOimpJPA/
 /util/
-/Interceptors/
-/interceptors/
-/avatar_default.png
-/evento_default.png
+/META-INF/
+/resources/
+/resource/
+/Thumbs.db
+/actions/

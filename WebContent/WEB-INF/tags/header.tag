@@ -27,8 +27,8 @@
 						<span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu" role="menu">
-						<s:if test="#session.perfil == 'administrador' "><li><a href="#">Crear Evento</a></li></s:if>
-						<li><a href="#">Listar eventos</a></li>
+						<s:if test="#session.perfil == 'administrador' "><li><a href="${pageContext.request.contextPath}/eventos/crearEvento">Crear Evento</a></li></s:if>
+						<li><a href="${pageContext.request.contextPath}/eventos/listarEventos">Listar eventos</a></li>
 						<!-- 						<li class="divider"></li> -->
 					</ul></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -46,9 +46,11 @@
 
 			<s:if test="#session.status == 'autenticado'">
 				<ul class="nav navbar-nav navbar-right">
+<%-- 					<li><img src="<s:url action='ImageAction?imageId=${session.avatar}' width="42" heigh="42"/>" /></li> --%>
 					<li><a href="#">Bienvenido, ${user.nombre }</a></li>
 					<li><a href="#">Mensajes<span class="badge">0</span></a></li>
 					<li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
+					
 				</ul>
 
 			</s:if>

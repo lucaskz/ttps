@@ -9,7 +9,7 @@
 	<t:header user="${usrLogin}"  />
 	<div class="container">
 	
-		
+		DB Updated.
 		<s:fielderror />
 	
 	</div>

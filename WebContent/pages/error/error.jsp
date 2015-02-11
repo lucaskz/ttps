@@ -9,7 +9,7 @@
 	<t:header user="${usrLogin}"  />
 	<div class="container">
 	
-		
+		Error DB
 		<s:fielderror />
 	
 	</div>

@@ -1,0 +1,8 @@
+Faltaria el manejo de imagenes pero no pude llegar a tiempo con esta funcionalidad, si bien las persiste con la imagen, 
+todavia no termine la forma de  msotrarlas en el html , en la base se encuentran persistidas como Blob
+
+El resto de las funcionalidades se encuentra presente para la entrega de la cursada 
+
+El db loader levanta las imagenes desde C:\evento_default.png y avatar_default.png
+
+Harcodeadas por el momento , la url myapp/loadDB dispara el action que carga la base para algunas pruebas, esta ne modo create para ambiente de desarrollo

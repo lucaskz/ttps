@@ -6,7 +6,7 @@
 <t:base>
 	
 	
-	
+	<t:header user="${usrLogin}"  />
     	<!--  Slider -->
 	<div class="container">
 		<div id="carousel-example-generic" class="carousel slide"
