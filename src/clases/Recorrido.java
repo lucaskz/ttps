@@ -1,6 +1,9 @@
 package clases;
 
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
@@ -8,18 +11,30 @@ import javax.persistence.*;
 @Entity
 public class Recorrido {
 	@Id @GeneratedValue
+	@Column(name="REC_ID")
 	private int id;
-	private String horaPartida;
-	private String horaRegreso;
+	private Time horaPartida;
+	private Time horaRegreso;
 	private String direccionDesde;
 	private String direccionHasta;
 	private int asientos;
 	
-	@OneToOne
-	private Pasajero conductor;
+	public Recorrido(){
+		conductores= new ArrayList<Usuario>();
+		pasajeros= new ArrayList<Usuario>();
+		votos = new ArrayList<Voto>();
+		asientos = 0 ;
+			
+		
+	}
 	
-	@OneToMany(mappedBy = "recorrido") // Ver si es remove
-	private List<Pasajero> pasajeros; 
+	@OneToMany
+	@JoinColumn(name="REC_C_ID", referencedColumnName="REC_ID")
+	private List<Usuario> conductores;
+	
+	@OneToMany // Ver si es remove
+	@JoinColumn(name="REC_P_ID", referencedColumnName="REC_ID")
+	private List<Usuario> pasajeros; 
 	
 	@OneToMany(mappedBy ="recorrido", cascade =
 		{CascadeType.PERSIST, CascadeType.REMOVE})
@@ -32,22 +47,51 @@ public class Recorrido {
 	@ManyToOne
 	@JoinColumn(name="reco_id")
 	private Evento evento;
+	
+	
+	@ManyToOne
+	@JoinColumn(name="u_creador_id")
+	private Usuario creador;
+	
+	private Date fecha;
+	
+	public void addConductor(Usuario pasajero) {
 
-	public String getHoraPartida() {
-		return horaPartida;
-	}
+		if (!conductores.contains(pasajero)) {
 
-	public void setHoraPartida(String horaPartida) {
-		this.horaPartida = horaPartida;
-	}
+			conductores.add(pasajero);
 
-	public String getHoraRegreso() {
-		return horaRegreso;
-	}
+		}
+		asientos--;
 
-	public void setHoraRegreso(String horaRegreso) {
-		this.horaRegreso = horaRegreso;
 	}
+	
+	public void addPasajero(Usuario pasajero) {
+
+		if (!pasajeros.contains(pasajero)) {
+
+			pasajeros.add(pasajero);
+
+		}
+		asientos--;
+
+	}
+	
+	public void addConductorPasajero(Usuario pasajero) {
+
+		if (!conductores.contains(pasajero)&&!pasajeros.contains(pasajero)) {
+
+			conductores.add(pasajero);
+			pasajeros.add(pasajero);
+
+		}
+		asientos--;
+
+	}
+	
+	
+	
+
 
 	public String getDireccionDesde() {
 		return direccionDesde;
@@ -81,20 +125,80 @@ public class Recorrido {
 		this.asientos = asientos;
 	}
 
-	public Pasajero getConductor() {
-		return conductor;
+
+
+	public int getId() {
+		return id;
 	}
 
-	public void setConductor(Pasajero conductor) {
-		this.conductor = conductor;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public List<Pasajero> getPasajeros() {
+
+
+	public List<DiasSemana> getDias() {
+		return dias;
+	}
+
+	public void setDias(List<DiasSemana> dias) {
+		this.dias = dias;
+	}
+
+	public Evento getEvento() {
+		return evento;
+	}
+
+	public void setEvento(Evento evento) {
+		this.evento = evento;
+	}
+
+	public Usuario getCreador() {
+		return creador;
+	}
+
+	public void setCreador(Usuario creador) {
+		this.creador = creador;
+	}
+
+	public List<Usuario> getConductores() {
+		return conductores;
+	}
+
+	public void setConductores(List<Usuario> conductores) {
+		this.conductores = conductores;
+	}
+
+	public List<Usuario> getPasajeros() {
 		return pasajeros;
 	}
 
-	public void setPasajeros(List<Pasajero> pasajeros) {
+	public void setPasajeros(List<Usuario> pasajeros) {
 		this.pasajeros = pasajeros;
+	}
+
+	public Time getHoraPartida() {
+		return horaPartida;
+	}
+
+	public void setHoraPartida(Time horaPartida) {
+		this.horaPartida = horaPartida;
+	}
+
+	public Time getHoraRegreso() {
+		return horaRegreso;
+	}
+
+	public void setHoraRegreso(Time horaRegreso) {
+		this.horaRegreso = horaRegreso;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 
 }

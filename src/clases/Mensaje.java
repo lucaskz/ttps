@@ -1,6 +1,5 @@
 package clases;
 
-import java.sql.Time;
 import java.util.Date;
 
 import javax.persistence.*;
@@ -14,8 +13,8 @@ public class Mensaje {
 	private String texto;
 	
 	private Date fecha;
-	
-	private Time hora;
+
+	private Boolean leido;
 	
 	
 	@ManyToOne
@@ -45,12 +44,6 @@ public class Mensaje {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-	public Time getHora() {
-		return hora;
-	}
-	public void setHora(Time hora) {
-		this.hora = hora;
-	}
 	public Usuario getCreador() {
 		return creador;
 	}
@@ -62,6 +55,12 @@ public class Mensaje {
 	}
 	public void setReceptor(Usuario receptor) {
 		this.receptor = receptor;
+	}
+	public Boolean getLeido() {
+		return leido;
+	}
+	public void setLeido(Boolean leido) {
+		this.leido = leido;
 	}
 
 

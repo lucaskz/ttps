@@ -27,10 +27,11 @@
 
 		<!-- <default-interceptor-ref name="myStack" /> -->
 		<global-results>
-			<result name="login" type="redirect">index</result>
+			<result name="login" type="redirect">/</result>
+			<result name="success" type="redirect">/</result>
 		</global-results>
 
-		<action name="" class="actions.IndexAction" method="execute">
+		<action name="" class="actions.IndexAction">
 			<result name="success">/pages/index/index.jsp</result>
 			<result name="input">/pages/index/index.jsp</result>
 			<result name="error">/pages/error/error.jsp</result>
@@ -42,7 +43,7 @@
 			<result name="error">/pages/error/error.jsp</result>
 		</action>
 
-		<action name="index" class="actions.IndexAction" method="execute">
+		<action name="index" class="actions.IndexAction">
 			<result name="success">/pages/index/index.jsp</result>
 			<result name="input">/pages/index/index.jsp</result>
 			<result name="error">/pages/error/error.jsp</result>
@@ -79,16 +80,75 @@
 
 
 
-		<action name="ImageAction" class="actions.ImageAction">
+		<action name="retrieveImage" class="actions.ImageAction"
+			method="retrieveImage">
 			<result name="success" type="stream">
 				<param name="contentType">image/jpeg</param>
-				<param name="inputName">imageStream</param>
-<!-- 				<param name="bufferSize">1024</param> -->
+				<!-- <param name="bufferSize">1024</param> -->
 			</result>
 		</action>
 
 
 
+
+	</package>
+	
+	<package name="recorridos" namespace="/recorridos" extends="struts-default">
+		<action name="registrar" method="registrar"
+			class="actions.AdministradorRecorridoAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">registrar</param>
+			</interceptor-ref>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success">/pages/recorridos/crearRecorrido.jsp</result>
+			<result name="not_logged" type="redirect">/index</result>
+		</action>
+		
+		<action name="listar"  method="listar"
+			class="actions.AdministradorRecorridoAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">listar</param>
+			</interceptor-ref>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success">/pages/recorridos/listarRecorridos.jsp
+			</result>
+			<result name="not_logged" type="redirect">/index</result>
+		</action>
+		
+		<action name="alta"  method="alta"
+			class="actions.AdministradorRecorridoAction">
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success">/pages/recorridos/listarRecorridos.jsp</result>
+			<result name="input" >/pages/recorridos/crearRecorrido.jsp</result>
+			<result name="not_logged" type="redirect">/index</result>
+		</action>
+	</package>
+
+	<package name="mensajes" namespace="/mensajes" extends="struts-default">
+		<action name="listarMensajes" method="listarMensajes"
+			class="actions.AdministradorMensajeAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">listarMensajes</param>
+			</interceptor-ref>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success">/pages/mensajes/listarMensajes.jsp
+			</result>
+			<result name="not_logged" type="redirect">/index</result>
+		</action>
+		<action name="redactarMensaje" method="redactarMensaje" class="actions.AdministradorMensajeAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">redactarMensaje</param>
+			</interceptor-ref>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success">/pages/mensajes/redactarMensaje.jsp
+			</result>
+			<result name="not_logged" type="redirect">/index</result>
+		</action>
+		<action name="enviarMensaje" method="enviarMensaje"	class="actions.AdministradorMensajeAction">
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success" type="redirect">/mensajes/listarMensajes</result>
+			<result name="not_logged" type="redirect">/index</result>
+		</action>
 
 	</package>
 
@@ -109,11 +169,7 @@
 	<!-- </action> -->
 	<!-- </package> -->
 
-	<package name="recorridos" namespace="/recorridos" extends="struts-default">
-		<action name="recorridos" class="actions.AdministradorRecorridoAction">
-			<result name="success">/pages/recorridos/listarRecorridos.jsp</result>
-		</action>
-	</package>
+
 
 	<package name="eventos" namespace="/eventos" extends="struts-default">
 		<action name="listarEventos" method="listarEventos"

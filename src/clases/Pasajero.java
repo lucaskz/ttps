@@ -6,9 +6,7 @@ import javax.persistence.*;
 public class Pasajero extends Usuario {
 
 
-	@ManyToOne
-	@JoinColumn(name = "reco_id")
-	private Recorrido recorrido;
+	
 
 	public Pasajero () {
 		super();

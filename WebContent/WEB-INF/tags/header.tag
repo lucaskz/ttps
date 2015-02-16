@@ -46,7 +46,7 @@
 
 			<s:if test="#session.status == 'autenticado'">
 				<ul class="nav navbar-nav navbar-right">
-<%-- 					<li><img src="<s:url action='ImageAction?imageId=${session.avatar}' width="42" heigh="42"/>" /></li> --%>
+					<li><a><img  src="${pageContext.request.contextPath}/retrieveImage?imageId=${avatar }"  style="max-width:32px; max-height:32px;width: auto; border-radius: 3px; border: 0;" /></a></li>
 					<li><a href="#">Bienvenido, ${user.nombre }</a></li>
 					<li><a href="#">Mensajes<span class="badge">0</span></a></li>
 					<li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>

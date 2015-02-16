@@ -47,6 +47,10 @@
 	<bean id="eventoDAO" class="clasesDAOimpJPA.EventoDAOHibernateJPA"/>
 	
 	<bean id="fotoDAO" class="clasesDAOimpJPA.FotoDAOHibernateJPA"/>
+	
+	<bean id="mensajeDAO" class="clasesDAOimpJPA.MensajeDAOHibernateJPA"/>
+	
+	<bean id="recorridoDAO" class="clasesDAOimpJPA.RecorridoDAOHibernateJPA"/>
 
 </beans>
 

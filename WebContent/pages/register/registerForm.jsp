@@ -71,6 +71,7 @@
 						style="max-height: 290px;" id="uploadPreview">
 				</div>
 			</s:form>
+			<s:fielderror />
 		</div>
 	</div>
 	<t:footer></t:footer>

@@ -8,9 +8,12 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 //import org.hibernate.Hibernate;
+
+
 
 
 
@@ -30,10 +33,13 @@ import com.opensymphony.xwork2.ActionSupport;
 import clases.Administrador;
 import clases.Evento;
 import clases.Foto;
+import clases.Mensaje;
 import clases.Pasajero;
 import clases.Telefono;
+import clases.Usuario;
 import clasesDAO.EventoDAO;
 import clasesDAO.FotoDAO;
+import clasesDAO.MensajeDAO;
 import clasesDAO.UsuarioDAO;
 import clasesDAOimpJPA.FotoDAOHibernateJPA;
 import clasesDAOimpJPA.UsuarioDAOHibernateJPA;
@@ -48,6 +54,7 @@ public class DBLoaderAction extends ActionSupport {
 	private UsuarioDAO usuarioDAO;
 	private EventoDAO eventoDAO;
 	private FotoDAO fotoDAO;
+	private MensajeDAO mensajeDAO;
 
 	public String loadDB() throws ParseException {
 
@@ -144,6 +151,7 @@ public class DBLoaderAction extends ActionSupport {
 		java.sql.Time timeValue = new java.sql.Time(formatter.parse("12:30").getTime());
 		evento.setHora(timeValue);
 		evento.setFoto(fotoDAO.getFotoByDes("evento_default"));
+		
 		eventoDAO.modificacion(evento);
 		
 		Evento evento2 = new Evento();
@@ -158,10 +166,27 @@ public class DBLoaderAction extends ActionSupport {
 		java.sql.Time timeValue2 = new java.sql.Time(formatter.parse("15:30").getTime());
 		evento.setHora(timeValue2);
 		evento.setFoto(fotoDAO.getFotoByDes("evento_default"));
+		
 		eventoDAO.modificacion(evento2);
 		
 		
-		
+		//Mensajes
+
+		Mensaje mensaje = new Mensaje();
+		   //get current date time with Date()
+		Date date = new Date();
+		mensaje.setFecha(date);
+		mensaje.setLeido(false);
+		mensaje.setTexto("MEnsaje de prueba!");
+		Usuario usuarioDestino = usuarioDAO.existeUsuario("li.kaseta@gmail.com");
+		Usuario usuarioEnvio = usuarioDAO.existeUsuario("lkaseta@mail.com");
+		mensaje.setCreador(usuarioEnvio);
+		mensaje.setReceptor(usuarioDestino);
+		usuarioDestino.addRecibidos(mensaje);
+		usuarioEnvio.addEnviado(mensaje);
+		mensajeDAO.alta(mensaje);
+		usuarioDAO.modificacion(usuarioEnvio);
+		usuarioDAO.modificacion(usuarioDestino);
 		
 		return "success";
 	}
@@ -188,6 +213,14 @@ public class DBLoaderAction extends ActionSupport {
 
 	public void setFotoDAO(FotoDAO fotoDAO) {
 		this.fotoDAO = fotoDAO;
+	}
+
+	public MensajeDAO getMensajeDAO() {
+		return mensajeDAO;
+	}
+
+	public void setMensajeDAO(MensajeDAO mensajeDAO) {
+		this.mensajeDAO = mensajeDAO;
 	}
 
 }

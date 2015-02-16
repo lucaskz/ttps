@@ -21,7 +21,7 @@ public class FotoDAOHibernateJPA  extends GenericDAOHibernateJPA<Foto> implement
 			Query consulta = this
 					.getEm()
 					.createQuery(
-							"select f from Foto as f  where f.descripcion=?");
+							"select f from Foto as f  where f.descripcion like ?");
 			consulta.setParameter(1, descripcion);
 			return (Foto) consulta.getSingleResult();
 		}

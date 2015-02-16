@@ -1,6 +1,7 @@
 package actions;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -8,6 +9,8 @@ import java.io.IOException;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+
+import org.apache.tomcat.util.codec.binary.Base64;
 
 import clases.Usuario;
 import clasesDAO.UsuarioDAO;
@@ -61,6 +64,10 @@ public class LoginAction extends ActionSupport {
 					session.put("perfil", "pasajero");
 				session.put("usrLogin", u);
 				session.put("status", "autenticado");
+//				byte[] imageData =  u.getFoto().getImagen();
+//				String imageDataString = Base64.encodeBase64String(imageData);
+				// convert file into array of bytes
+				
 				
 				session.put("avatar", u.getFoto().getId());
 				return "success";
