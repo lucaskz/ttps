@@ -7,4 +7,6 @@ public interface UsuarioDAO extends GenericDAO<Usuario> {
 	public Usuario existeUsuario(String usuario);
 
 	public Usuario autenticateUser(String email,String password);
+
+	public int getNoLeidos(int id);
 }

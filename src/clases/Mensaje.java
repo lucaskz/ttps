@@ -16,13 +16,15 @@ public class Mensaje {
 
 	private Boolean leido;
 	
+	private String asunto;
+	
 	
 	@ManyToOne
-	@JoinColumn(name="u_creador_id")
+	@JoinColumn(name="CREADOR_ID")
 	private Usuario creador;
 	
 	@ManyToOne
-	@JoinColumn(name="u_receptor_id")
+	@JoinColumn(name="RECEPTOR_ID")
 	private Usuario receptor;
 	
 	
@@ -61,6 +63,12 @@ public class Mensaje {
 	}
 	public void setLeido(Boolean leido) {
 		this.leido = leido;
+	}
+	public String getAsunto() {
+		return asunto;
+	}
+	public void setAsunto(String asunto) {
+		this.asunto = asunto;
 	}
 
 

@@ -1,6 +1,7 @@
 package clases;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 //import javax.persistence.JoinColumn;
 //import javax.persistence.ManyToOne;
@@ -42,9 +44,14 @@ public abstract class Usuario {
 
 	private String apellido;
 	
+	//one to one uniderectional, para recuperar las denuncias acumuladas del usuario.
+	@OneToMany(cascade={CascadeType.MERGE})
+	  @JoinTable(name = "USR_DEN", joinColumns = @JoinColumn(name = "USR_ID"), inverseJoinColumns = @JoinColumn(name = "DEN_ID"))
+	private List<Denuncia> denuncias;
+	
 	
 	@OneToMany(mappedBy = "creador",  cascade = {
-			CascadeType.PERSIST, CascadeType.REMOVE })
+			CascadeType.ALL })
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Recorrido> recorridos;
 	
@@ -57,6 +64,18 @@ public abstract class Usuario {
 		}
 	}
 	
+	
+	public int getNoLeidos(){
+		int i = 0 ;
+		
+		for (Iterator<Mensaje> iterator = recibidos.iterator(); iterator.hasNext();) {
+			Mensaje mensaje = (Mensaje) iterator.next();
+			if(!mensaje.getLeido()){
+				i++;
+			}
+		}
+		return i;
+	}
 
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -67,6 +86,7 @@ public abstract class Usuario {
 		enviados = new ArrayList<Mensaje>();
 		recibidos = new ArrayList<Mensaje>();
 		recorridos = new ArrayList<Recorrido>();
+		denuncias = new ArrayList<Denuncia>();
 		}
 
 
@@ -82,12 +102,12 @@ public abstract class Usuario {
 	private List<Telefono> telefonos = new LinkedList<Telefono>();
 
 	@OneToMany(mappedBy = "creador",  cascade = {
-			CascadeType.PERSIST, CascadeType.REMOVE })
+			CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REMOVE })
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Mensaje> enviados;
 
 	@OneToMany(mappedBy = "receptor",  cascade = {
-			CascadeType.PERSIST, CascadeType.REMOVE })
+			CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REMOVE })
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Mensaje> recibidos;
 
@@ -154,6 +174,12 @@ public abstract class Usuario {
 		}
 
 	}
+	
+	public void addDenuncia(Denuncia denuncia){
+		if (!denuncias.contains(denuncia)){
+			denuncias.add(denuncia);
+		}
+	}
 
 	// public List<String> getEmails() {
 	// return emails;
@@ -190,6 +216,16 @@ public abstract class Usuario {
 	public String getEmail() {
 		return email;
 	}
+
+	public List<Denuncia> getDenuncias() {
+		return denuncias;
+	}
+
+
+	public void setDenuncias(List<Denuncia> denuncias) {
+		this.denuncias = denuncias;
+	}
+
 
 	public void setEmail(String email) {
 		this.email = email;

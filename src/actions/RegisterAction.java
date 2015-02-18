@@ -7,17 +7,12 @@ import clases.Foto;
 import clases.Pasajero;
 import clases.Usuario;
 import clasesDAO.FotoDAO;
-import clasesDAO.UsuarioDAO;
 
-import com.opensymphony.xwork2.ActionSupport;
-
-public class RegisterAction extends ActionSupport {
+public class RegisterAction extends GenericAction {
 
 	/**
 	 * 
 	 */
-
-	private UsuarioDAO usuarioDAO;
 
 	private FotoDAO fotoDAO;
 	private String email;
@@ -32,6 +27,9 @@ public class RegisterAction extends ActionSupport {
 	private static final long serialVersionUID = -9153853278848404937L;
 
 	public String execute() {
+		if (isLogged()) {
+			return "logged";
+		}
 		Usuario u = usuarioDAO.existeUsuario(getEmail());
 		if (u == null) {
 			u = new Pasajero();
@@ -39,7 +37,7 @@ public class RegisterAction extends ActionSupport {
 			u.setPassword(getPassword());
 			u.setNombre(getNombre());
 			u.setApellido(getApellido());
-			if (getFoto() == null) {//Foto por defecto,no se ingreso ninguna.
+			if (getFoto() == null) {// Foto por defecto,no se ingreso ninguna.
 				u.setFoto(fotoDAO.getFotoByDes("avatar_default"));
 			} else {
 				Foto foto = new Foto();
@@ -72,14 +70,6 @@ public class RegisterAction extends ActionSupport {
 			addFieldError("mail", "Ingresa tu password");
 		if (getApellido() == null || getApellido().isEmpty())
 			addFieldError("apellido", "Ingresa tu apellido");
-	}
-
-	public UsuarioDAO getUsuarioDAO() {
-		return usuarioDAO;
-	}
-
-	public void setUsuarioDAO(UsuarioDAO usuarioDAO) {
-		this.usuarioDAO = usuarioDAO;
 	}
 
 	public String getEmail() {

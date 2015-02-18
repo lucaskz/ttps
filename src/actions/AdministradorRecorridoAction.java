@@ -6,6 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+
 import clases.Recorrido;
 import clases.Usuario;
 import clasesDAO.RecorridoDAO;
@@ -14,7 +18,7 @@ import clasesDAO.UsuarioDAO;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class AdministradorRecorridoAction extends ActionSupport {
+public class AdministradorRecorridoAction extends GenericAction {
 
 	/**
 	 * 
@@ -24,8 +28,6 @@ public class AdministradorRecorridoAction extends ActionSupport {
 	RecorridoDAO recorridoDAO;
 
 	List<Recorrido> recorridos;
-	
-	UsuarioDAO usuarioDAO;
 
 	private String rol;
 	private String fecha;
@@ -37,22 +39,46 @@ public class AdministradorRecorridoAction extends ActionSupport {
 
 	public String listar() {
 		Map<String, Object> session = ActionContext.getContext().getSession();
-		Usuario user = (Usuario) session.get("usrLogin");
-		if (user == null) {
-			return "not_logged";
+		if (isLogged()) {
+			updateUserData();
 		}
 
 		recorridos = (List<Recorrido>) recorridoDAO.recuperarTodos();
+		HttpServletRequest request = ServletActionContext.getRequest();
+		request.getSession().setAttribute("seccion", "recorridos");
+		request.getSession().setAttribute("accion", "listar");
+
+		return "success";
+	}
+
+	public String misRecorridos() {
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		if (isLogged()) {
+			updateUserData();
+		}
+		if (!isLogged()) {
+			return "not_logged";
+		}
+
+		recorridos = user.getRecorridos();
+		HttpServletRequest request = ServletActionContext.getRequest();
+		request.getSession().setAttribute("seccion", "recorridos");
+		request.getSession().setAttribute("accion", "misRecorridos");
 
 		return "success";
 	}
 
 	public String registrar() {
 		Map<String, Object> session = ActionContext.getContext().getSession();
-		Usuario user = (Usuario) session.get("usrLogin");
-		if (user == null) {
+		if (isLogged()) {
+			updateUserData();
+		}
+		if (!isLogged()) {
 			return "not_logged";
 		}
+		HttpServletRequest request = ServletActionContext.getRequest();
+		request.getSession().setAttribute("seccion", "recorridos");
+		request.getSession().setAttribute("accion", "registrar");
 
 		return "success";
 	}
@@ -60,22 +86,29 @@ public class AdministradorRecorridoAction extends ActionSupport {
 	public String alta() throws ParseException {
 		// validaciones
 		Map<String, Object> session = ActionContext.getContext().getSession();
-		Usuario user = (Usuario) session.get("usrLogin");
-		if (user == null) {
+		if (isLogged()) {
+			updateUserData();
+		}
+		if (!isLogged()) {
 			return "not_logged";
 		}
-		
+
 		Recorrido recorrido = new Recorrido();
 		recorrido.setAsientos(Integer.parseInt(getAsientos()));
 		switch (getRol()) {
-			case "conductor":	recorrido.addConductor(user);
-				break;
-			case "pasajero":	recorrido.addPasajero(user);;
+		case "conductor":
+			recorrido.addConductor(user);
 			break;
-			case "ambos":	recorrido.addConductorPasajero(user);
+		case "pasajero":
+			recorrido.addPasajero(user);
+			;
 			break;
-			default: addFieldError("rol", "El rol ingresado es incorrecto");
-				return "input";
+		case "ambos":
+			recorrido.addConductorPasajero(user);
+			break;
+		default:
+			addFieldError("rol", "El rol ingresado es incorrecto");
+			return "input";
 		}
 		recorrido.setCreador(user);
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -83,14 +116,17 @@ public class AdministradorRecorridoAction extends ActionSupport {
 		DateFormat timeFormatter = new SimpleDateFormat("HH:mm");
 		recorrido.setDireccionDesde(getDesde());
 		recorrido.setDireccionHasta(getHasta());
-		java.sql.Time timePartida = new java.sql.Time(timeFormatter.parse(getPartida()).getTime());
+		java.sql.Time timePartida = new java.sql.Time(timeFormatter.parse(
+				getPartida()).getTime());
 		recorrido.setHoraPartida(timePartida);
-		java.sql.Time timeRegreso = new java.sql.Time(timeFormatter.parse(getRegreso()).getTime());
+		java.sql.Time timeRegreso = new java.sql.Time(timeFormatter.parse(
+				getRegreso()).getTime());
 		recorrido.setHoraRegreso(timeRegreso);
 		user.addRecorrido(recorrido);
+
+		// recorridoDAO.modificacion(recorrido);
 		usuarioDAO.modificacion(user);
-		recorridoDAO.modificacion(recorrido);
-		
+
 		return "success";
 	}
 
@@ -185,14 +221,6 @@ public class AdministradorRecorridoAction extends ActionSupport {
 
 	public void setAsientos(String asientos) {
 		this.asientos = asientos;
-	}
-
-	public UsuarioDAO getUserDAO() {
-		return usuarioDAO;
-	}
-
-	public void setUserDAO(UsuarioDAO userDAO) {
-		this.usuarioDAO = userDAO;
 	}
 
 }

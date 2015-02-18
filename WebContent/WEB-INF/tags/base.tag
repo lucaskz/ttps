@@ -1,8 +1,7 @@
+<!DOCTYPE html>
 <%@tag description="Overall Page template" pageEncoding="UTF-8"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-
-
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -13,19 +12,9 @@
 <!-- Bootstrap -->
 <link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
 	rel="stylesheet">
-<link href="${pageContext.request.contextPath}/css/signin.css"
+<link href="${pageContext.request.contextPath}/css/styles.css"
 	rel="stylesheet">
-<style>
-body {
-	padding-top: 60px;
-}
 
-@media ( max-width : 980px) {
-	body {
-		padding-top: 0;
-	}
-}
-</style>
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -34,7 +23,7 @@ body {
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body>
+<body  onload="initialize()" >
 
 	
 	

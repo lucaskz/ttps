@@ -6,11 +6,13 @@
 <t:base>
 	<t:header user="${usrLogin}" />
 	<!-- Home news -->
+
+
+
 	<div class="container " style="display: table;">
 		<div class="row" style="display: table-row;">
 
-			<t:recorridosSidebar></t:recorridosSidebar>
-
+			<t:administracionSidebar></t:administracionSidebar>
 			<div class="col-sm-9 col-md-11 no-float ">
 				<div class="list-group">
 					<a href="#" class="list-group-item ">
@@ -76,7 +78,7 @@
 					</a>
 				</div>
 				<nav class="text-center">
-					<ul class="pagination" >
+					<ul class="pagination">
 						<li><a href="#" aria-label="Previous"> <span
 								aria-hidden="true">&laquo;</span>
 						</a></li>
@@ -91,9 +93,9 @@
 					</ul>
 				</nav>
 			</div>
+
 		</div>
 	</div>
-
 	<!-- end Home news -->
 	<t:footer />
 </t:base>

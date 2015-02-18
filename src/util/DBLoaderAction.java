@@ -111,7 +111,7 @@ public class DBLoaderAction extends ActionSupport {
 		traveler1.setTelefonos(telefonos);
 		traveler1.setFoto(fotoDAO.getFotoByDes("avatar_default"));
 
-		Pasajero traveler2 = new Pasajero();
+		Administrador traveler2 = new Administrador();
 		traveler2.setEmail("li.kaseta@gmail.com");
 		traveler2.setNombre("Lucas");
 		traveler2.setPassword("1234");
@@ -178,15 +178,36 @@ public class DBLoaderAction extends ActionSupport {
 		mensaje.setFecha(date);
 		mensaje.setLeido(false);
 		mensaje.setTexto("MEnsaje de prueba!");
+		mensaje.setAsunto("Asunto un nuevo mensaje");
 		Usuario usuarioDestino = usuarioDAO.existeUsuario("li.kaseta@gmail.com");
 		Usuario usuarioEnvio = usuarioDAO.existeUsuario("lkaseta@mail.com");
 		mensaje.setCreador(usuarioEnvio);
 		mensaje.setReceptor(usuarioDestino);
 		usuarioDestino.addRecibidos(mensaje);
 		usuarioEnvio.addEnviado(mensaje);
-		mensajeDAO.alta(mensaje);
+		
+		Mensaje mensaje2 = new Mensaje();
+		   //get current date time with Date()
+		mensaje2.setFecha(date);
+		mensaje2.setLeido(false);
+		mensaje2.setTexto("MEnsaje de prueba! numero 2");
+		mensaje2.setAsunto("Mensaje 2");
+		mensaje2.setCreador(usuarioEnvio);
+		mensaje2.setReceptor(usuarioDestino);
+		usuarioDestino.addRecibidos(mensaje2);
+		usuarioEnvio.addEnviado(mensaje2);
+		
+		Mensaje mensaje3 = new Mensaje();
+		   //get current date time with Date()
+		mensaje3.setFecha(date);
+		mensaje3.setLeido(true);
+		mensaje3.setTexto("Mensaje de prueba 3, LEIDO");
+		mensaje3.setAsunto("Asunto del mensaje 3");
+		mensaje3.setCreador(usuarioEnvio);
+		mensaje3.setReceptor(usuarioDestino);
+		usuarioDestino.addRecibidos(mensaje3);
+		usuarioEnvio.addEnviado(mensaje3);
 		usuarioDAO.modificacion(usuarioEnvio);
-		usuarioDAO.modificacion(usuarioDestino);
 		
 		return "success";
 	}

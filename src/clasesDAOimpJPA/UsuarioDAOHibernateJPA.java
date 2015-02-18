@@ -12,6 +12,8 @@ public class UsuarioDAOHibernateJPA extends GenericDAOHibernateJPA<Usuario> impl
 		super(Usuario.class);
 	}
 	
+	
+	
 	public Usuario existeUsuario(String mail) {
 
 		try {
@@ -48,6 +50,25 @@ public class UsuarioDAOHibernateJPA extends GenericDAOHibernateJPA<Usuario> impl
 
 			return null;
 		}
+	}
+
+
+
+	@Override
+	public int getNoLeidos(int id) {
+		int i = 0;
+		try{
+			Query consulta = this.getEm().createQuery("SELECT COUNT(m.leido) FROM Mensaje m where m.leido=0 AND m.receptor.id=?");
+			consulta.setParameter(1,id);
+			i = ((Long) consulta.getSingleResult()).intValue();
+			return i;
+		}
+		catch (NoResultException e) {
+
+
+			return 0;
+		}
+		
 	}
 
 }

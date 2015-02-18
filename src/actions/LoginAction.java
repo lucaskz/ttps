@@ -1,24 +1,14 @@
 package actions;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
-
-import javax.imageio.ImageIO;
-
-import org.apache.tomcat.util.codec.binary.Base64;
 
 import clases.Usuario;
 import clasesDAO.UsuarioDAO;
 
 import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
 
-public class LoginAction extends ActionSupport {
+public class LoginAction extends GenericAction {
 
 	/**
 	 * 
@@ -28,47 +18,18 @@ public class LoginAction extends ActionSupport {
 	private String password;
 	private String perfil;
 
-	private UsuarioDAO usuarioDAO;
-
-	// public String execute() {
-	// Map<String, Object> session = ActionContext.getContext().getSession();
-	// String user = (String) session.get("user");
-	// if (user == null) {
-	// Usuario u = usuarioDAO.existeUsuario(getEmail(), getPassword());
-	// if (u != null) {
-	// if(u.isAdministrador())
-	// session.put("perfil", "adminisrador");
-	// else
-	// session.put("perfil","viajero");
-	// session.put("usuario", u.getNombre());
-	// session.put("usrLogin", u);
-	// return SUCCESS;
-	// } else {
-	// addFieldError("usuario", "Datos Incorrectos");
-	// return INPUT;
-	// }
-	// } else {
-	// return "conectado";
-	// }
-	// }
-
 	public String autenticarUsuario() throws IOException {
 		Map<String, Object> session = ActionContext.getContext().getSession();
-		Usuario user = (Usuario) session.get("usrLogin");
-		if (user == null) {
-			Usuario u = usuarioDAO.autenticateUser(getEmail(),getPassword());
+		if (!isLogged()) {
+			Usuario u = usuarioDAO.autenticateUser(getEmail(), getPassword());
 			if (u != null) {
 				if (u.isAdministrador())
 					session.put("perfil", "administrador");
 				else
 					session.put("perfil", "pasajero");
+				user = u;
 				session.put("usrLogin", u);
 				session.put("status", "autenticado");
-//				byte[] imageData =  u.getFoto().getImagen();
-//				String imageDataString = Base64.encodeBase64String(imageData);
-				// convert file into array of bytes
-				
-				
 				session.put("avatar", u.getFoto().getId());
 				return "success";
 			} else {
@@ -81,26 +42,22 @@ public class LoginAction extends ActionSupport {
 	}
 
 	public String logout() throws Exception {
-		// HttpSession session = ServletActionContext.getRequest().getSession();
-		// session.removeAttribute("logined");
-		// session.removeAttribute("context");
 		Map<String, Object> session = ActionContext.getContext().getSession();
+		user = null;
 		session.remove("status");
 		session.remove("usrLogin");
 		session.remove("perfil");
 		session.remove("context");
+		session.remove("noLeidos");
 		return "success";
 	}
-	
-	public String showLogin(){
-		Map<String, Object> session = ActionContext.getContext().getSession();
-		Usuario user = (Usuario) session.get("usrLogin");
-		if(user==null){
+
+	public String showLogin() {
+		if (!isLogged()) {
 			return "success";
 		}
 		return "logged";
 	}
-
 
 	public void validate() {
 
@@ -135,11 +92,4 @@ public class LoginAction extends ActionSupport {
 		this.password = password;
 	}
 
-	public UsuarioDAO getUsuarioDAO() {
-		return usuarioDAO;
-	}
-
-	public void setUsuarioDAO(UsuarioDAO usuarioDAO) {
-		this.usuarioDAO = usuarioDAO;
-	}
 }

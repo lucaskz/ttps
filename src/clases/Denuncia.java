@@ -18,6 +18,8 @@ public class Denuncia {
 	@OneToOne
 	private Pasajero denunciado;
 	
+	private boolean apobada;
+	
 	public Denuncia(){
 		super();
 	}
@@ -45,5 +47,13 @@ public class Denuncia {
 	}
 	public void setDenunciado(Pasajero denunciado) {
 		this.denunciado = denunciado;
+	}
+
+	public boolean isApobada() {
+		return apobada;
+	}
+
+	public void setApobada(boolean apobada) {
+		this.apobada = apobada;
 	}
 }

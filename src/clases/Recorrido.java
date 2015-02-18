@@ -28,13 +28,15 @@ public class Recorrido {
 		
 	}
 	
-	@OneToMany
-	@JoinColumn(name="REC_C_ID", referencedColumnName="REC_ID")
-	private List<Usuario> conductores;
+
 	
-	@OneToMany // Ver si es remove
-	@JoinColumn(name="REC_P_ID", referencedColumnName="REC_ID")
-	private List<Usuario> pasajeros; 
+	@OneToMany
+	  @JoinTable(name = "REC_DRIVER", joinColumns = @JoinColumn(name = "REC_ID"), inverseJoinColumns = @JoinColumn(name = "DRIVER_ID"))
+		private List<Usuario> conductores;
+	
+	@OneToMany
+	  @JoinTable(name = "REC_PAS", joinColumns = @JoinColumn(name = "REC_ID"), inverseJoinColumns = @JoinColumn(name = "PAS_ID"))
+		private List<Usuario> pasajeros;
 	
 	@OneToMany(mappedBy ="recorrido", cascade =
 		{CascadeType.PERSIST, CascadeType.REMOVE})
@@ -45,12 +47,12 @@ public class Recorrido {
 	private List<DiasSemana> dias;
 	
 	@ManyToOne
-	@JoinColumn(name="reco_id")
+	@JoinColumn(name="EVENT_ID")
 	private Evento evento;
 	
 	
 	@ManyToOne
-	@JoinColumn(name="u_creador_id")
+	@JoinColumn(name="CREADOR_ID")
 	private Usuario creador;
 	
 	private Date fecha;

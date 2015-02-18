@@ -20,48 +20,72 @@
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li class="active"><a
+				<li class="<s:if test="#session.seccion == 'index'"> active </s:if>"><a
 					href="${pageContext.request.contextPath}/">Home</a></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-expanded="false">Eventos
-						<span class="caret"></span>
+				<li
+					class="dropdown <s:if test="#session.seccion == 'eventos'"> active </s:if> "><a
+					href="#" class="dropdown-toggle" data-toggle="dropdown"
+					role="button" aria-expanded="false">Eventos <span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu" role="menu">
-						<s:if test="#session.perfil == 'administrador' "><li><a href="${pageContext.request.contextPath}/eventos/crearEvento">Crear Evento</a></li></s:if>
-						<li><a href="${pageContext.request.contextPath}/eventos/listarEventos">Listar eventos</a></li>
+						<s:if test="#session.perfil == 'administrador' ">
+							<li><a
+								href="${pageContext.request.contextPath}/eventos/crearEvento">Crear
+									Evento</a></li>
+						</s:if>
+						<li><a
+							href="${pageContext.request.contextPath}/eventos/listarEventos">Listar
+								eventos</a></li>
 						<!-- 						<li class="divider"></li> -->
 					</ul></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-expanded="false">Recorridos
-						<span class="caret"></span>
+				<li
+					class="dropdown <s:if test="#session.seccion == 'recorridos'"> active </s:if> "><a
+					href="#" class="dropdown-toggle" data-toggle="dropdown"
+					role="button" aria-expanded="false">Recorridos <span
+						class="caret"></span>
 				</a>
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="#">Crear Recorrido</a></li>
-						<li><a href="#">Listar Recorridos</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/recorridos/registrar">Crear
+								Recorrido</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/recorridos/listar">Listar
+								Recorridos</a></li>
 						<!-- 						<li class="divider"></li> -->
 
 					</ul></li>
+					<s:if test="#session.perfil == 'administrador' ">
+					<li class="<s:if test="#session.seccion == 'administracion'"> active </s:if>"><a
+					href="${pageContext.request.contextPath}/admin/">Administracion</a></li>
+					</s:if>
 			</ul>
 
 
 			<s:if test="#session.status == 'autenticado'">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a><img  src="${pageContext.request.contextPath}/retrieveImage?imageId=${avatar }"  style="max-width:32px; max-height:32px;width: auto; border-radius: 3px; border: 0;" /></a></li>
+					<li><a><img
+							src="${pageContext.request.contextPath}/retrieveImage?imageId=${avatar }"
+							style="max-width: 32px; max-height: 32px; width: auto; border-radius: 3px; border: 0;" /></a></li>
 					<li><a href="#">Bienvenido, ${user.nombre }</a></li>
-					<li><a href="#">Mensajes<span class="badge">0</span></a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/mensajes/recibidos">Mensajes<span	class="badge">${noLeidos}</span></a></li>
 					<li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
-					
+
 				</ul>
 
 			</s:if>
 			<s:else>
-				<form id="autenticar" name="autenticar" action="${pageContext.request.contextPath}/login/autenticar.action" method="post" class="navbar-form navbar-right" role="form" >	
+				<form id="autenticar" name="autenticar"
+					action="${pageContext.request.contextPath}/login/autenticar.action"
+					method="post" class="navbar-form navbar-right" role="form">
 
 					<div class="form-group">
-						<input type="text" placeholder="Email" class="form-control" name="email">
+						<input type="text" placeholder="Email" class="form-control"
+							name="email">
 					</div>
 					<div class="form-group">
-						<input type="password" placeholder="Password" name="password" class="form-control">
+						<input type="password" placeholder="Password" name="password"
+							class="form-control">
 					</div>
 					<button type="submit" class="btn btn-success">Sign in</button>
 				</form>

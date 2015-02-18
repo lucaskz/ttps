@@ -12,43 +12,30 @@
 
 
 	<package name="default" namespace="/" extends="struts-default">
-
+		<default-action-ref name="index" />
 		<!-- <interceptors> -->
 		<!-- <interceptor name="Authorizeuser" class="interceptors.AlreadyLogInterceptor"></interceptor> -->
-
-
-
 		<!-- <interceptor-stack name="myStack"> -->
 		<!-- <interceptor-ref name="defaultStack" /> -->
 		<!-- <interceptor-ref name="Authorizeuser" /> -->
-
 		<!-- </interceptor-stack> -->
 		<!-- </interceptors> -->
-
 		<!-- <default-interceptor-ref name="myStack" /> -->
 		<global-results>
 			<result name="login" type="redirect">/</result>
 			<result name="success" type="redirect">/</result>
 		</global-results>
-
-		<action name="" class="actions.IndexAction">
-			<result name="success">/pages/index/index.jsp</result>
-			<result name="input">/pages/index/index.jsp</result>
-			<result name="error">/pages/error/error.jsp</result>
-		</action>
-
+		
 		<action name="loadDB" class="util.DBLoaderAction" method="loadDB">
 			<result name="success">/pages/error/loaded.jsp</result>
 			<result name="input">/pages/index/index.jsp</result>
 			<result name="error">/pages/error/error.jsp</result>
 		</action>
-
 		<action name="index" class="actions.IndexAction">
 			<result name="success">/pages/index/index.jsp</result>
 			<result name="input">/pages/index/index.jsp</result>
 			<result name="error">/pages/error/error.jsp</result>
 		</action>
-
 		<action name="login" class="actions.LoginAction" method="showLogin">
 			<interceptor-ref name="validation">
 				<param name="excludeMethods">showLogin</param>
@@ -58,13 +45,12 @@
 			<result name="error">/pages/error/error.jsp</result>
 			<result name="logged" type="redirect">index</result>
 		</action>
-
 		<action name="register" class="actions.RegisterAction">
 			<result name="success" type="redirect">index</result>
 			<result name="input">/pages/register/registerForm.jsp</result>
 			<result name="error">/pages/error/error.jsp</result>
+			<result name="logged" type="redirect">index</result>
 		</action>
-
 		<action name="logout" method="logout" class="actions.LoginAction">
 			<interceptor-ref name="validation">
 				<param name="excludeMethods">logout</param>
@@ -73,13 +59,6 @@
 			<result name="success">/pages/index/index.jsp</result>
 			<result name="input">/pages/login/loginForm.jsp</result>
 		</action>
-
-
-
-
-
-
-
 		<action name="retrieveImage" class="actions.ImageAction"
 			method="retrieveImage">
 			<result name="success" type="stream">
@@ -87,12 +66,26 @@
 				<!-- <param name="bufferSize">1024</param> -->
 			</result>
 		</action>
-
-
-
-
 	</package>
-	
+
+	<package name="administracion" namespace="/admin" extends="struts-default">
+		<default-action-ref name="usuarios" />
+
+		<action name="usuarios" method="usuarios" class="actions.AdministradorAction">
+			<result name="success">/pages/administracion/listarUsuarios.jsp</result>
+			<result name="restricted" type="redirect">/index</result>
+		</action>
+	</package>
+
+	<package name="denuncias" namespace="/admin/denuncias" extends="struts-default">
+		<default-action-ref name="denuncias" />
+		<action name="denuncias" method="denuncias" class="actions.AdministradorAction">
+			<result name="success">/pages/administracion/listarDenuncias.jsp
+			</result>
+			<result name="restricted" type="redirect">/index</result>
+		</action>
+	</package>
+
 	<package name="recorridos" namespace="/recorridos" extends="struts-default">
 		<action name="registrar" method="registrar"
 			class="actions.AdministradorRecorridoAction">
@@ -103,8 +96,7 @@
 			<result name="success">/pages/recorridos/crearRecorrido.jsp</result>
 			<result name="not_logged" type="redirect">/index</result>
 		</action>
-		
-		<action name="listar"  method="listar"
+		<action name="listar" method="listar"
 			class="actions.AdministradorRecorridoAction">
 			<interceptor-ref name="validation">
 				<param name="excludeMethods">listar</param>
@@ -114,42 +106,73 @@
 			</result>
 			<result name="not_logged" type="redirect">/index</result>
 		</action>
-		
-		<action name="alta"  method="alta"
+		<action name="misRecorridos" method="misRecorridos"
+			class="actions.AdministradorRecorridoAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">misRecorridos</param>
+			</interceptor-ref>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success">/pages/recorridos/listarRecorridos.jsp
+			</result>
+			<result name="not_logged" type="redirect">/index</result>
+		</action>
+		<action name="alta" method="alta"
 			class="actions.AdministradorRecorridoAction">
 			<result name="error">/pages/error/error.jsp</result>
 			<result name="success">/pages/recorridos/listarRecorridos.jsp</result>
-			<result name="input" >/pages/recorridos/crearRecorrido.jsp</result>
+			<result name="input">/pages/recorridos/crearRecorrido.jsp
+			</result>
 			<result name="not_logged" type="redirect">/index</result>
 		</action>
 	</package>
 
 	<package name="mensajes" namespace="/mensajes" extends="struts-default">
-		<action name="listarMensajes" method="listarMensajes"
+		<action name="recibidos" method="recibidos"
 			class="actions.AdministradorMensajeAction">
 			<interceptor-ref name="validation">
-				<param name="excludeMethods">listarMensajes</param>
+				<param name="excludeMethods">recibidos</param>
 			</interceptor-ref>
 			<result name="error">/pages/error/error.jsp</result>
 			<result name="success">/pages/mensajes/listarMensajes.jsp
 			</result>
 			<result name="not_logged" type="redirect">/index</result>
 		</action>
-		<action name="redactarMensaje" method="redactarMensaje" class="actions.AdministradorMensajeAction">
+		<action name="redactar" method="redactar"
+			class="actions.AdministradorMensajeAction">
 			<interceptor-ref name="validation">
-				<param name="excludeMethods">redactarMensaje</param>
+				<param name="excludeMethods">redactar</param>
 			</interceptor-ref>
 			<result name="error">/pages/error/error.jsp</result>
 			<result name="success">/pages/mensajes/redactarMensaje.jsp
 			</result>
 			<result name="not_logged" type="redirect">/index</result>
 		</action>
-		<action name="enviarMensaje" method="enviarMensaje"	class="actions.AdministradorMensajeAction">
+		<action name="enviar" method="enviar"
+			class="actions.AdministradorMensajeAction">
 			<result name="error">/pages/error/error.jsp</result>
 			<result name="success" type="redirect">/mensajes/listarMensajes</result>
 			<result name="not_logged" type="redirect">/index</result>
 		</action>
-
+		<action name="mensajes" method="getCantMensajes"
+			class="actions.AdministradorMensajeAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">redactarMensaje</param>
+			</interceptor-ref>
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		<action name="enviados" method="enviados"
+			class="actions.AdministradorMensajeAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">enviados</param>
+			</interceptor-ref>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success">/pages/mensajes/listarMensajes.jsp
+			</result>
+			<result name="not_logged" type="redirect">/index</result>
+		</action>
 	</package>
 
 	<package name="login" namespace="/login" extends="struts-default">
@@ -158,7 +181,6 @@
 			<result name="success" type="redirect">/index</result>
 			<result name="input">/pages/login/loginForm.jsp</result>
 		</action>
-
 	</package>
 
 	<!-- <package name="register" namespace="/register" extends="struts-default"> -->

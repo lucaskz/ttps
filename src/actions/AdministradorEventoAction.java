@@ -10,6 +10,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+
 import clases.Evento;
 import clases.Foto;
 import clasesDAO.EventoDAO;
@@ -20,7 +24,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 	
 
-public class AdministradorEventoAction extends ActionSupport{
+public class AdministradorEventoAction extends GenericAction{
 
 	/**
 	 * 
@@ -51,8 +55,13 @@ public class AdministradorEventoAction extends ActionSupport{
 	public String listarEventos(){
 		
 		String forward = KEY_SUCCESS;
-		
+		if (isLogged()) {
+			updateUserData();
+		}
 		eventos =  (List<Evento>)eventoDAO.recuperarTodos();
+		HttpServletRequest request = ServletActionContext.getRequest();
+		request.getSession().setAttribute("seccion", "eventos");
+		request.getSession().setAttribute("accion", "listar");
 
 		return forward;
 	}
@@ -62,6 +71,9 @@ public class AdministradorEventoAction extends ActionSupport{
 		
 		if (ActionContext.getContext().getSession().get("perfil")!="administrador"){
 			return "restricted";
+		}
+		if (isLogged()) {
+			updateUserData();
 		}
 		
 		Evento evento = new Evento();
@@ -98,6 +110,12 @@ public class AdministradorEventoAction extends ActionSupport{
 		if (ActionContext.getContext().getSession().get("perfil")!="administrador"){
 			return "restricted";
 		}
+		if (isLogged()) {
+			updateUserData();
+		}
+		HttpServletRequest request = ServletActionContext.getRequest();
+		request.getSession().setAttribute("seccion", "eventos");
+		request.getSession().setAttribute("accion", "crear");
 		
 		return forward;
 	}

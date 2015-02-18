@@ -4,16 +4,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import clases.Evento;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+
 import clases.Mensaje;
 import clases.Usuario;
 import clasesDAO.MensajeDAO;
-import clasesDAO.UsuarioDAO;
 
 import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
 
-public class AdministradorMensajeAction extends ActionSupport{
+public class AdministradorMensajeAction extends GenericAction{
 
 	/**
 	 * 
@@ -22,18 +23,28 @@ public class AdministradorMensajeAction extends ActionSupport{
 	
 	MensajeDAO mensajeDAO;
 	
-	UsuarioDAO usuarioDAO;
 	
 	private String email;
 	private String mailText;
 	
+	private String inputStream;	
+	
 	private List<Mensaje> recibidos;
 	
-	public String redactarMensaje(){
+	public String redactar(){
+		if (isLogged()) {
+			updateUserData();
+		}
+		if(!isLogged()){
+			return "not_logged";
+		}
+		HttpServletRequest request = ServletActionContext.getRequest();
+		request.getSession().setAttribute("seccion", "mensajes");
+		request.getSession().setAttribute("accion", "redactar");
 		return "success";
 	}
 	
-	public String enviarMensaje(){
+	public String enviar(){
 		
 		Usuario usuarioDestino =usuarioDAO.existeUsuario(getEmail());
 		if (usuarioDestino != null){
@@ -56,15 +67,40 @@ public class AdministradorMensajeAction extends ActionSupport{
 		
 		return "success";
 	}
+
 	
-	public String listarMensajes(){
-		Map<String, Object> session = ActionContext.getContext().getSession();
-		Usuario user = (Usuario) session.get("usrLogin");
-		if(user==null){
+	public String recibidos(){
+		
+		
+		if (isLogged()) {
+			updateUserData();
+		}
+		if(!isLogged()){
 			return "not_logged";
 		}
 		
 		recibidos = user.getRecibidos();
+		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		request.getSession().setAttribute("seccion", "mensajes");
+		request.getSession().setAttribute("accion", "recibidos");
+		
+		return "success";
+		
+	}
+	
+	public String enviados(){
+		if (isLogged()) {
+			updateUserData();
+		}
+		if(!isLogged()){
+			return "not_logged";
+		}
+		
+		recibidos = user.getEnviados();
+		HttpServletRequest request = ServletActionContext.getRequest();
+		request.getSession().setAttribute("seccion", "mensajes");
+		request.getSession().setAttribute("accion", "enviados");
 		
 		return "success";
 		
@@ -103,13 +139,6 @@ public class AdministradorMensajeAction extends ActionSupport{
 		this.mailText = mailText;
 	}
 
-	public UsuarioDAO getUsuarioDAO() {
-		return usuarioDAO;
-	}
-
-	public void setUsuarioDAO(UsuarioDAO usuarioDAO) {
-		this.usuarioDAO = usuarioDAO;
-	}
 
 	public List<Mensaje> getRecibidos() {
 		return recibidos;
@@ -118,5 +147,15 @@ public class AdministradorMensajeAction extends ActionSupport{
 	public void setRecibidos(List<Mensaje> recibidos) {
 		this.recibidos = recibidos;
 	}
+	
+	  public String getInputStream() {
+		    return inputStream;
+		   }
+
+	public void setInputStream(String inputStream) {
+		this.inputStream = inputStream;
+	}
+
+
 
 }
