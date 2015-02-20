@@ -12,71 +12,65 @@
 			<t:recorridosSidebar></t:recorridosSidebar>
 
 			<div class="col-sm-9 col-md-11 no-float ">
+
 				<div class="list-group">
-					<a href="#" class="list-group-item ">
-						<div class="row">
-							<h4 class="list-group-item-heading">List group item heading</h4>
-						</div>
+					<s:iterator value="recorridos">
+						<a href="#" class="list-group-item ">
+							<div class="row">
+								<h4 class="list-group-item-heading">List group item heading</h4>
+							</div>
 
-						<div class="row">
-							<div
-								class="list-group-item-text col-sm-3 col-md-3
+							<div class="row">
+								<div
+									class="list-group-item-text col-sm-3 col-md-3
 							col-md-offset-5">
-								Hora Partida : 15:00</div>
-						</div>
-						<div class="row">
-							<div
-								class="list-group-item-text col-sm-3 col-md-3
+									Hora Partida:<s:property value="horaPartida" />
+								</div>
+							</div>
+							<div class="row">
+								<div
+									class="list-group-item-text col-sm-3 col-md-3
 							col-md-offset-5">
-								Hora Regreso : 19:00</div>
-						</div>
-						<div class="row">
-							<h4>TEST</h4>
-						</div>
-					</a> <a href="#" class="list-group-item ">
-						<div class="row">
-							<h4 class="list-group-item-heading">List group item heading</h4>
-						</div>
+									Hora Regreso:<s:property value="horaRegreso" />
+								</div>
+							</div>
+							<div class="row">
+								Asientos:<s:property value="asientos" />
+							</div>
+							<a class="btn btn-default" href="${pageContext.request.contextPath}/recorridos/denunciar" role="button">Denunciar
+						&raquo;</a>
 
-						<div class="row">
-							<div
-								class="list-group-item-text col-sm-3 col-md-3
-							col-md-offset-5">
-								Hora Partida : 15:00</div>
-						</div>
-						<div class="row">
-							<div
-								class="list-group-item-text col-sm-3 col-md-3
-							col-md-offset-5">
-								Hora Regreso : 19:00</div>
-						</div>
-						<div class="row">
-							<h4>TEST</h4>
-						</div>
-					</a> <a href="#" class="list-group-item ">
-						<div class="row">
-							<h4 class="list-group-item-heading">List group item heading</h4>
-						</div>
+						</a>
+					</s:iterator>
+					<s:iterator value="misRecorridos">
+						<a href="#" class="list-group-item ">
+							<div class="row">
+								<h4 class="list-group-item-heading">List group item heading</h4>
+							</div>
 
-						<div class="row">
-							<div
-								class="list-group-item-text col-sm-3 col-md-3
+							<div class="row">
+								<div
+									class="list-group-item-text col-sm-3 col-md-3
 							col-md-offset-5">
-								Hora Partida : 15:00</div>
-						</div>
-						<div class="row">
-							<div
-								class="list-group-item-text col-sm-3 col-md-3
+									Hora Partida:<s:property value="horaPartida" />
+								</div>
+							</div>
+							<div class="row">
+								<div
+									class="list-group-item-text col-sm-3 col-md-3
 							col-md-offset-5">
-								Hora Regreso : 19:00</div>
-						</div>
-						<div class="row">
-							<h4>TEST</h4>
-						</div>
-					</a>
+									Hora Regreso:<s:property value="horaRegreso" />
+								</div>
+							</div>
+							<div class="row">
+								Asientos:<s:property value="asientos" />
+							</div>
+
+						</a>
+					</s:iterator>
 				</div>
 				<nav class="text-center">
-					<ul class="pagination" >
+					<ul class="pagination">
 						<li><a href="#" aria-label="Previous"> <span
 								aria-hidden="true">&laquo;</span>
 						</a></li>

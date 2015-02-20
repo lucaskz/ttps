@@ -45,19 +45,22 @@
 						class="caret"></span>
 				</a>
 					<ul class="dropdown-menu" role="menu">
-						<li><a
-							href="${pageContext.request.contextPath}/recorridos/registrar">Crear
-								Recorrido</a></li>
+						<s:if test="#session.status == 'autenticado'">
+							<li><a
+								href="${pageContext.request.contextPath}/recorridos/registrar">Crear
+									Recorrido</a></li>
+						</s:if>
 						<li><a
 							href="${pageContext.request.contextPath}/recorridos/listar">Listar
 								Recorridos</a></li>
 						<!-- 						<li class="divider"></li> -->
 
 					</ul></li>
-					<s:if test="#session.perfil == 'administrador' ">
-					<li class="<s:if test="#session.seccion == 'administracion'"> active </s:if>"><a
-					href="${pageContext.request.contextPath}/admin/">Administracion</a></li>
-					</s:if>
+				<s:if test="#session.perfil == 'administrador' ">
+					<li
+						class="<s:if test="#session.seccion == 'administracion'"> active </s:if>"><a
+						href="${pageContext.request.contextPath}/admin/">Administracion</a></li>
+				</s:if>
 			</ul>
 
 
@@ -68,7 +71,8 @@
 							style="max-width: 32px; max-height: 32px; width: auto; border-radius: 3px; border: 0;" /></a></li>
 					<li><a href="#">Bienvenido, ${user.nombre }</a></li>
 					<li><a
-						href="${pageContext.request.contextPath}/mensajes/recibidos">Mensajes<span	class="badge">${noLeidos}</span></a></li>
+						href="${pageContext.request.contextPath}/mensajes/recibidos">Mensajes<span
+							class="badge">${noLeidos}</span></a></li>
 					<li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
 
 				</ul>

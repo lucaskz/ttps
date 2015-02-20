@@ -25,7 +25,7 @@
 			<result name="login" type="redirect">/</result>
 			<result name="success" type="redirect">/</result>
 		</global-results>
-		
+
 		<action name="loadDB" class="util.DBLoaderAction" method="loadDB">
 			<result name="success">/pages/error/loaded.jsp</result>
 			<result name="input">/pages/index/index.jsp</result>
@@ -87,6 +87,25 @@
 	</package>
 
 	<package name="recorridos" namespace="/recorridos" extends="struts-default">
+		<default-action-ref name="listar" />
+		<action name="recorrido" method="recorrido"
+			class="actions.AdministradorRecorridoAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">recorrido</param>
+			</interceptor-ref>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success">/pages/recorridos/editarRecorrido.jsp</result>
+			<result name="not_logged" type="redirect">/index</result>
+		</action>
+		<action name="denunciar" method="denunciar"
+			class="actions.AdministradorRecorridoAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">denunciar</param>
+			</interceptor-ref>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success" type="redirect">/index</result>
+		</action>
+		
 		<action name="registrar" method="registrar"
 			class="actions.AdministradorRecorridoAction">
 			<interceptor-ref name="validation">
@@ -127,6 +146,7 @@
 	</package>
 
 	<package name="mensajes" namespace="/mensajes" extends="struts-default">
+		<default-action-ref name="recibidos" />
 		<action name="recibidos" method="recibidos"
 			class="actions.AdministradorMensajeAction">
 			<interceptor-ref name="validation">
@@ -194,6 +214,16 @@
 
 
 	<package name="eventos" namespace="/eventos" extends="struts-default">
+		<default-action-ref name="listarEventos" />
+		<action name="verEvento" method="verEvento"
+			class="actions.AdministradorEventoAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">evento</param>
+			</interceptor-ref>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success">/pages/eventos/editarEvento.jsp</result>
+			<result name="not_logged" type="redirect">/index</result>
+		</action>
 		<action name="listarEventos" method="listarEventos"
 			class="actions.AdministradorEventoAction">
 			<result name="success">/pages/eventos/listarEventos.jsp</result>

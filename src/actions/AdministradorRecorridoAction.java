@@ -9,9 +9,16 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import clases.Denuncia;
+import clases.Evento;
+import clases.Mail;
 import clases.Recorrido;
 import clases.Usuario;
+import clasesDAO.DenunciaDAO;
+import clasesDAO.EventoDAO;
 import clasesDAO.RecorridoDAO;
 import clasesDAO.UsuarioDAO;
 
@@ -29,6 +36,16 @@ public class AdministradorRecorridoAction extends GenericAction {
 
 	List<Recorrido> recorridos;
 
+	List<Recorrido> misRecorridos;
+
+	List<Evento> eventos;
+
+	EventoDAO eventoDAO;
+
+	Recorrido recorrido;
+	
+	DenunciaDAO denunciaDAO;
+
 	private String rol;
 	private String fecha;
 	private String partida;
@@ -36,6 +53,26 @@ public class AdministradorRecorridoAction extends GenericAction {
 	private String desde;
 	private String hasta;
 	private String asientos;
+	private String eventoRecorrido;
+	private String idRecorrido;
+	
+	public String denunciar(){
+		isLogged();
+		
+		recorrido=recorridoDAO.findRecorridoById(Integer.parseInt("1"));
+		
+		Denuncia denuncia = new Denuncia();
+		
+		denuncia.setCreador(user);
+		denuncia.setDenunciado(recorrido.getCreador());
+		denuncia.setTexto("Test de denuncia");
+		denuncia.setRecorrido(recorrido);
+		denunciaDAO.testFunction();
+		recorrido.addDenuncia(denuncia);
+		recorridoDAO.modificacion(recorrido);
+		return "success";
+ 
+	}
 
 	public String listar() {
 		Map<String, Object> session = ActionContext.getContext().getSession();
@@ -44,10 +81,35 @@ public class AdministradorRecorridoAction extends GenericAction {
 		}
 
 		recorridos = (List<Recorrido>) recorridoDAO.recuperarTodos();
+		// Muestra solo los recorridos q no son parte del usuario
+		recorridos.removeAll(user.getRecorridos());
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.getSession().setAttribute("seccion", "recorridos");
 		request.getSession().setAttribute("accion", "listar");
 
+		return "success";
+	}
+
+	public String recorrido() {
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		if (isLogged()) {
+			updateUserData();
+		}
+		if (!isLogged()) {
+			return "not_logged";
+		}
+		HttpServletRequest request = ServletActionContext.getRequest();
+		request.getSession().setAttribute("seccion", "recorridos");
+		request.getSession().setAttribute("accion", "recorrido");
+		if (getIdRecorrido() == null || getIdRecorrido().isEmpty()) {
+			addFieldError("recorrido", "Falta el parámetro del recorrido");
+			return "success";
+		}
+		recorrido = recorridoDAO.findRecorridoById(Integer
+				.parseInt(getIdRecorrido()));
+		if (user.getRecorridos().contains(recorrido)) {
+			request.getSession().setAttribute("editarRecorrido", "true");
+		}
 		return "success";
 	}
 
@@ -60,7 +122,7 @@ public class AdministradorRecorridoAction extends GenericAction {
 			return "not_logged";
 		}
 
-		recorridos = user.getRecorridos();
+		misRecorridos = user.getRecorridos();
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.getSession().setAttribute("seccion", "recorridos");
 		request.getSession().setAttribute("accion", "misRecorridos");
@@ -76,6 +138,8 @@ public class AdministradorRecorridoAction extends GenericAction {
 		if (!isLogged()) {
 			return "not_logged";
 		}
+
+		eventos = (List<Evento>) eventoDAO.recuperarTodos();
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.getSession().setAttribute("seccion", "recorridos");
 		request.getSession().setAttribute("accion", "registrar");
@@ -122,6 +186,16 @@ public class AdministradorRecorridoAction extends GenericAction {
 		java.sql.Time timeRegreso = new java.sql.Time(timeFormatter.parse(
 				getRegreso()).getTime());
 		recorrido.setHoraRegreso(timeRegreso);
+		// Evento evento =
+		// eventoDAO.buscar(Integer.parseInt(getEventoRecorrido()));
+		Evento evento = eventoDAO.findEventoById(Integer
+				.parseInt(getEventoRecorrido()));
+		if (evento == null) {
+			addFieldError("eventos", "El evento seleccionado no existe");
+			return "input";
+		}
+
+		recorrido.setEvento(evento);
 		user.addRecorrido(recorrido);
 
 		// recorridoDAO.modificacion(recorrido);
@@ -148,6 +222,9 @@ public class AdministradorRecorridoAction extends GenericAction {
 		if (getAsientos() == null || getAsientos().isEmpty())
 			addFieldError("asientos",
 					"Ingresa un número de asientos disponibles para el recorrido");
+		if (getEventoRecorrido() == null || getEventoRecorrido().isEmpty())
+			addFieldError("evento",
+					"Selecciona un evento para relacionar con este recorrido");
 
 	}
 
@@ -221,6 +298,62 @@ public class AdministradorRecorridoAction extends GenericAction {
 
 	public void setAsientos(String asientos) {
 		this.asientos = asientos;
+	}
+
+	public List<Evento> getEventos() {
+		return eventos;
+	}
+
+	public void setEventos(List<Evento> eventos) {
+		this.eventos = eventos;
+	}
+
+	public EventoDAO getEventoDAO() {
+		return eventoDAO;
+	}
+
+	public void setEventoDAO(EventoDAO eventoDAO) {
+		this.eventoDAO = eventoDAO;
+	}
+
+	public String getEventoRecorrido() {
+		return eventoRecorrido;
+	}
+
+	public void setEventoRecorrido(String eventoRecorrido) {
+		this.eventoRecorrido = eventoRecorrido;
+	}
+
+	public List<Recorrido> getMisRecorridos() {
+		return misRecorridos;
+	}
+
+	public void setMisRecorridos(List<Recorrido> misRecorridos) {
+		this.misRecorridos = misRecorridos;
+	}
+
+	public Recorrido getRecorrido() {
+		return recorrido;
+	}
+
+	public void setRecorrido(Recorrido recorrido) {
+		this.recorrido = recorrido;
+	}
+
+	public String getIdRecorrido() {
+		return idRecorrido;
+	}
+
+	public void setIdRecorrido(String idRecorrido) {
+		this.idRecorrido = idRecorrido;
+	}
+
+	public DenunciaDAO getDenunciaDAO() {
+		return denunciaDAO;
+	}
+
+	public void setDenunciaDAO(DenunciaDAO denunciaDAO) {
+		this.denunciaDAO = denunciaDAO;
 	}
 
 }

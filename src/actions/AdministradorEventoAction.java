@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -43,10 +44,19 @@ public class AdministradorEventoAction extends GenericAction{
     private String fotoFileName;
     private String hora;
     private List<Evento> eventos;
+    private Evento evento;
 	
 	
 	
 
+
+	public Evento getEvento() {
+		return evento;
+	}
+
+	public void setEvento(Evento evento) {
+		this.evento = evento;
+	}
 
 	private EventoDAO eventoDAO;
 	
@@ -64,6 +74,27 @@ public class AdministradorEventoAction extends GenericAction{
 		request.getSession().setAttribute("accion", "listar");
 
 		return forward;
+	}
+	
+	public String verEvento() {
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		if (isLogged()) {
+			updateUserData();
+		}
+		if (!isLogged()) {
+			return "not_logged";
+		}
+		HttpServletRequest request = ServletActionContext.getRequest();
+		request.getSession().setAttribute("seccion", "eventos");
+		request.getSession().setAttribute("accion", "verEvento");
+		if (request.getParameter("idEvento") == null || request.getParameter("idEvento").isEmpty()) {
+			addFieldError("evento", "Falta el parámetro del evento");
+			return "success";
+		}
+		evento = eventoDAO.findEventoById(Integer
+				.parseInt(request.getParameter("idEvento")));
+		
+		return "success";
 	}
 	
 	public String registrarEvento() throws ParseException{
@@ -208,6 +239,8 @@ public class AdministradorEventoAction extends GenericAction{
 	public void setHora(String hora) {
 		this.hora = hora;
 	}
+
+
 
 
 

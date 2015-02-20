@@ -8,6 +8,9 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 @Entity
 public class Recorrido {
 	@Id @GeneratedValue
@@ -23,12 +26,16 @@ public class Recorrido {
 		conductores= new ArrayList<Usuario>();
 		pasajeros= new ArrayList<Usuario>();
 		votos = new ArrayList<Voto>();
+		denuncias = new ArrayList<Denuncia>();
 		asientos = 0 ;
 			
 		
 	}
 	
-
+	@OneToMany(mappedBy ="recorrido", cascade =
+		{CascadeType.PERSIST, CascadeType.MERGE})
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private Collection<Denuncia> denuncias;
 	
 	@OneToMany
 	  @JoinTable(name = "REC_DRIVER", joinColumns = @JoinColumn(name = "REC_ID"), inverseJoinColumns = @JoinColumn(name = "DRIVER_ID"))
@@ -46,7 +53,7 @@ public class Recorrido {
 	@Enumerated(EnumType.STRING)
 	private List<DiasSemana> dias;
 	
-	@ManyToOne
+	@ManyToOne (cascade = {CascadeType.PERSIST,CascadeType.MERGE})
 	@JoinColumn(name="EVENT_ID")
 	private Evento evento;
 	
@@ -66,6 +73,14 @@ public class Recorrido {
 		}
 		asientos--;
 
+	}
+	
+	public boolean addDenuncia(Denuncia denuncia){
+		if(!denuncias.contains(denuncia)){
+			denuncias.add(denuncia);
+			return true;
+		}
+		return false;
 	}
 	
 	public void addPasajero(Usuario pasajero) {
@@ -201,6 +216,14 @@ public class Recorrido {
 
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+
+	public Collection<Denuncia> getDenuncias() {
+		return denuncias;
+	}
+
+	public void setDenuncias(Collection<Denuncia> denuncias) {
+		this.denuncias = denuncias;
 	}
 
 }

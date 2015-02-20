@@ -45,7 +45,7 @@
 
 
 					<p>
-						<a class="btn btn-default" href="#" role="button">View details
+						<a class="btn btn-default" href="${pageContext.request.contextPath}/eventos/verEvento?idEvento=<s:property value="id" />" role="button">View details
 							&raquo;</a>
 					</p>
 				</div>

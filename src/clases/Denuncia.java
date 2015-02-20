@@ -3,6 +3,8 @@ package clases;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -13,12 +15,16 @@ public class Denuncia {
 	private String texto;
 	
 	@OneToOne
-	private Pasajero creador;
+	private Usuario creador;
 	
 	@OneToOne
-	private Pasajero denunciado;
+	private Usuario denunciado;
 	
 	private boolean apobada;
+	
+	@ManyToOne
+	@JoinColumn(name = "reco_id")
+	private Recorrido recorrido;
 	
 	public Denuncia(){
 		super();
@@ -36,16 +42,16 @@ public class Denuncia {
 	public void setTexto(String texto) {
 		this.texto = texto;
 	}
-	public Pasajero getCreador() {
+	public Usuario getCreador() {
 		return creador;
 	}
-	public void setCreador(Pasajero creador) {
-		this.creador = creador;
+	public void setCreador(Usuario user) {
+		this.creador = user;
 	}
-	public Pasajero getDenunciado() {
+	public Usuario getDenunciado() {
 		return denunciado;
 	}
-	public void setDenunciado(Pasajero denunciado) {
+	public void setDenunciado(Usuario denunciado) {
 		this.denunciado = denunciado;
 	}
 
@@ -55,5 +61,13 @@ public class Denuncia {
 
 	public void setApobada(boolean apobada) {
 		this.apobada = apobada;
+	}
+
+	public Recorrido getRecorrido() {
+		return recorrido;
+	}
+
+	public void setRecorrido(Recorrido recorrido) {
+		this.recorrido = recorrido;
 	}
 }
