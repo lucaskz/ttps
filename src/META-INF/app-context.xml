@@ -14,7 +14,7 @@
 	http://www.springframework.org/schema/aop 
 	http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-	<aop:aspectj-autoproxy />
+	<!-- <aop:aspectj-autoproxy proxy-target-class="true"/> -->
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -47,6 +47,8 @@
 
 
 	<context:annotation-config />
+	
+	 <bean id="mailSendAspect" class="aspects.MailSendAspect" /> 
 
 	<bean id="denunciaDAO" class="clasesDAOimpJPA.DenunciaDAOHibernateJPA" />
 
@@ -63,8 +65,9 @@
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="587" />
-		<property name="username" value="li.kaseta@gmail.com" />
-		<property name="password" value="468520asd" />
+<!-- 		INGRESAR DATOS PARA MAIL DE PRUEBA! -->
+		<property name="username" value="" />
+		<property name="password" value="" />
 
 		<property name="javaMailProperties">
 			<props>

@@ -37,7 +37,7 @@
 							<div class="row">
 								Asientos:<s:property value="asientos" />
 							</div>
-							<a class="btn btn-default" href="${pageContext.request.contextPath}/recorridos/denunciar" role="button">Denunciar
+							<a class="btn btn-default" href="${pageContext.request.contextPath}/recorridos/denunciar?idRecorrido=<s:property value="id" />" role="button">Denunciar
 						&raquo;</a>
 
 						</a>

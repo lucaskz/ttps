@@ -1,8 +1,11 @@
-Faltaria el manejo de imagenes pero no pude llegar a tiempo con esta funcionalidad, si bien las persiste con la imagen, 
-todavia no termine la forma de  msotrarlas en el html , en la base se encuentran persistidas como Blob
-
-El resto de las funcionalidades se encuentra presente para la entrega de la cursada 
-
-El db loader levanta las imagenes desde C:\evento_default.png y avatar_default.png
-
-Harcodeadas por el momento , la url myapp/loadDB dispara el action que carga la base para algunas pruebas, esta ne modo create para ambiente de desarrollo
+ Faltaria crear el aspecto que intercepte el envio del mail
+  Jquery para los filtros
+  Levantar la imagen desde una direccion relativa en vez de estatica ; Esto es para tener un AVATAR default en caso que el USUARIO no seleccione ningun archivo como avatR
+  Mismo caso para la imagen de eventos
+  
+  /loadDB ejecuta una carga de la base de datos para realizar algunas pruebas
+  (dejar las 2 imagefnes avatar_default y evento_default sobre c\:)
+  
+  Utilizar una cuenta de mail alternativa, en este momento no hay ninguna asignada para no dejar expuesta mi contraseña, por cuestiones de tiempo no pude crear una alternativa
+  para testear.
+  

@@ -12,6 +12,7 @@ import org.apache.struts2.ServletActionContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import aspects.MailSendAspect;
 import clases.Denuncia;
 import clases.Evento;
 import clases.Mail;
@@ -43,8 +44,10 @@ public class AdministradorRecorridoAction extends GenericAction {
 	EventoDAO eventoDAO;
 
 	Recorrido recorrido;
-	
+
 	DenunciaDAO denunciaDAO;
+
+	MailSendAspect mailSendAspect;
 
 	private String rol;
 	private String fecha;
@@ -55,23 +58,27 @@ public class AdministradorRecorridoAction extends GenericAction {
 	private String asientos;
 	private String eventoRecorrido;
 	private String idRecorrido;
-	
-	public String denunciar(){
+
+	public String denunciar() throws Throwable {
 		isLogged();
-		
-		recorrido=recorridoDAO.findRecorridoById(Integer.parseInt("1"));
-		
-		Denuncia denuncia = new Denuncia();
-		
-		denuncia.setCreador(user);
-		denuncia.setDenunciado(recorrido.getCreador());
-		denuncia.setTexto("Test de denuncia");
-		denuncia.setRecorrido(recorrido);
-		denunciaDAO.testFunction();
-		recorrido.addDenuncia(denuncia);
-		recorridoDAO.modificacion(recorrido);
+		HttpServletRequest request = ServletActionContext.getRequest();;
+		recorrido = recorridoDAO.findRecorridoById(Integer
+				.parseInt(request.getParameter("idRecorrido")));
+		if (recorrido != null) {
+			Denuncia denuncia = new Denuncia();
+
+			denuncia.setCreador(user);
+			denuncia.setDenunciado(recorrido.getCreador());
+			denuncia.setTexto("Test de denuncia");
+			denuncia.setRecorrido(recorrido);
+			mailSendAspect.enviarMailDenuncia(denuncia);
+			recorrido.addDenuncia(denuncia);
+			recorridoDAO.modificacion(recorrido);
+
+		}
+
 		return "success";
- 
+
 	}
 
 	public String listar() {
@@ -274,6 +281,14 @@ public class AdministradorRecorridoAction extends GenericAction {
 
 	public void setRegreso(String regreso) {
 		this.regreso = regreso;
+	}
+
+	public MailSendAspect getMailSendAspect() {
+		return mailSendAspect;
+	}
+
+	public void setMailSendAspect(MailSendAspect mailSendAspect) {
+		this.mailSendAspect = mailSendAspect;
 	}
 
 	public String getDesde() {
