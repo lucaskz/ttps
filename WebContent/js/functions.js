@@ -10,3 +10,12 @@ function PreviewImage() {
 		document.getElementById("uploadPreview").src = oFREvent.target.result;
 	};
 };
+
+
+$(document).ready(function(){ 
+	
+	$('#agergarFecha').click(function(){
+		$('#listFechas').append('<li><select></select> vs <select></select> <button id="eliminarFecha">eliminar</button></li>')
+	});
+	
+});
