@@ -137,6 +137,9 @@
 		</action>
 		<action name="alta" method="alta"
 			class="actions.AdministradorRecorridoAction">
+			 <interceptor-ref name="validation">
+        <param name="validateAnnotatedMethodOnly">true</param>
+    </interceptor-ref>
 			<result name="error">/pages/error/error.jsp</result>
 			<result name="success">/pages/recorridos/listarRecorridos.jsp</result>
 			<result name="input">/pages/recorridos/crearRecorrido.jsp

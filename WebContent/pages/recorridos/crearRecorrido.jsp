@@ -114,7 +114,7 @@ body {
 
 
 					<div class="form-group">
-						<label for="inputFecha">Fecha</label> <input type="datetime"
+						<label for="inputFecha">Fecha</label> <input type="date"
 							class="form-control" id="inputFecha" name="fecha"
 							placeholder="Selcciona una fecha">
 					</div>
@@ -139,7 +139,7 @@ body {
 					
 					<div class="form-group">
 						<label for="eventoRecorrido">Evento asociado al recorrido</label>
-						<s:select key="eventoRecorrido" cssClass="form-control" list="eventos" listKey="id" listValue="nombre" />
+						<s:select name="eventoSeleccionado"  cssClass="form-control" list="opcionEventos" listKey="id" listValue="nombre" />
 <!-- 						 <input -->
 <!-- 							name="asientos" type="text" class="form-control" -->
 <!-- 							id="asientosDisponibles" -->

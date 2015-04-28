@@ -3,6 +3,7 @@ package actions;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,8 +57,9 @@ public class AdministradorRecorridoAction extends GenericAction {
 	private String desde;
 	private String hasta;
 	private String asientos;
-	private String eventoRecorrido;
 	private String idRecorrido;
+
+	private List<HashMap<String, String>> opcionEventos;
 
 	public String denunciar() throws Throwable {
 		isLogged();
@@ -86,10 +88,8 @@ public class AdministradorRecorridoAction extends GenericAction {
 		if (isLogged()) {
 			updateUserData();
 		}
-
 		recorridos = (List<Recorrido>) recorridoDAO.recuperarTodos();
 		// Muestra solo los recorridos q no son parte del usuario
-		recorridos.removeAll(user.getRecorridos());
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.getSession().setAttribute("seccion", "recorridos");
 		request.getSession().setAttribute("accion", "listar");
@@ -146,7 +146,7 @@ public class AdministradorRecorridoAction extends GenericAction {
 			return "not_logged";
 		}
 
-		eventos = (List<Evento>) eventoDAO.recuperarTodos();
+		opcionEventos = (List<HashMap<String,String>>) eventoDAO.recuperarEventos();
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.getSession().setAttribute("seccion", "recorridos");
 		request.getSession().setAttribute("accion", "registrar");
@@ -163,16 +163,15 @@ public class AdministradorRecorridoAction extends GenericAction {
 		if (!isLogged()) {
 			return "not_logged";
 		}
-
+		HttpServletRequest request = ServletActionContext.getRequest();
 		Recorrido recorrido = new Recorrido();
-		recorrido.setAsientos(Integer.parseInt(getAsientos()));
-		switch (getRol()) {
+		recorrido.setAsientos(Integer.parseInt(request.getParameter("asientos")));
+		switch (request.getParameter("rol")) {
 		case "conductor":
 			recorrido.addConductor(user);
 			break;
 		case "pasajero":
 			recorrido.addPasajero(user);
-			;
 			break;
 		case "ambos":
 			recorrido.addConductorPasajero(user);
@@ -182,27 +181,30 @@ public class AdministradorRecorridoAction extends GenericAction {
 			return "input";
 		}
 		recorrido.setCreador(user);
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-		recorrido.setFecha(dateFormatter.parse(getFecha()));
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+		if(request.getParameter("fecha")!=null)
+			recorrido.setFecha(dateFormatter.parse(request.getParameter("fecha")));
 		DateFormat timeFormatter = new SimpleDateFormat("HH:mm");
-		recorrido.setDireccionDesde(getDesde());
-		recorrido.setDireccionHasta(getHasta());
+		recorrido.setDireccionDesde(request.getParameter("desde"));
+		recorrido.setDireccionHasta(request.getParameter("hasta"));
 		java.sql.Time timePartida = new java.sql.Time(timeFormatter.parse(
-				getPartida()).getTime());
+				request.getParameter("partida")).getTime());
 		recorrido.setHoraPartida(timePartida);
 		java.sql.Time timeRegreso = new java.sql.Time(timeFormatter.parse(
-				getRegreso()).getTime());
+				request.getParameter("regreso")).getTime());
 		recorrido.setHoraRegreso(timeRegreso);
 		// Evento evento =
 		// eventoDAO.buscar(Integer.parseInt(getEventoRecorrido()));
-		Evento evento = eventoDAO.findEventoById(Integer
-				.parseInt(getEventoRecorrido()));
-		if (evento == null) {
-			addFieldError("eventos", "El evento seleccionado no existe");
-			return "input";
+		
+		if(Integer.parseInt(request.getParameter("eventoSeleccionado"))!= 0 ){
+			Evento evento = eventoDAO.findEventoById(Integer.parseInt(request.getParameter("eventoSeleccionado")));
+			if (evento == null) {
+				addFieldError("eventos", "El evento seleccionado no existe");
+				return "input";
+			}
+			recorrido.setEvento(evento);
 		}
-
-		recorrido.setEvento(evento);
+		
 		user.addRecorrido(recorrido);
 
 		// recorridoDAO.modificacion(recorrido);
@@ -229,9 +231,7 @@ public class AdministradorRecorridoAction extends GenericAction {
 		if (getAsientos() == null || getAsientos().isEmpty())
 			addFieldError("asientos",
 					"Ingresa un número de asientos disponibles para el recorrido");
-		if (getEventoRecorrido() == null || getEventoRecorrido().isEmpty())
-			addFieldError("evento",
-					"Selecciona un evento para relacionar con este recorrido");
+
 
 	}
 
@@ -331,14 +331,6 @@ public class AdministradorRecorridoAction extends GenericAction {
 		this.eventoDAO = eventoDAO;
 	}
 
-	public String getEventoRecorrido() {
-		return eventoRecorrido;
-	}
-
-	public void setEventoRecorrido(String eventoRecorrido) {
-		this.eventoRecorrido = eventoRecorrido;
-	}
-
 	public List<Recorrido> getMisRecorridos() {
 		return misRecorridos;
 	}
@@ -370,5 +362,14 @@ public class AdministradorRecorridoAction extends GenericAction {
 	public void setDenunciaDAO(DenunciaDAO denunciaDAO) {
 		this.denunciaDAO = denunciaDAO;
 	}
+
+	public List<HashMap<String, String>> getOpcionEventos() {
+		return opcionEventos;
+	}
+
+	public void setOpcionEventos(List<HashMap<String, String>> opcionEventos) {
+		this.opcionEventos = opcionEventos;
+	}
+
 
 }

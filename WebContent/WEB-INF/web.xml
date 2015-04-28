@@ -3,7 +3,7 @@
   <display-name>myApp</display-name>
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:/WEB-INF/app-context.xml</param-value>
+    <param-value>classpath:/META-INF/app-context.xml</param-value>
   </context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
