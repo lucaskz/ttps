@@ -20,7 +20,7 @@
 
 				<div class="list-group">
 					<s:iterator value="recibidos">
-						<a href="#" class="list-group-item  ">
+						<a href="mensaje?&id=<s:property value="id" />" class="list-group-item  ">
 							<div class="row">
 								<div class="list-group-item-text col-sm-3 col-md-3">
 

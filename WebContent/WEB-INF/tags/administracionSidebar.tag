@@ -9,6 +9,10 @@
 		<li class=" <s:if test="#session.accion == 'denuncias'"> active </s:if> "><a
 			href="${pageContext.request.contextPath}/admin/denuncias/">Denuncias</a></li>
 	</ul>
+	<ul class="nav nav-sidebar">
+		<li class=" <s:if test="#session.accion == 'eventos'"> active </s:if> "><a
+			href="${pageContext.request.contextPath}/admin/eventos">Eventos</a></li>
+	</ul>
 
 
 </div>

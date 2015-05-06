@@ -67,7 +67,7 @@ public class GenericDAOHibernateJPA<T> implements GenericDAO<T> {
 
 	public T buscar (long idEntity) {
 
-		return this.getEm().find(this.getPersistentClass(), idEntity);
+		return this.getEm().find(this.getPersistentClass(), (int) idEntity);
 	}
 
 	@Override

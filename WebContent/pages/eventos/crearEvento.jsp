@@ -38,9 +38,6 @@
 							name="ciudad" type="text" class="form-control" id="inputCiudad"
 							placeholder="Ciudad del evento">
 					</div>
-
-
-
 					<button type="submit"
 						class=" btn btn-primary btn-lg btn btn-success">Submit</button>
 

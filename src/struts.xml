@@ -75,6 +75,22 @@
 			<result name="success">/pages/administracion/listarUsuarios.jsp</result>
 			<result name="restricted" type="redirect">/index</result>
 		</action>
+		<action name="eventos" method="eventos" class="actions.AdministradorAction">
+			<result name="success">/pages/administracion/listarEventos.jsp</result>
+			<result name="restricted" type="redirect">/index</result>
+		</action>
+		<action name="evento" method="evento" class="actions.AdministradorAction">
+			<result name="success">/pages/administracion/editarEvento.jsp</result>
+			<result name="restricted" type="redirect">/index</result>
+		</action>
+		<action name="modificarEvento" method="modificarEvento" class="actions.AdministradorAction">		
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">modificarEvento</param>
+			</interceptor-ref>
+			<result name="success" type="redirect">/admin/eventos</result>
+			<result name="input">/pages/administracion/editarEvento.jsp</result>
+			<result name="restricted" type="redirect">/index</result>
+		</action>
 	</package>
 
 	<package name="denuncias" namespace="/admin/denuncias" extends="struts-default">
@@ -167,6 +183,16 @@
 			</interceptor-ref>
 			<result name="error">/pages/error/error.jsp</result>
 			<result name="success">/pages/mensajes/redactarMensaje.jsp
+			</result>
+			<result name="not_logged" type="redirect">/index</result>
+		</action>
+		<action name="mensaje" method="mensaje"
+			class="actions.AdministradorMensajeAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">mensaje</param>
+			</interceptor-ref>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success">/pages/mensajes/leerMensaje.jsp
 			</result>
 			<result name="not_logged" type="redirect">/index</result>
 		</action>

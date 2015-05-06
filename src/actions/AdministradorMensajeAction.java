@@ -26,8 +26,10 @@ public class AdministradorMensajeAction extends GenericAction{
 	
 	private String email;
 	private String mailText;
-	
+	private String asunto;
 	private String inputStream;	
+	
+	private Mensaje mensaje ;
 	
 	private List<Mensaje> recibidos;
 	
@@ -55,6 +57,7 @@ public class AdministradorMensajeAction extends GenericAction{
 			Date date = new Date();
 			mensaje.setFecha(date);
 			mensaje.setLeido(false);
+			mensaje.setAsunto(getAsunto());
 			mensaje.setTexto(getMailText());
 			usuarioDestino.getRecibidos().add(mensaje);
 			usuarioEnvio.getEnviados().add(mensaje);			
@@ -106,6 +109,30 @@ public class AdministradorMensajeAction extends GenericAction{
 		
 	}
 	
+	public String mensaje(){
+		if (isLogged()) {
+			updateUserData();
+		}
+		if(!isLogged()){
+			return "not_logged";
+		}
+		HttpServletRequest request = ServletActionContext.getRequest();
+		Mensaje mensaje = null;
+		if(request.getParameter("id")!=null){
+			mensaje = mensajeDAO.buscar(Long.valueOf(request.getParameter("id")));
+		}
+		if(mensaje== null){
+			addFieldError("texto", "Mensaje inválido");
+		}else{
+			mensaje.setLeido(true);
+			mensajeDAO.modificacion(mensaje);
+			this.mensaje=mensaje;
+		}
+		request.getSession().setAttribute("seccion", "mensajes");
+		request.getSession().setAttribute("accion", "recibidos");
+		return "success";
+	}
+	
 	public void validate() {
 
 		if (getEmail() == null || getEmail().isEmpty())
@@ -154,6 +181,22 @@ public class AdministradorMensajeAction extends GenericAction{
 
 	public void setInputStream(String inputStream) {
 		this.inputStream = inputStream;
+	}
+
+	public String getAsunto() {
+		return asunto;
+	}
+
+	public void setAsunto(String asunto) {
+		this.asunto = asunto;
+	}
+
+	public Mensaje getMensaje() {
+		return mensaje;
+	}
+
+	public void setMensaje(Mensaje mensaje) {
+		this.mensaje = mensaje;
 	}
 
 
