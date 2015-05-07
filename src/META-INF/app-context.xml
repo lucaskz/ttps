@@ -61,6 +61,8 @@
 	<bean id="mensajeDAO" class="clasesDAOimpJPA.MensajeDAOHibernateJPA" />
 
 	<bean id="recorridoDAO" class="clasesDAOimpJPA.RecorridoDAOHibernateJPA" />
+	
+	<bean id="votoDAO" class="clasesDAOimpJPA.VotoDAOHibernateJPA" />
 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com" />

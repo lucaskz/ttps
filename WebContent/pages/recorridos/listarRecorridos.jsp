@@ -14,7 +14,7 @@
 			<div class="col-sm-9 col-md-11 no-float ">
 
 				<div class="list-group">
-					<s:iterator value="recorridos">
+					<s:iterator value="recorridos" var="rActual">
 						<a href="#" class="list-group-item ">
 							<div class="row">
 								<h4 class="list-group-item-heading">List group item heading</h4>
@@ -24,21 +24,25 @@
 								<div
 									class="list-group-item-text col-sm-3 col-md-3
 							col-md-offset-5">
-									Hora Partida:<s:property value="horaPartida" />
+									Hora Partida:<s:property value="#rActual['horaPartida']"/>
 								</div>
 							</div>
 							<div class="row">
 								<div
 									class="list-group-item-text col-sm-3 col-md-3
 							col-md-offset-5">
-									Hora Regreso:<s:property value="horaRegreso" />
+									Hora Regreso:<s:property value="#rActual['horaRegreso']"/> 
 								</div>
 							</div>
 							<div class="row">
-								Asientos:<s:property value="asientos" />
+								Asientos: <s:property value="#rActual['asientos']"/>
 							</div>
-							<a class="btn btn-default" href="${pageContext.request.contextPath}/recorridos/denunciar?idRecorrido=<s:property value="id" />" role="button">Denunciar
+							<a class="btn btn-default" href="${pageContext.request.contextPath}/recorridos/denunciar?idRecorrido=<s:property value="#rActual['id']"/>" role="button">Denunciar
 						&raquo;</a>
+						<s:if test="#rActual['calificar'] == 'true'" >
+							<button class="btn btn-default" reco="<s:property value="#rActual['id']"/>" > Up </button>
+							<button class="btn btn-default" reco="<s:property value="#rActual['id ']"/>" > Down </button>
+						</s:if>
 
 						</a>
 					</s:iterator>

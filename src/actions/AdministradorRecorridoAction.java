@@ -3,6 +3,7 @@ package actions;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,12 +18,15 @@ import aspects.MailSendAspect;
 import clases.Denuncia;
 import clases.Evento;
 import clases.Mail;
+import clases.Positivo;
 import clases.Recorrido;
 import clases.Usuario;
+import clases.Voto;
 import clasesDAO.DenunciaDAO;
 import clasesDAO.EventoDAO;
 import clasesDAO.RecorridoDAO;
 import clasesDAO.UsuarioDAO;
+import clasesDAO.VotoDAO;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -36,7 +40,7 @@ public class AdministradorRecorridoAction extends GenericAction {
 
 	RecorridoDAO recorridoDAO;
 
-	List<Recorrido> recorridos;
+	Collection<HashMap<String,String>> recorridos;
 
 	List<Recorrido> misRecorridos;
 
@@ -47,6 +51,8 @@ public class AdministradorRecorridoAction extends GenericAction {
 	Recorrido recorrido;
 
 	DenunciaDAO denunciaDAO;
+	
+	VotoDAO votoDAO;
 
 	MailSendAspect mailSendAspect;
 
@@ -88,7 +94,7 @@ public class AdministradorRecorridoAction extends GenericAction {
 		if (isLogged()) {
 			updateUserData();
 		}
-		recorridos = (List<Recorrido>) recorridoDAO.recuperarTodos();
+		recorridos =  recorridoDAO.recuperarRecorridos();
 		// Muestra solo los recorridos q no son parte del usuario
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.getSession().setAttribute("seccion", "recorridos");
@@ -136,6 +142,53 @@ public class AdministradorRecorridoAction extends GenericAction {
 
 		return "success";
 	}
+	
+	public String upVote(){
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		if (isLogged()) {
+			updateUserData();
+		}
+		if (!isLogged()) {
+			return "not_logged";
+		}		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		Positivo v = new Positivo();
+		v.setVotante(user);
+		recorrido = recorridoDAO.buscar(Long.valueOf(request.getParameter("recorrido")));
+		if(recorrido!=null)
+			v.setRecorrido(recorrido);
+		else
+			return "input";		
+		votoDAO.alta(v);		
+		request.getSession().setAttribute("seccion", "recorridos");
+		request.getSession().setAttribute("accion", "registrar");
+		return "success";
+	}
+	
+	public String downVote(){
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		if (isLogged()) {
+			updateUserData();
+		}
+		if (!isLogged()) {
+			return "not_logged";
+		}		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		if(!votoDAO.puedeVotar(user.getId(),Long.valueOf(request.getParameter("recorrido"))))
+			return "input";		
+		Negativo v = new Negativo();
+		v.setVotante(user);
+		recorrido = recorridoDAO.buscar(Long.valueOf(request.getParameter("recorrido")));
+		if(recorrido!=null)
+			v.setRecorrido(recorrido);
+		else
+			return "input";		
+		votoDAO.alta(v);		
+		request.getSession().setAttribute("seccion", "recorridos");
+		request.getSession().setAttribute("accion", "registrar");
+		return "success";
+	}
+
 
 	public String registrar() {
 		Map<String, Object> session = ActionContext.getContext().getSession();
