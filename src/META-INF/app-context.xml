@@ -14,14 +14,14 @@
 	http://www.springframework.org/schema/aop 
 	http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-	<!-- <aop:aspectj-autoproxy proxy-target-class="true"/> -->
+		<aop:aspectj-autoproxy />
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/testhibernatejpa" />
-		<property name="username" value="TTPA" />
-		<property name="password" value="TTPA" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
 	</bean>
 
 	<bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
@@ -48,7 +48,7 @@
 
 	<context:annotation-config />
 	
-	 <bean id="mailSendAspect" class="aspects.MailSendAspect" /> 
+<!-- 	 <bean id="mailSendAspect" class="aspects.MailSendAspect" />  -->
 
 	<bean id="denunciaDAO" class="clasesDAOimpJPA.DenunciaDAOHibernateJPA" />
 
@@ -68,8 +68,8 @@
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="587" />
 <!-- 		INGRESAR DATOS PARA MAIL DE PRUEBA! -->
-		<property name="username" value="" />
-		<property name="password" value="" />
+		<property name="username" value="li.kaseta@gmail.com" />
+		<property name="password" value="468520asd" />
 
 		<property name="javaMailProperties">
 			<props>
@@ -83,6 +83,9 @@
 		<property name="mailSender" ref="mailSender" />
 	</bean>
 
+	<!-- 	AOP -->
+ 
+	<bean id="logAspect" class="aspects.MailSendAspect" />
 
 </beans>
 

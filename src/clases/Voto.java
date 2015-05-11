@@ -10,7 +10,7 @@ public abstract class Voto {
 	protected int id;
 	
 	@OneToOne(optional=false)
-	private Pasajero votante;
+	private Usuario votante;
 	
 	@ManyToOne
 	@JoinColumn(name="reco_id")
@@ -29,10 +29,10 @@ public abstract class Voto {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Pasajero getVotante() {
+	public Usuario getVotante() {
 		return votante;
 	}
-	public void setVotante(Pasajero votante) {
-		this.votante = votante;
+	public void setVotante(Usuario user) {
+		this.votante = user;
 	}
 }

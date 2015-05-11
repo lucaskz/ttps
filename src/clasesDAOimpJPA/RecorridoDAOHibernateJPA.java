@@ -47,7 +47,7 @@ public class RecorridoDAOHibernateJPA extends GenericDAOHibernateJPA<Recorrido> 
 			Query consulta = this
 					.getEm()
 					.createQuery(
-							"select r.direccionDesde , r.direccionHasta ,r.horaPartida ,r.horaRegreso ,r.asientos, r.evento.fecha, case when ( :id in (select pa.id from Recorrido reco join reco.pasajeros pa were r.id==reco.id ) or :id in (select pa.id from Recorrido reco join reco.conductores pa were reco.id== r.id ) )  then true else false end ,r.id   "
+							"select r.direccionDesde , r.direccionHasta ,r.horaPartida ,r.horaRegreso ,r.asientos, r.evento.fecha, case when ( :id in (select pa.id from Recorrido reco join reco.pasajeros pa were r.id==reco.id ) or :id in (select pa.id from Recorrido reco join reco.conductores pa were reco.id== r.id ) and :id not in (select v.votante.id from Voto v where v.recorrido.id == r.id) )  then true else false end ,r.id   "
 							+ "from Recorrido r where r.creador.id <> :id");
 			
 			consulta.setParameter("id", id);

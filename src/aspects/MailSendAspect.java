@@ -1,6 +1,7 @@
 package aspects;
 
 import org.apache.struts2.ServletActionContext;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -19,21 +20,17 @@ public class MailSendAspect {
 //	@Around("execution(* clasesDAOimpJPA.GenericDAOHibernateJPA.alta(..)) && args(clases.Denuncia))")
 	
 	//@Around("execution(* clasesDAOimpJPA.DenunciaDAOHibernateJPA.testFunction(..))")
-	public void enviarMailDenuncia(ProceedingJoinPoint joinPoint,
-			Denuncia denuncia) throws Throwable {
+	@Around("execution(* clases.Recorrido.addDenuncia(..))")
+	public void enviarMailDenuncia(ProceedingJoinPoint joinPoint) throws Throwable {
 		if ((boolean) joinPoint.proceed()) {
-			if (denuncia.getDenunciado() != null) {
+			joinPoint.getArgs();
+//			if (denuncia.getDenunciado() != null) {
 				WebApplicationContext context = WebApplicationContextUtils
-						.getRequiredWebApplicationContext(ServletActionContext
-								.getServletContext());
+						.getRequiredWebApplicationContext(ServletActionContext.getServletContext());
 
 				Mail mm = (Mail) context.getBean("mailMail");
-				mm.sendMail("li.kaseta@gmail.com", "li_kaseta@hotmail.com",
-						"Nueva denuncia hacia "
-								+ denuncia.getDenunciado().getNombre(),
-						"El usuario" + denuncia.getDenunciado().getNombre()
-								+ "fue denunciado en un recorrido");
-			}
+
+//			}
 		}
 	}
 	
@@ -49,6 +46,14 @@ public class MailSendAspect {
 				"El usuario" + denuncia.getDenunciado().getNombre()
 						+ "fue denunciado en un recorrido");
 	}
+	
+//	@Before("execution(* *(..))")
+//	public void logBefore(JoinPoint joinPoint) {
+// 
+//		System.out.println("logBefore() is running!");
+//		System.out.println("hijacked : " + joinPoint.getSignature().getName());
+//		System.out.println("******");
+//	}
 	
 //	@Pointcut("com.xyz.myapp.SystemArchitecture.dataAccessOperation() && args(account,..)")
 //	private void accountDataAccessOperation(Account account) {}

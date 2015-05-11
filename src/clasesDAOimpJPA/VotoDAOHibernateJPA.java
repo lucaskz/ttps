@@ -1,14 +1,21 @@
 package clasesDAOimpJPA;
 
-import clases.Recorrido;
 import clases.Voto;
 import clasesDAO.VotoDAO;
 
 public class VotoDAOHibernateJPA extends GenericDAOHibernateJPA<Voto> implements VotoDAO {
 
 	
-	public RecorridoDAOHibernateJPA() {
+	public VotoDAOHibernateJPA() {
 		// TODO Auto-generated constructor stub
-		super(Recorrido.class);
+		super(Voto.class);
+	}
+
+	
+	@Override
+	public boolean puedeVotar(int id, Long valueOf) {
+		boolean puede = false;
+		
+		return puede;
 	}
 }

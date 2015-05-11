@@ -18,6 +18,7 @@ import aspects.MailSendAspect;
 import clases.Denuncia;
 import clases.Evento;
 import clases.Mail;
+import clases.Negativo;
 import clases.Positivo;
 import clases.Recorrido;
 import clases.Usuario;
@@ -79,7 +80,7 @@ public class AdministradorRecorridoAction extends GenericAction {
 			denuncia.setDenunciado(recorrido.getCreador());
 			denuncia.setTexto("Test de denuncia");
 			denuncia.setRecorrido(recorrido);
-			mailSendAspect.enviarMailDenuncia(denuncia);
+//			mailSendAspect.enviarMailDenuncia(denuncia);
 			recorrido.addDenuncia(denuncia);
 			recorridoDAO.modificacion(recorrido);
 
@@ -94,7 +95,7 @@ public class AdministradorRecorridoAction extends GenericAction {
 		if (isLogged()) {
 			updateUserData();
 		}
-		recorridos =  recorridoDAO.recuperarRecorridos();
+		recorridos =  recorridoDAO.recuperarRecorridos(user.getId());
 		// Muestra solo los recorridos q no son parte del usuario
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.getSession().setAttribute("seccion", "recorridos");
@@ -174,8 +175,8 @@ public class AdministradorRecorridoAction extends GenericAction {
 			return "not_logged";
 		}		
 		HttpServletRequest request = ServletActionContext.getRequest();
-		if(!votoDAO.puedeVotar(user.getId(),Long.valueOf(request.getParameter("recorrido"))))
-			return "input";		
+//		if(!votoDAO.puedeVotar(user.getId(),Long.valueOf(request.getParameter("recorrido"))))
+//			return "input";		
 		Negativo v = new Negativo();
 		v.setVotante(user);
 		recorrido = recorridoDAO.buscar(Long.valueOf(request.getParameter("recorrido")));
@@ -296,14 +297,6 @@ public class AdministradorRecorridoAction extends GenericAction {
 		this.recorridoDAO = recorridoDAO;
 	}
 
-	public List<Recorrido> getRecorridos() {
-		return recorridos;
-	}
-
-	public void setRecorridos(List<Recorrido> recorridos) {
-		this.recorridos = recorridos;
-	}
-
 	public String getRol() {
 		return rol;
 	}
@@ -418,6 +411,22 @@ public class AdministradorRecorridoAction extends GenericAction {
 
 	public List<HashMap<String, String>> getOpcionEventos() {
 		return opcionEventos;
+	}
+
+	public Collection<HashMap<String, String>> getRecorridos() {
+		return recorridos;
+	}
+
+	public void setRecorridos(Collection<HashMap<String, String>> recorridos) {
+		this.recorridos = recorridos;
+	}
+
+	public VotoDAO getVotoDAO() {
+		return votoDAO;
+	}
+
+	public void setVotoDAO(VotoDAO votoDAO) {
+		this.votoDAO = votoDAO;
 	}
 
 	public void setOpcionEventos(List<HashMap<String, String>> opcionEventos) {
