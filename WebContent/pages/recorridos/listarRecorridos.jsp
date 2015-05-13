@@ -15,61 +15,89 @@
 
 				<div class="list-group">
 					<s:iterator value="recorridos" var="rActual">
-						<a href="#" class="list-group-item ">
+						<div  class="list-group-item ">
 							<div class="row">
-								<h4 class="list-group-item-heading">List group item heading</h4>
+								<div class="col-sm-4">
+									<h4 class="list-group-item-heading">Recorrido #<s:property value="#rActual['id']"/> </h4>
+								</div>
 							</div>
 
 							<div class="row">
-								<div
-									class="list-group-item-text col-sm-3 col-md-3
-							col-md-offset-5">
+								<div class=" col-sm-2 col-md-2		col-md-offset-2">
+									<button class="btn btn-default "  onclick="window.document.location='../recorridos/solicitar?&recorrido=<s:property value="#rActual['id']"/>';">
+											Unirse
+									</button>
+								</div>
+								<div class=" col-sm-3 col-md-3		col-md-offset-1">
 									Hora Partida:<s:property value="#rActual['horaPartida']"/>
 								</div>
-							</div>
-							<div class="row">
-								<div
-									class="list-group-item-text col-sm-3 col-md-3
-							col-md-offset-5">
-									Hora Regreso:<s:property value="#rActual['horaRegreso']"/> 
+								<div class="col-md-1">
+									<s:if test="#rActual['calificar'] == 'true'" >
+										<button class="btn btn-default btn btn-success"  onclick="window.document.location='../recorridos/upVote?&recorrido=<s:property value="#rActual['id']"/>';">
+											<span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+										</button>
+									</s:if>
+								</div>
+								<div class="col-md-2 ">
+									<s:if test="#rActual['denunciado'] == 'false'" >
+										<button class="btn btn-default"  onclick="window.document.location='../recorridos/denunciar?&idRecorrido=<s:property value="#rActual['id']"/>';"> Denunciar</button>
+									</s:if>
+									<s:else>
+										<button  class="btn btn-default" disabled>Ya denunciado!</button>
+									</s:else>
 								</div>
 							</div>
 							<div class="row">
-								Asientos: <s:property value="#rActual['asientos']"/>
+								<div	class="col-sm-3 col-md-3			col-md-offset-5">
+									Hora Regreso:<s:property value="#rActual['horaRegreso']"/> 
+								</div>
+								<div class="col-md-1 ">
+									<s:if test="#rActual['calificar'] == 'true'" >
+										<button type="button" class="btn btn-default  btn-danger"   onclick="window.document.location='../recorridos/downVote?&recorrido=<s:property value="#rActual['id']"/>';" aria-label="Left Align">
+											  <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+										</button>
+									</s:if>
+								</div>
 							</div>
-							<a class="btn btn-default" href="${pageContext.request.contextPath}/recorridos/denunciar?idRecorrido=<s:property value="#rActual['id']"/>" role="button">Denunciar
-						&raquo;</a>
+							<div class="row">
+								<div class="col-sm-4">
+									Asientos: <s:property value="#rActual['asientos']"/>
+								</div>
+								
+							</div>
+						
 						<s:if test="#rActual['calificar'] == 'true'" >
 							<button class="btn btn-default" reco="<s:property value="#rActual['id']"/>" > Up </button>
 							<button class="btn btn-default" reco="<s:property value="#rActual['id ']"/>" > Down </button>
 						</s:if>
 
-						</a>
+						</div>
 					</s:iterator>
 					<s:iterator value="misRecorridos">
 						<a href="#" class="list-group-item ">
 							<div class="row">
-								<h4 class="list-group-item-heading">List group item heading</h4>
+								<div class="col-sm-4">
+									<h4 class="list-group-item-heading">Recorrido # <s:property value="id"/> </h4>
+								</div>
 							</div>
 
 							<div class="row">
-								<div
-									class="list-group-item-text col-sm-3 col-md-3
-							col-md-offset-5">
-									Hora Partida:<s:property value="horaPartida" />
+								<div class=" col-sm-3 col-md-3		col-md-offset-5">
+									Hora Partida:<s:property value="horaPartida"/>
 								</div>
 							</div>
 							<div class="row">
-								<div
-									class="list-group-item-text col-sm-3 col-md-3
-							col-md-offset-5">
-									Hora Regreso:<s:property value="horaRegreso" />
+								<div	class="col-sm-3 col-md-3			col-md-offset-5">
+									Hora Regreso:<s:property value="horaRegreso"/> 
 								</div>
 							</div>
 							<div class="row">
-								Asientos:<s:property value="asientos" />
+								<div class="col-sm-4">
+									Asientos: <s:property value="asientos"/>
+								</div>
+								
 							</div>
-
+		
 						</a>
 					</s:iterator>
 				</div>

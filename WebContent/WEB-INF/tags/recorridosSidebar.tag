@@ -21,5 +21,10 @@
 				href="${pageContext.request.contextPath}/recorridos/registrar">Crear
 					Recorrido</a></li>
 		</ul>
+		<ul class="nav nav-sidebar">
+			<li
+				class=" <s:if test="#session.accion == 'solicitudes'"> active </s:if> "><a
+				href="${pageContext.request.contextPath}/recorridos/solicitudes">Solicitudes</a></li>
+		</ul>
 	</s:if>
 </div>

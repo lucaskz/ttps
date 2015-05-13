@@ -57,6 +57,9 @@ public class Recorrido {
 	@JoinColumn(name="EVENT_ID")
 	private Evento evento;
 	
+	@OneToMany(mappedBy="recorrido")
+    private Collection<Solicitud> solicitudes;
+
 	
 	@ManyToOne
 	@JoinColumn(name="CREADOR_ID")

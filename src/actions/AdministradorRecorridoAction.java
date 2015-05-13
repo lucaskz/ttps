@@ -21,11 +21,13 @@ import clases.Mail;
 import clases.Negativo;
 import clases.Positivo;
 import clases.Recorrido;
+import clases.Solicitud;
 import clases.Usuario;
 import clases.Voto;
 import clasesDAO.DenunciaDAO;
 import clasesDAO.EventoDAO;
 import clasesDAO.RecorridoDAO;
+import clasesDAO.SolicitudDAO;
 import clasesDAO.UsuarioDAO;
 import clasesDAO.VotoDAO;
 
@@ -56,6 +58,10 @@ public class AdministradorRecorridoAction extends GenericAction {
 	VotoDAO votoDAO;
 
 	MailSendAspect mailSendAspect;
+	
+	Collection<Solicitud> solicitudes;
+	
+	SolicitudDAO solicitudDAO;
 
 	private String rol;
 	private String fecha;
@@ -81,8 +87,8 @@ public class AdministradorRecorridoAction extends GenericAction {
 			denuncia.setTexto("Test de denuncia");
 			denuncia.setRecorrido(recorrido);
 //			mailSendAspect.enviarMailDenuncia(denuncia);
-			recorrido.addDenuncia(denuncia);
-			recorridoDAO.modificacion(recorrido);
+			
+			recorridoDAO.denunciar(recorrido,denuncia);
 
 		}
 
@@ -189,6 +195,38 @@ public class AdministradorRecorridoAction extends GenericAction {
 		request.getSession().setAttribute("accion", "registrar");
 		return "success";
 	}
+	
+	public String solicitudes(){
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		if (isLogged()) {
+			updateUserData();
+		}
+		if (!isLogged()) {
+			return "not_logged";
+		}
+		HttpServletRequest request = ServletActionContext.getRequest();
+		solicitudes = solicitudDAO.recuperarSolicitudes(user.getId());		
+		request.getSession().setAttribute("seccion", "recorridos");
+		request.getSession().setAttribute("accion", "solicitudes");
+		return "success";
+	}
+	
+	public String solicitar(){
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		if (isLogged()) {
+			updateUserData();
+		}
+		if (!isLogged()) {
+			return "not_logged";
+		}
+		HttpServletRequest request = ServletActionContext.getRequest();
+		if(request.getParameter("recorrido")!=null){
+			solicitudDAO.solicitar(user,Long.valueOf(request.getParameter("recorrido")));
+		}			
+		request.getSession().setAttribute("seccion", "recorridos");
+		request.getSession().setAttribute("accion", "solicitudes");
+		return "success";
+	}
 
 
 	public String registrar() {
@@ -204,6 +242,36 @@ public class AdministradorRecorridoAction extends GenericAction {
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.getSession().setAttribute("seccion", "recorridos");
 		request.getSession().setAttribute("accion", "registrar");
+
+		return "success";
+	}
+	
+	public String aceptarSolicitud(){
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		if (isLogged()) {
+			updateUserData();
+		}
+		if (!isLogged()) {
+			return "not_logged";
+		}
+		HttpServletRequest request = ServletActionContext.getRequest();
+		request.getSession().setAttribute("seccion", "recorridos");
+		request.getSession().setAttribute("accion", "solicitudes");
+
+		return "success";
+	}
+	
+	public String rechazarSolicitud(){
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		if (isLogged()) {
+			updateUserData();
+		}
+		if (!isLogged()) {
+			return "not_logged";
+		}
+		HttpServletRequest request = ServletActionContext.getRequest();
+		request.getSession().setAttribute("seccion", "recorridos");
+		request.getSession().setAttribute("accion", "solicitudes");
 
 		return "success";
 	}
@@ -431,6 +499,22 @@ public class AdministradorRecorridoAction extends GenericAction {
 
 	public void setOpcionEventos(List<HashMap<String, String>> opcionEventos) {
 		this.opcionEventos = opcionEventos;
+	}
+
+	public Collection<Solicitud> getSolicitudes() {
+		return solicitudes;
+	}
+
+	public void setSolicitudes(Collection<Solicitud> solicitudes) {
+		this.solicitudes = solicitudes;
+	}
+
+	public SolicitudDAO getSolicitudDAO() {
+		return solicitudDAO;
+	}
+
+	public void setSolicitudDAO(SolicitudDAO solicitudDAO) {
+		this.solicitudDAO = solicitudDAO;
 	}
 
 

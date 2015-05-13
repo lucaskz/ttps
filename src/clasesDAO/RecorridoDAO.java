@@ -3,6 +3,7 @@ package clasesDAO;
 import java.util.Collection;
 import java.util.HashMap;
 
+import clases.Denuncia;
 import clases.Recorrido;
 
 public interface RecorridoDAO extends GenericDAO<Recorrido>{
@@ -12,4 +13,6 @@ public interface RecorridoDAO extends GenericDAO<Recorrido>{
 	public Collection<HashMap<String,String>> recuperarRecorridos(int id);
 	
 	public boolean votar(int id,int recId);
+
+	public boolean denunciar(Recorrido recorrido, Denuncia denuncia);
 }

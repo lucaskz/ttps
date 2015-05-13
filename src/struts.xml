@@ -119,7 +119,40 @@
 				<param name="excludeMethods">denunciar</param>
 			</interceptor-ref>
 			<result name="error">/pages/error/error.jsp</result>
-			<result name="success" type="redirect">/index</result>
+			<result name="success" type="redirect">listar</result>
+		</action>
+		<action name="solicitudes" method="solicitudes" 	class="actions.AdministradorRecorridoAction">
+				<interceptor-ref name="validation">
+				<param name="excludeMethods">solicitudes</param>
+			</interceptor-ref>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success">/pages/recorridos/listarSolicitudes.jsp</result>
+			<result name="not_logged" type="redirect">/index</result>
+		</action>
+		
+		<action name="solicitar" method="solicitar" 	class="actions.AdministradorRecorridoAction">
+				<interceptor-ref name="validation">
+				<param name="excludeMethods">solicitar</param>
+			</interceptor-ref>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success"  type="redirect">listar</result>
+			<result name="not_logged" type="redirect">/index</result>
+		</action>
+		<action name="aceptarSolicitud" method="aceptarSolicitud" 	class="actions.AdministradorRecorridoAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">aceptarSolicitud</param>
+			</interceptor-ref>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success"  type="redirect">solicitudes</result>
+			<result name="not_logged" type="redirect">/index</result>
+		</action>
+		<action name="rechazarSolicitud" method="rechazarSolicitud" 	class="actions.AdministradorRecorridoAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">rechazarSolicitud</param>
+			</interceptor-ref>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success"  type="redirect">solicitudes</result>
+			<result name="not_logged" type="redirect">/index</result>
 		</action>
 		
 		<action name="registrar" method="registrar"
