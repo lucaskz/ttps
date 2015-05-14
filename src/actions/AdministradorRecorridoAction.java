@@ -120,15 +120,17 @@ public class AdministradorRecorridoAction extends GenericAction {
 		}
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.getSession().setAttribute("seccion", "recorridos");
-		request.getSession().setAttribute("accion", "recorrido");
-		if (getIdRecorrido() == null || getIdRecorrido().isEmpty()) {
+		request.getSession().setAttribute("accion", "listar");
+		if (request.getParameter("recorrido") == null || request.getParameter("recorrido").isEmpty()) {
 			addFieldError("recorrido", "Falta el parámetro del recorrido");
 			return "success";
 		}
 		recorrido = recorridoDAO.findRecorridoById(Integer
-				.parseInt(getIdRecorrido()));
-		if (user.getRecorridos().contains(recorrido)) {
+				.parseInt(request.getParameter("recorrido")));
+		if (recorrido.getCreador().getId() == user.getId()) {
+			// Soy creador muestro el editor
 			request.getSession().setAttribute("editarRecorrido", "true");
+			return "edit_recorrido";
 		}
 		return "success";
 	}
