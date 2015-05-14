@@ -110,7 +110,8 @@
 				<param name="excludeMethods">recorrido</param>
 			</interceptor-ref>
 			<result name="error">/pages/error/error.jsp</result>
-			<result name="success">/pages/recorridos/editarRecorrido.jsp</result>
+			<result name="edit_recorrido">/pages/recorridos/editarRecorrido.jsp</result>
+			<result name="success">/pages/recorridos/verRecorrido.jsp</result>
 			<result name="not_logged" type="redirect">/index</result>
 		</action>
 		<action name="denunciar" method="denunciar"
