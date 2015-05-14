@@ -71,7 +71,7 @@
 		<property name="port" value="587" />
 <!-- 		INGRESAR DATOS PARA MAIL DE PRUEBA! -->
 		<property name="username" value="li.kaseta@gmail.com" />
-		<property name="password" value="468520asd" />
+		<property name="password" value="" />
 
 		<property name="javaMailProperties">
 			<props>
