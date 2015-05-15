@@ -18,30 +18,37 @@
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>First Name</th>
-							<th>Last Name</th>
+							<th>Nombre</th>
+							<th>Apellido</th>
 							<th>Username</th>
+							<th>Denuncias</th>
+							<th>Estado</th>
+							<th>Deshabilitar</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<th scope="row">1</th>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>Jacob</td>
-							<td>Thornton</td>
-							<td>@fat</td>
-						</tr>
-						<tr>
-							<th scope="row">3</th>
-							<td>Larry</td>
-							<td>the Bird</td>
-							<td>@twitter</td>
-						</tr>
+						<s:iterator value="usuarios" var="uactual">
+							<tr>
+								<th scope="row"><s:property value="id"/></th>
+								<td><s:property value="nombre" /></td>
+								<td><s:property value="apellido" /></td>
+								<td><s:property value="email" /></td>
+								<td><s:property value="denuncias.size()" /></td>
+								<s:if test="#uactual.estado == true ">
+									<td>Habilitado</td>
+								<td>
+									<button type="button" id="deshabilitar-usuario" usuario="<s:property value="id"/>" class="btn btn-default quitarFixture" aria-label="Left Align">
+			 								<span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ></span>
+									</button>	
+								</td>
+								</s:if>
+								<s:else>
+									<td>Deshabilitado</td>
+									<td></td>
+								</s:else>
+
+							</tr>
+						</s:iterator>
 					</tbody>
 				</table>
 			</div>

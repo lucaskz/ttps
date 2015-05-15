@@ -15,6 +15,8 @@
 	http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 		<aop:aspectj-autoproxy />
+		
+		
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -47,6 +49,8 @@
 
 
 	<context:annotation-config />
+	
+	<context:spring-configured/>
 	
 <!-- 	 <bean id="mailSendAspect" class="aspects.MailSendAspect" />  -->
 

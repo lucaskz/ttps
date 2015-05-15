@@ -6,6 +6,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -13,11 +14,14 @@ import clases.Denuncia;
 import clases.Mail;
 import clases.Mensaje;
 import clases.Usuario;
+import clasesDAO.MensajeDAO;
 
 
 @Aspect
 public class MensajeSendAspect {
-
+	
+	@Autowired
+	private MensajeDAO mensajeDAO;
 	
 //	@Around("execution(* clasesDAOimpJPA.GenericDAOHibernateJPA.alta(..)) && args(clases.Denuncia))")
 	
@@ -55,9 +59,18 @@ public class MensajeSendAspect {
 			m.setCreador(((Usuario)args[0]));
 			m.setTexto("Tienes una nueva solicitud pendiente de el usuario "+((Usuario)args[0]).getNombre());
 			m.setReceptor((Usuario)result);
+			mensajeDAO.alta(m);
 		}
 		return result;
 		
+	}
+
+	public MensajeDAO getMensajeDAO() {
+		return mensajeDAO;
+	}
+
+	public void setMensajeDAO(MensajeDAO mensajeDAO) {
+		this.mensajeDAO = mensajeDAO;
 	}
 	
 //	

@@ -14,6 +14,7 @@
 	rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/styles.css"
 	rel="stylesheet">
+	
 
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -41,5 +42,6 @@
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/functions.js"></script>
+	<script src="${pageContext.request.contextPath}/js/handlebars-v3.0.3.js"></script>
 </body>
 </html>

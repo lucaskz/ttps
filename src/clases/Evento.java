@@ -1,6 +1,7 @@
 package clases;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -36,6 +37,11 @@ public class Evento {
 	
 	private String ciudad;
 	
+	private boolean estado;
+	
+	public Evento(){
+		estado = true;
+	}
 	
 	public int getId() {
 		return id;
@@ -84,5 +90,11 @@ public class Evento {
 	}
 	public void setHora(Time hora) {
 		this.hora = hora;
+	}
+	public boolean isEstado() {
+		return estado;
+	}
+	public void setEstado(boolean estado) {
+		this.estado = estado;
 	}
 }

@@ -51,6 +51,15 @@
 			<result name="error">/pages/error/error.jsp</result>
 			<result name="logged" type="redirect">index</result>
 		</action>
+			<action name="registro" method="showRegistro" class="actions.RegisterAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">showRegistro</param>
+			</interceptor-ref>
+			<result name="success">/pages/register/registerForm.jsp</result>
+			<result name="input">/pages/register/registerForm.jsp</result>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="logged" type="redirect">index</result>
+		</action>
 		<action name="logout" method="logout" class="actions.LoginAction">
 			<interceptor-ref name="validation">
 				<param name="excludeMethods">logout</param>
@@ -73,6 +82,10 @@
 
 		<action name="usuarios" method="usuarios" class="actions.AdministradorAction">
 			<result name="success">/pages/administracion/listarUsuarios.jsp</result>
+			<result name="restricted" type="redirect">/index</result>
+		</action>
+		<action name="deshabilitar" method="deshabilitar" class="actions.AdministradorAction">
+			<result name="success"  type="redirect">>usuarios</result>
 			<result name="restricted" type="redirect">/index</result>
 		</action>
 		<action name="eventos" method="eventos" class="actions.AdministradorAction">
@@ -102,7 +115,7 @@
 		</action>
 	</package>
 
-	<package name="recorridos" namespace="/recorridos" extends="struts-default">
+	<package name="recorridos" namespace="/recorridos" extends="struts-default,json-default">
 		<default-action-ref name="listar" />
 		<action name="recorrido" method="recorrido"
 			class="actions.AdministradorRecorridoAction">
@@ -130,7 +143,16 @@
 			<result name="success">/pages/recorridos/listarSolicitudes.jsp</result>
 			<result name="not_logged" type="redirect">/index</result>
 		</action>
-		
+		<action name="filtradoVoto" method="filtradoVoto" class="actions.AdministradorRecorridoAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">filtradoVoto</param>
+			</interceptor-ref>
+			<result name="success"  type="json">
+        <param name="noCache">true</param>
+        <param name="excludeNullProperties">false</param>
+        <param name="root">jsonString</param>
+    	</result>
+		</action>
 		<action name="solicitar" method="solicitar" 	class="actions.AdministradorRecorridoAction">
 				<interceptor-ref name="validation">
 				<param name="excludeMethods">solicitar</param>

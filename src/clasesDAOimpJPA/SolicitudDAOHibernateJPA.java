@@ -31,7 +31,7 @@ public class SolicitudDAOHibernateJPA extends GenericDAOHibernateJPA<Solicitud> 
 			Query consulta = this
 					.getEm()
 					.createQuery(
-							"select s from Recorrido r join r.solicitudes s where r.creador.id = :id");
+							"select s from Recorrido r join r.solicitudes s where r.creador.id = :id and r.estado=true" );
 			consulta.setParameter("id", id);
 			return  consulta.getResultList();
 		}
@@ -87,6 +87,24 @@ public class SolicitudDAOHibernateJPA extends GenericDAOHibernateJPA<Solicitud> 
 
 	public void setRecorridoDAO(RecorridoDAO recorridoDAO) {
 		this.recorridoDAO = recorridoDAO;
+	}
+
+	@Override
+	public Solicitud buscarSolicitud(long id) {
+		try {
+			Query consulta = this
+					.getEm()
+					.createQuery(
+							"select s from Solicitud s where s.id = :id and s.estado = 'PENDIENTE' " );
+			consulta.setParameter("id", id);
+			return  (Solicitud) consulta.getSingleResult();
+		}
+
+		catch (NoResultException e) {
+
+
+			return null;
+		}
 	}
 
 }

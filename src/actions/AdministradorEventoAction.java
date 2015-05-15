@@ -68,7 +68,7 @@ public class AdministradorEventoAction extends GenericAction{
 		if (isLogged()) {
 			updateUserData();
 		}
-		eventos =  (List<Evento>)eventoDAO.recuperarTodos();
+		eventos =  (List<Evento>)eventoDAO.recuperarEventosHabilitados();
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.getSession().setAttribute("seccion", "eventos");
 		request.getSession().setAttribute("accion", "listar");

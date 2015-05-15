@@ -16,6 +16,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import aspects.MailSendAspect;
 import clases.Denuncia;
+import clases.Estado;
 import clases.Evento;
 import clases.Mail;
 import clases.Negativo;
@@ -31,6 +32,7 @@ import clasesDAO.SolicitudDAO;
 import clasesDAO.UsuarioDAO;
 import clasesDAO.VotoDAO;
 
+import com.google.gson.Gson;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -62,6 +64,8 @@ public class AdministradorRecorridoAction extends GenericAction {
 	Collection<Solicitud> solicitudes;
 	
 	SolicitudDAO solicitudDAO;
+	
+	private String jsonString;
 
 	private String rol;
 	private String fecha;
@@ -144,7 +148,7 @@ public class AdministradorRecorridoAction extends GenericAction {
 			return "not_logged";
 		}
 
-		misRecorridos = user.getRecorridos();
+		misRecorridos = usuarioDAO.recorridosHabilitados(user.getId());
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.getSession().setAttribute("seccion", "recorridos");
 		request.getSession().setAttribute("accion", "misRecorridos");
@@ -257,6 +261,19 @@ public class AdministradorRecorridoAction extends GenericAction {
 			return "not_logged";
 		}
 		HttpServletRequest request = ServletActionContext.getRequest();
+		if(request.getParameter("solicitud")!=null){
+			Solicitud s = solicitudDAO.buscarSolicitud((long)Long.valueOf(request.getParameter("solicitud")));
+			if(s!=null){
+				s.setEstado(Estado.ACEPTADO);
+				Recorrido r = s.getRecorrido();
+				Usuario p = usuarioDAO.buscar(s.getSolicitante().getId());
+				r.addPasajero(p);
+				recorridoDAO.modificacion(r);
+				solicitudDAO.modificacion(s);
+			}
+		}
+		
+		
 		request.getSession().setAttribute("seccion", "recorridos");
 		request.getSession().setAttribute("accion", "solicitudes");
 
@@ -272,6 +289,13 @@ public class AdministradorRecorridoAction extends GenericAction {
 			return "not_logged";
 		}
 		HttpServletRequest request = ServletActionContext.getRequest();
+		if(request.getParameter("solicitud")!=null){
+			Solicitud s = solicitudDAO.buscar((long)Long.parseLong(request.getParameter("solicitud")));
+			if(s!=null){
+				s.setEstado(Estado.RECHAZADO);
+				solicitudDAO.modificacion(s);
+			}
+		}
 		request.getSession().setAttribute("seccion", "recorridos");
 		request.getSession().setAttribute("accion", "solicitudes");
 
@@ -334,6 +358,28 @@ public class AdministradorRecorridoAction extends GenericAction {
 		// recorridoDAO.modificacion(recorrido);
 		usuarioDAO.modificacion(user);
 
+		return "success";
+	}
+	
+	public String filtradoVoto(){
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		if (isLogged()) {
+			updateUserData();
+		}
+		if (!isLogged()) {
+			return "not_logged";
+		}
+		HttpServletRequest request = ServletActionContext.getRequest();
+		int paginas = 5;
+		if(request.getParameter("paginas")!=null){
+			paginas = Integer.parseInt(request.getParameter("paginas"));
+		}
+		recorridos = recorridoDAO.getRecorridoByVoto(user.getId(),paginas);
+		Gson gson = new Gson();
+		jsonString = gson.toJson(recorridos);
+		
+		request.getSession().setAttribute("seccion", "recorridos");
+		request.getSession().setAttribute("accion", "listar");
 		return "success";
 	}
 
@@ -517,6 +563,14 @@ public class AdministradorRecorridoAction extends GenericAction {
 
 	public void setSolicitudDAO(SolicitudDAO solicitudDAO) {
 		this.solicitudDAO = solicitudDAO;
+	}
+
+	public String getJsonString() {
+		return jsonString;
+	}
+
+	public void setJsonString(String jsonString) {
+		this.jsonString = jsonString;
 	}
 
 

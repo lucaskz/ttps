@@ -44,6 +44,8 @@ public abstract class Usuario {
 
 	private String apellido;
 	
+	private boolean estado;
+	
 	//one to one uniderectional, para recuperar las denuncias acumuladas del usuario.
 	@OneToMany(cascade={CascadeType.MERGE})
 	  @JoinTable(name = "USR_DEN", joinColumns = @JoinColumn(name = "USR_ID"), inverseJoinColumns = @JoinColumn(name = "DEN_ID"))
@@ -63,6 +65,8 @@ public abstract class Usuario {
 
 		}
 	}
+	
+	
 	
 	
 	public int getNoLeidos(){
@@ -87,6 +91,7 @@ public abstract class Usuario {
 		recibidos = new ArrayList<Mensaje>();
 		recorridos = new ArrayList<Recorrido>();
 		denuncias = new ArrayList<Denuncia>();
+		estado = true;
 		}
 
 
@@ -237,6 +242,20 @@ public abstract class Usuario {
 
 	public void setRecorridos(List<Recorrido> recorridos) {
 		this.recorridos = recorridos;
+	}
+
+
+
+
+	public boolean isEstado() {
+		return estado;
+	}
+
+
+
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
 	}
 
 }

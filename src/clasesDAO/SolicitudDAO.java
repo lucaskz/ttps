@@ -11,4 +11,6 @@ public interface SolicitudDAO extends GenericDAO<Solicitud>{
 	Collection<Solicitud> recuperarSolicitudes(int id);
 
 	Usuario solicitar(Usuario u, Long recId);
+
+	Solicitud buscarSolicitud(long valueOf);
 }

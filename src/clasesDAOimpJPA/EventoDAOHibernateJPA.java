@@ -42,7 +42,7 @@ public class EventoDAOHibernateJPA extends GenericDAOHibernateJPA<Evento> implem
 			Query consulta = this
 					.getEm()
 					.createQuery(
-							"select e.id,e.nombre from Evento e");
+							"select e.id,e.nombre from Evento e where e.estado = true");
 			@SuppressWarnings("unchecked")
 			List<Object[]> resultado =  consulta.getResultList();
 			List<HashMap<String,String>> eventos = new ArrayList<HashMap<String,String>>();
@@ -60,6 +60,24 @@ public class EventoDAOHibernateJPA extends GenericDAOHibernateJPA<Evento> implem
 			return eventos;
 		}
 		catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Evento> recuperarEventosHabilitados() {
+		try {
+			Query consulta = this
+					.getEm()
+					.createQuery(
+							"select e from Evento as e  where e.estado=true");
+			return (List<Evento>) consulta.getResultList();
+		}
+
+		catch (NoResultException e) {
+
+
 			return null;
 		}
 	}

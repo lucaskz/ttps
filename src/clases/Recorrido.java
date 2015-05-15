@@ -21,6 +21,7 @@ public class Recorrido {
 	private String direccionDesde;
 	private String direccionHasta;
 	private int asientos;
+	private boolean estado;
 	
 	public Recorrido(){
 		conductores= new ArrayList<Usuario>();
@@ -28,8 +29,7 @@ public class Recorrido {
 		votos = new ArrayList<Voto>();
 		denuncias = new ArrayList<Denuncia>();
 		asientos = 0 ;
-			
-		
+		estado = true;
 	}
 	
 	@OneToMany(mappedBy ="recorrido", cascade =
@@ -39,10 +39,12 @@ public class Recorrido {
 	
 	@OneToMany
 	  @JoinTable(name = "REC_DRIVER", joinColumns = @JoinColumn(name = "REC_ID"), inverseJoinColumns = @JoinColumn(name = "DRIVER_ID"))
+	@LazyCollection(LazyCollectionOption.FALSE)
 		private List<Usuario> conductores;
 	
 	@OneToMany
 	  @JoinTable(name = "REC_PAS", joinColumns = @JoinColumn(name = "REC_ID"), inverseJoinColumns = @JoinColumn(name = "PAS_ID"))
+	@LazyCollection(LazyCollectionOption.FALSE)
 		private List<Usuario> pasajeros;
 	
 	@OneToMany(mappedBy ="recorrido", cascade =
@@ -227,6 +229,22 @@ public class Recorrido {
 
 	public void setDenuncias(Collection<Denuncia> denuncias) {
 		this.denuncias = denuncias;
+	}
+
+	public boolean isEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
+
+	public Collection<Solicitud> getSolicitudes() {
+		return solicitudes;
+	}
+
+	public void setSolicitudes(Collection<Solicitud> solicitudes) {
+		this.solicitudes = solicitudes;
 	}
 
 }

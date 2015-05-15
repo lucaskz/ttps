@@ -1,8 +1,11 @@
 package clasesDAOimpJPA;
 
+import java.util.List;
+
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import clases.Recorrido;
 import clases.Usuario;
 import clasesDAO.UsuarioDAO;
 
@@ -13,14 +16,14 @@ public class UsuarioDAOHibernateJPA extends GenericDAOHibernateJPA<Usuario> impl
 	}
 	
 	
-	
+	@Deprecated
 	public Usuario existeUsuario(String mail) {
 
 		try {
 			Query consulta = this
 					.getEm()
 					.createQuery(
-							"select u from Usuario as u  where u.email=?");
+							"select u from Usuario as u  where u.email=? and u.estado<> false");
 			consulta.setParameter(1, mail);
 			return (Usuario) consulta.getSingleResult();
 		}
@@ -39,7 +42,7 @@ public class UsuarioDAOHibernateJPA extends GenericDAOHibernateJPA<Usuario> impl
 			Query consulta = this
 					.getEm()
 					.createQuery(
-							"select u from Usuario as u  where u.email=? and u.password=?");
+							"select u from Usuario as u  where u.email=? and u.password=? and u.estado != false");
 			consulta.setParameter(1, email);
 			consulta.setParameter(2,password);
 			return (Usuario) consulta.getSingleResult();
@@ -69,6 +72,26 @@ public class UsuarioDAOHibernateJPA extends GenericDAOHibernateJPA<Usuario> impl
 			return 0;
 		}
 		
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Recorrido> recorridosHabilitados(int id) {
+		try {
+			Query consulta = this
+					.getEm()
+					.createQuery(
+							"select r from Recorrido r where r.creador.id= :id and r.estado = true");
+			consulta.setParameter("id", id);
+			return  (List<Recorrido>) consulta.getResultList();
+		}
+
+		catch (NoResultException e) {
+
+
+			return null;
+		}
 	}
 
 }

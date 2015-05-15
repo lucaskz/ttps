@@ -3,6 +3,10 @@ package actions;
 import java.io.File;
 import java.io.FileInputStream;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+
 import clases.Foto;
 import clases.Pasajero;
 import clases.Usuario;
@@ -30,6 +34,9 @@ public class RegisterAction extends GenericAction {
 		if (isLogged()) {
 			return "logged";
 		}
+		HttpServletRequest request = ServletActionContext.getRequest();
+		request.getSession().setAttribute("seccion", "registro");
+		request.getSession().setAttribute("accion", "registro");
 		Usuario u = usuarioDAO.existeUsuario(getEmail());
 		if (u == null) {
 			u = new Pasajero();
@@ -38,7 +45,10 @@ public class RegisterAction extends GenericAction {
 			u.setNombre(getNombre());
 			u.setApellido(getApellido());
 			if (getFoto() == null) {// Foto por defecto,no se ingreso ninguna.
-				u.setFoto(fotoDAO.getFotoByDes("avatar_default"));
+				Foto f = new Foto();
+				Foto avatarDefault =   fotoDAO.getFotoByDes("avatar_default");
+				f.setImagen( avatarDefault.getImagen());
+				u.setFoto(f);
 			} else {
 				Foto foto = new Foto();
 				foto.setDescripcion(getFotoFileName());
@@ -61,6 +71,16 @@ public class RegisterAction extends GenericAction {
 			addFieldError("email", "Dirección de correo en uso");
 			return "input";
 		}
+	}
+	
+	public String showRegistro(){
+		if (!isLogged()) {			
+			HttpServletRequest request = ServletActionContext.getRequest();
+			request.getSession().setAttribute("seccion", "registro");
+			request.getSession().setAttribute("accion", "registro");
+			return "success";
+		}
+		return "logged";
 	}
 
 	public void validate() {

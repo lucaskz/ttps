@@ -11,4 +11,6 @@ public interface EventoDAO extends GenericDAO<Evento> {
 
 	public List<HashMap<String, String>> recuperarEventos();
 
+	public List<Evento> recuperarEventosHabilitados();
+
 }

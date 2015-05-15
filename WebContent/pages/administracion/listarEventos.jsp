@@ -21,21 +21,29 @@
 							<th>Nombre</th>
 							<th>Fecha</th>
 							<th>Ciudad</th>
-							<th>#</th>
+							<th>Estado</th>
+							<th>Deshabilitar</th>
 						</tr>
 					</thead>
 					<tbody>
-					<s:iterator value="eventos">
+					<s:iterator value="eventos" var="eactual">
 						<tr class="clickeable" onclick="window.document.location='evento?&id=<s:property value="id"/>';" >
 							<th scope="row"><s:property value="id"/></th>
 							<td><s:property value="nombre"/></td>
 							<td><s:property value="fecha"/></td>
 							<td><s:property value="ciudad"/></td>
-							<td>											
-								<button type="button" class="btn btn-default quitarFixture" aria-label="Left Align">
-			 						<span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ></span>
-							 </button>		
-						 </td>
+							<s:if test="#eactual.estado == true ">
+									<td>Habilitado</td>
+								<td>
+									<button type="button" id="deshabilitar-usuario" evento="<s:property value="id"/>" class="btn btn-default quitarFixture" aria-label="Left Align">
+			 								<span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ></span>
+									</button>	
+								</td>
+								</s:if>
+								<s:else>
+									<td>Deshabilitado</td>
+									<td></td>
+								</s:else>
 						</tr>
 					</s:iterator>
 					</tbody>

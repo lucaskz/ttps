@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts2.ServletActionContext;
 
 import clases.Evento;
+import clases.Usuario;
 import clasesDAO.EventoDAO;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -21,6 +22,7 @@ public class AdministradorAction extends GenericAction{
 	 */
 	private static final long serialVersionUID = -523568368195481222L;
 	
+	private Collection<Usuario> usuarios;
 	private Collection<Evento> eventos ;
 	private Evento evento;
 	private EventoDAO eventoDAO;
@@ -32,11 +34,29 @@ public class AdministradorAction extends GenericAction{
 		if (isLogged()) {
 			updateUserData();
 		}
-		
+		usuarios = usuarioDAO.recuperarTodos();
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.getSession().setAttribute("seccion", "administracion");
 		request.getSession().setAttribute("accion", "usuarios");
 		
+		return "success";
+	}
+	
+	public String deshabilitar(){
+		if (ActionContext.getContext().getSession().get("perfil")!="administrador"){
+			return "restricted";
+		}
+		if (isLogged()) {
+			updateUserData();
+		}
+		HttpServletRequest request = ServletActionContext.getRequest();
+		if (request.getParameter("usuario")!=null){
+			Usuario u =  usuarioDAO.buscar((long) Long.parseLong(request.getParameter("usuario")));
+			if(u!=null){
+				u.setEstado(false);
+				usuarioDAO.modificacion(u);
+			}
+		}
 		return "success";
 	}
 	
@@ -146,6 +166,14 @@ public class AdministradorAction extends GenericAction{
 
 	public void setEvento(Evento evento) {
 		this.evento = evento;
+	}
+
+	public Collection<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(Collection<Usuario> usuarios) {
+		this.usuarios = usuarios;
 	}
 	
 

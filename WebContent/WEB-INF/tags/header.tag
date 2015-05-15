@@ -61,6 +61,12 @@
 						class="<s:if test="#session.seccion == 'administracion'"> active </s:if>"><a
 						href="${pageContext.request.contextPath}/admin/">Administracion</a></li>
 				</s:if>
+				<s:if test="#session.status != 'autenticado' ">
+					<li
+						class="<s:if test="#session.seccion == 'registro'"> active </s:if>"><a
+						href="${pageContext.request.contextPath}/registro">Registrarse</a></li>
+
+				</s:if>
 			</ul>
 
 

@@ -15,4 +15,6 @@ public interface RecorridoDAO extends GenericDAO<Recorrido>{
 	public boolean votar(int id,int recId);
 
 	public boolean denunciar(Recorrido recorrido, Denuncia denuncia);
+
+	public Collection<HashMap<String, String>> getRecorridoByVoto(int userId, int paginas);
 }
