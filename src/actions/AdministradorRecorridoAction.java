@@ -14,6 +14,8 @@ import org.apache.struts2.ServletActionContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import self.cotiza.CertificadoFlota;
+import self.util.CollectionPaginator;
 import aspects.MailSendAspect;
 import clases.Denuncia;
 import clases.Estado;
@@ -75,6 +77,8 @@ public class AdministradorRecorridoAction extends GenericAction {
 	private String hasta;
 	private String asientos;
 	private String idRecorrido;
+	
+	private String[] js = {"recorridos"};
 
 	private List<HashMap<String, String>> opcionEventos;
 
@@ -104,8 +108,7 @@ public class AdministradorRecorridoAction extends GenericAction {
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		if (isLogged()) {
 			updateUserData();
-		}
-		recorridos =  recorridoDAO.recuperarRecorridos(user.getId());
+		}		
 		// Muestra solo los recorridos q no son parte del usuario
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.getSession().setAttribute("seccion", "recorridos");
@@ -126,7 +129,7 @@ public class AdministradorRecorridoAction extends GenericAction {
 		request.getSession().setAttribute("seccion", "recorridos");
 		request.getSession().setAttribute("accion", "listar");
 		if (request.getParameter("recorrido") == null || request.getParameter("recorrido").isEmpty()) {
-			addFieldError("recorrido", "Falta el parámetro del recorrido");
+			addFieldError("recorrido", getText("mensaje.recorrido.parametroRecorrido"));
 			return "success";
 		}
 		recorrido = recorridoDAO.findRecorridoById(Integer
@@ -325,7 +328,7 @@ public class AdministradorRecorridoAction extends GenericAction {
 			recorrido.addConductorPasajero(user);
 			break;
 		default:
-			addFieldError("rol", "El rol ingresado es incorrecto");
+			addFieldError("rol", getText("mensaje.recorrido.parametroRol"));
 			return "input";
 		}
 		recorrido.setCreador(user);
@@ -347,7 +350,7 @@ public class AdministradorRecorridoAction extends GenericAction {
 		if(Integer.parseInt(request.getParameter("eventoSeleccionado"))!= 0 ){
 			Evento evento = eventoDAO.findEventoById(Integer.parseInt(request.getParameter("eventoSeleccionado")));
 			if (evento == null) {
-				addFieldError("eventos", "El evento seleccionado no existe");
+				addFieldError("eventos", getText("mensaje.recorrido.evento"));
 				return "input";
 			}
 			recorrido.setEvento(evento);
@@ -385,22 +388,19 @@ public class AdministradorRecorridoAction extends GenericAction {
 
 	public void validate() {
 		if (getRol() == null || getRol().isEmpty())
-			addFieldError("rol", "Ingresa tu ubicacíon en el recorrido");
+			addFieldError("rol", getText("mensaje.recorrido.rol"));
 		if (getFecha() == null || getFecha().isEmpty())
-			addFieldError("fecha", "Ingresa una fecha para el recorrido");
+			addFieldError("fecha", getText("mensaje.recorrido.fecha"));
 		if (getPartida() == null || getPartida().isEmpty())
-			addFieldError("partida", "Ingresa una hora de partida");
+			addFieldError("partida", getText("mensaje.recorrido.partida"));
 		if (getRegreso() == null || getRegreso().isEmpty())
-			addFieldError("regreso", "Ingresa una hora de regreso");
+			addFieldError("regreso", getText("mensaje.recorrido.regreso"));
 		if (getDesde() == null || getDesde().isEmpty())
-			addFieldError("partida",
-					"Ingresa una dirección de partida del recorrido");
+			addFieldError("partida", getText("mensaje.recorrido.desde"));
 		if (getHasta() == null || getHasta().isEmpty())
-			addFieldError("hasta",
-					"Ingresa una dirección destino del recorrido");
+			addFieldError("hasta", getText("mensaje.recorrido.hasta"));
 		if (getAsientos() == null || getAsientos().isEmpty())
-			addFieldError("asientos",
-					"Ingresa un número de asientos disponibles para el recorrido");
+			addFieldError("asientos", getText("mensaje.recorrido.asientos"));
 
 
 	}

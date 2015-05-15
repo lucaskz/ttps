@@ -88,7 +88,7 @@ public class AdministradorEventoAction extends GenericAction{
 		request.getSession().setAttribute("seccion", "eventos");
 		request.getSession().setAttribute("accion", "verEvento");
 		if (request.getParameter("idEvento") == null || request.getParameter("idEvento").isEmpty()) {
-			addFieldError("evento", "Falta el parámetro del evento");
+			addFieldError("evento", getText("mensaje.evento.parametroEvento"));
 			return "success";
 		}
 		evento = eventoDAO.findEventoById(Integer

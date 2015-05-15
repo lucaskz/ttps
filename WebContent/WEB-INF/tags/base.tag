@@ -43,5 +43,10 @@
 	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/functions.js"></script>
 	<script src="${pageContext.request.contextPath}/js/handlebars-v3.0.3.js"></script>
+	<s:iterator value="js" var="jActual">
+		<s:set var="nombreJs" value="%{'/js/'+ #jActual +'.js'}"/>
+		<s:url value="%{nombreJs}" var="urlTag"/>
+		<script src='<s:property value="#urlTag"/>' ></script>
+	</s:iterator>
 </body>
 </html>

@@ -20,7 +20,7 @@
 							<th>#</th>
 							<th>Nombre</th>
 							<th>Apellido</th>
-							<th>Username</th>
+							<th>Mail</th>
 							<th>Denuncias</th>
 							<th>Estado</th>
 							<th>Deshabilitar</th>

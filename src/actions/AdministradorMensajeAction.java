@@ -63,8 +63,7 @@ public class AdministradorMensajeAction extends GenericAction{
 			usuarioEnvio.getEnviados().add(mensaje);			
 		}
 		else{
-			addFieldError("usuario",
-					"No existe el usuario destino para este mensaje");
+			addFieldError("usuario",getText("mensaje.mensaje.usuarioInexistente"));
 			
 		}
 		
@@ -122,7 +121,7 @@ public class AdministradorMensajeAction extends GenericAction{
 			mensaje = mensajeDAO.buscar(Long.valueOf(request.getParameter("id")));
 		}
 		if(mensaje== null){
-			addFieldError("texto", "Mensaje inválido");
+			addFieldError("texto", getText("mensaje.mensaje.invalido"));
 		}else{
 			mensaje.setLeido(true);
 			mensajeDAO.modificacion(mensaje);
@@ -136,10 +135,9 @@ public class AdministradorMensajeAction extends GenericAction{
 	public void validate() {
 
 		if (getEmail() == null || getEmail().isEmpty())
-			addFieldError("email",
-					"Se requiere una dirección de correo destino");
+			addFieldError("email", getText("mensaje.mensaje.mail"));
 		if (getMailText() == null || getMailText().isEmpty())
-			addFieldError("texto", "Ingrese el texto del mensaje");
+			addFieldError("texto", getText("mensaje.mensaje.texto"));
 	}
 
 	public MensajeDAO getMensajeDAO() {

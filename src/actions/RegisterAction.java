@@ -68,7 +68,7 @@ public class RegisterAction extends GenericAction {
 			usuarioDAO.alta(u);
 			return "success";
 		} else {
-			addFieldError("email", "Dirección de correo en uso");
+			addFieldError("email", getText("mensaje.usuario.mailUsed"));
 			return "input";
 		}
 	}
@@ -85,11 +85,11 @@ public class RegisterAction extends GenericAction {
 
 	public void validate() {
 		if (getEmail() == null || getEmail().isEmpty())
-			addFieldError("mail", "Ingresa tu e-mail");
+			addFieldError("mail", getText("mensaje.usuario.mail"));
 		if (getPassword() == null || getPassword().isEmpty())
-			addFieldError("mail", "Ingresa tu password");
+			addFieldError("mail", getText("mensaje.usuario.clave"));
 		if (getApellido() == null || getApellido().isEmpty())
-			addFieldError("apellido", "Ingresa tu apellido");
+			addFieldError("apellido", getText("mensaje.usuario.apellido"));
 	}
 
 	public String getEmail() {

@@ -33,7 +33,7 @@ public class LoginAction extends GenericAction {
 				session.put("avatar", u.getFoto().getId());
 				return "success";
 			} else {
-				addFieldError("usuario", "Datos Incorrectos");
+				addFieldError("usuario",getText("mensaje.usuario.incorrectos"));
 				return "input";
 			}
 		} else {
@@ -62,10 +62,9 @@ public class LoginAction extends GenericAction {
 	public void validate() {
 
 		if (getEmail() == null || getEmail().isEmpty())
-			addFieldError("identificacion",
-					"Se requiere una identificación de usuario");
+			addFieldError("identificacion",getText("mensaje.usuario.identificacion"));
 		if (getPassword() == null || getPassword().isEmpty())
-			addFieldError("clave", "Se requiere una contraseña");
+			addFieldError("clave", getText("mensaje.usuario.clave"));
 	}
 
 	public String getPerfil() {

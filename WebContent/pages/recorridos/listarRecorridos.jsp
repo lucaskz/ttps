@@ -73,6 +73,23 @@
 
 </div>
 </script>
+<script id="paginador-template" type="text/x-handlebars-template">			
+			<nav class="text-center">
+				<ul class="pagination">
+					<li><a href="#" class="ant-pagina" aria-label="Previous"> <span
+								aria-hidden="true">&laquo;</span>
+						</a>
+					</li>
+					 {{#each comments}}
+						<li><a class="paginar" pagina="{{pagina}}" href="#">{{pagina}}</a></li>
+					 {{/each}}
+					<li><a href="#" class="sig-pagina" aria-label="Next"> <span
+								aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+</script>
 <t:base>
 	<t:header user="${usrLogin}" />
 	<!-- Home news -->

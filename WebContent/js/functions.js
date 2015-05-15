@@ -21,7 +21,7 @@ $(document).ready(function(){
 	$('body').on("click","#filtrar-votos",function(){	
 		$.get('filtradoVoto',function(jsonData,status){
 		 var data = JSON.parse(jsonData);
-		 $('#recorrido-list').empty()
+		 $('#recorrido-list').empty();
 		 for(var a=0; data!=null && a<data.length;a++){
 			 var source   = $("#recorrido-template").html();
 			 var template = Handlebars.compile(source);
