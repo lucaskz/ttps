@@ -36,7 +36,6 @@
 				<h2>${evento.ciudad}</h2>
 			</div>
 		</div>
-		<s:fielderror />
 	</div>
 	<!-- end Home news -->
 	<t:footer />

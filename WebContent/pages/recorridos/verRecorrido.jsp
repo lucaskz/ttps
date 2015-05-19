@@ -28,14 +28,14 @@
 				</div>
 				<div class="row" style="padding-top:3em">
 					<div class="form-group col-md-5 col-md-offset-1">
-						<label for="inputHoraPartida">Hora Partida</label> <input
+						<label for="inputHoraPartida"><s:text name="recorrido.form.horaPartida" /></label> <input
 							name="partida" type="time" class="form-control"
 							readonly="true"
 							id="inputHoraPartida" placeholder="Hora de Partida">
 					</div>
 
 					<div class="form-group col-md-5">
-						<label for="inputHoraRegreso">Hora Regreso</label> <input
+						<label for="inputHoraRegreso"><s:text name="recorrido.form.horaRegreso" /></label> <input
 							readonly="true"
 							name="regreso" type="time" class="form-control"
 							id="inputHoraRegreso" placeholder="Hora de Regreso">
@@ -44,17 +44,21 @@
 				
 				<div class="row">
 					<div class="col-md-5 col-md-offset-1">	
+						<div class="row">
+							<h3><s:text name="recorrido.lista.conductores" /></h3>
+						</div>
+						<div class="row">
 						<table class="table table-hover">
 							<thead>
 								<tr>
 									<th>#</th>
-									<th>Nombre</th>
-									<th>Apellido</th>
-									<th>Mail</th>
+									<th><s:text name="usuario.form.nombre" /></th>
+									<th><s:text name="usuario.form.apellido" /></th>
+									<th><s:text name="usuario.form.mail" /></th>
 								</tr>
 							</thead>
 							<tbody>
-								<s:iterator value="conductores" var="rActual">
+								<s:iterator value="recorrido.conductores" var="rActual">
 									<tr>
 										<th scope="row"><s:property value="id" /></th>
 										<td><s:property value="nombre" /></td>
@@ -64,19 +68,24 @@
 								</s:iterator>
 							</tbody>
 						</table>
+						</div>
 					</div>
 					<div class="col-md-5">
+						<div class="row">
+								<h3><s:text name="recorrido.lista.pasajeros" /></h3>
+						</div>
+						<div class="row">
 						<table class="table table-hover">
 							<thead>
 								<tr>
 									<th>#</th>
-									<th>Nombre</th>
-									<th>Apellido</th>
-									<th>Mail</th>
+									<th><s:text name="usuario.form.nombre" /></th>
+									<th><s:text name="usuario.form.apellido" /></th>
+									<th><s:text name="usuario.form.mail" /></th>
 								</tr>
 							</thead>
 							<tbody>
-								<s:iterator value="pasajeros" var="rActual">
+								<s:iterator value="recorrido.pasajeros" var="rActual">
 									<tr>
 										<th scope="row"><s:property value="id" /></th>
 										<td><s:property value="nombre" /></td>
@@ -86,6 +95,7 @@
 								</s:iterator>
 							</tbody>
 						</table>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -19,28 +19,26 @@
 
 				
 					<div class="form-group">
-						<label for="inputPara">Para</label> <input type="datetime"
+						<label for="inputPara"><s:text name="mensaje.form.para" /></label> <input type="datetime"
 							class="form-control" id="inputPara" name="para"
 							placeholder="Enviar a un correo destino">
 					</div>
 
 					<div class="form-group">
-						<label for="inputAsunto">Asunto</label> <input
+						<label for="inputAsunto"><s:text name="mensaje.form.asunto" /></label> <input
 							name="asunto" type="text" class="form-control"
 							id="inputAsunto" placeholder="Asunto del mensaje">
 					</div>
 
 					<div class="form-group">
-						<label for="inputMensaje">Mensaje</label>
+						<label for="inputMensaje"><s:text name="mensaje.form.mensaje" /></label>
 						<textarea class="form-control" id="inputMensaje" name="texto" rows="4"></textarea> 
 					</div>
 
 					<!-- /.col-lg-6 -->
 					<button type="submit"
-						class=" btn btn-primary btn-lg btn btn-success">Submit</button>
+						class=" btn btn-primary btn-lg btn btn-success"><s:text name="boton.enviar" /></button>
 				</s:form>
-				<s:fielderror />
-
 			</div>
 		</div>
 	</div>

@@ -14,84 +14,38 @@
 
 			<t:administracionSidebar></t:administracionSidebar>
 			<div class="col-sm-9 col-md-11 no-float ">
-				<div class="list-group">
-					<a href="#" class="list-group-item ">
-						<div class="row">
-							<h4 class="list-group-item-heading">List group item heading</h4>
-						</div>
-
-						<div class="row">
-							<div
-								class="list-group-item-text col-sm-3 col-md-3
-							col-md-offset-5">
-								Hora Partida : 15:00</div>
-						</div>
-						<div class="row">
-							<div
-								class="list-group-item-text col-sm-3 col-md-3
-							col-md-offset-5">
-								Hora Regreso : 19:00</div>
-						</div>
-						<div class="row">
-							<h4>TEST</h4>
-						</div>
-					</a> <a href="#" class="list-group-item ">
-						<div class="row">
-							<h4 class="list-group-item-heading">List group item heading</h4>
-						</div>
-
-						<div class="row">
-							<div
-								class="list-group-item-text col-sm-3 col-md-3
-							col-md-offset-5">
-								Hora Partida : 15:00</div>
-						</div>
-						<div class="row">
-							<div
-								class="list-group-item-text col-sm-3 col-md-3
-							col-md-offset-5">
-								Hora Regreso : 19:00</div>
-						</div>
-						<div class="row">
-							<h4>TEST</h4>
-						</div>
-					</a> <a href="#" class="list-group-item ">
-						<div class="row">
-							<h4 class="list-group-item-heading">List group item heading</h4>
-						</div>
-
-						<div class="row">
-							<div
-								class="list-group-item-text col-sm-3 col-md-3
-							col-md-offset-5">
-								Hora Partida : 15:00</div>
-						</div>
-						<div class="row">
-							<div
-								class="list-group-item-text col-sm-3 col-md-3
-							col-md-offset-5">
-								Hora Regreso : 19:00</div>
-						</div>
-						<div class="row">
-							<h4>TEST</h4>
-						</div>
-					</a>
-				</div>
-				<nav class="text-center">
-					<ul class="pagination">
-						<li><a href="#" aria-label="Previous"> <span
-								aria-hidden="true">&laquo;</span>
-						</a></li>
-						<li><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-						<li><a href="#" aria-label="Next"> <span
-								aria-hidden="true">&raquo;</span>
-						</a></li>
-					</ul>
-				</nav>
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th><s:text name="denuncia.tabla.nombre" /></th>
+							<th><s:text name="denuncia.tabla.apellido" /></th>
+							<th><s:text name="denuncia.tabla.mail" /></th>
+							<th><s:text name="denuncia.tabla.creador" /></th>
+							<th><s:text name="denuncia.tabla.estado" /></th>
+						</tr>
+					</thead>
+					<tbody>
+						<s:iterator value="denuncias" var="dactual">
+							<tr>
+								<th scope="row"><s:property value="id"/></th>
+								<td><s:property value="denunciado.nombre" /></td>
+								<td><s:property value="denunciado.apellido" /></td>
+								<td><s:property value="denunciado.email" /></td>
+								<td><s:property value="creador.nombre" /></td>
+								<s:if test="#uactual.apobada == true ">
+									<td><s:text name="denuncia.tabla.denunciado" /></td>
+								</s:if>
+								<s:else>
+									<button type="button" id="aprobar-denuncia" denuncia="<s:property value="id"/>" class="btn btn-default quitarFixture" aria-label="Left Align">
+			 								<span class="glyphicon glyphicon-ok" aria-hidden="true" ></span>
+									</button>	
+									<td></td>
+								</s:else>
+							</tr>
+						</s:iterator>
+					</tbody>
+				</table>
 			</div>
 
 		</div>

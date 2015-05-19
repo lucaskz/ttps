@@ -18,12 +18,12 @@
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Nombre</th>
-							<th>Apellido</th>
-							<th>Mail</th>
-							<th>Denuncias</th>
-							<th>Estado</th>
-							<th>Deshabilitar</th>
+							<th><s:text name="usuario.tabla.nombre" /></th>
+							<th><s:text name="usuario.tabla.apellido" /></th>
+							<th><s:text name="usuario.tabla.mail" /></th>
+							<th><s:text name="usuario.tabla.denuncias" /></th>
+							<th><s:text name="usuario.tabla.estado" /></th>
+							<th><s:text name="usuario.tabla.deshabilitar" /></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -35,7 +35,7 @@
 								<td><s:property value="email" /></td>
 								<td><s:property value="denuncias.size()" /></td>
 								<s:if test="#uactual.estado == true ">
-									<td>Habilitado</td>
+									<td><s:text name="estado.habilitado" /></td>
 								<td>
 									<button type="button" id="deshabilitar-usuario" usuario="<s:property value="id"/>" class="btn btn-default quitarFixture" aria-label="Left Align">
 			 								<span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ></span>
@@ -43,7 +43,7 @@
 								</td>
 								</s:if>
 								<s:else>
-									<td>Deshabilitado</td>
+									<td><s:text name="estado.deshabilitado" /></td>
 									<td></td>
 								</s:else>
 

@@ -25,7 +25,15 @@
 			<result name="login" type="redirect">/</result>
 			<result name="success" type="redirect">/</result>
 		</global-results>
-
+			<action name="idioma" method="idioma" class="actions.GenericAction" >
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">idioma</param>
+			</interceptor-ref>
+			<result name="success" type="redirect">index</result>
+			<result name="input">/pages/login/loginForm.jsp</result>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="logged" type="redirect">index</result>
+		</action>
 		<action name="loadDB" class="util.DBLoaderAction" method="loadDB">
 			<result name="success">/pages/error/loaded.jsp</result>
 			<result name="input">/pages/index/index.jsp</result>
@@ -124,9 +132,11 @@
 			</interceptor-ref>
 			<result name="error">/pages/error/error.jsp</result>
 			<result name="edit_recorrido">/pages/recorridos/editarRecorrido.jsp</result>
+			<result name="not_found" type="redirect">listar</result>
 			<result name="success">/pages/recorridos/verRecorrido.jsp</result>
 			<result name="not_logged" type="redirect">/index</result>
 		</action>
+		
 		<action name="denunciar" method="denunciar"
 			class="actions.AdministradorRecorridoAction">
 			<interceptor-ref name="validation">
@@ -146,6 +156,16 @@
 		<action name="filtradoVoto" method="filtradoVoto" class="actions.AdministradorRecorridoAction">
 			<interceptor-ref name="validation">
 				<param name="excludeMethods">filtradoVoto</param>
+			</interceptor-ref>
+			<result name="success"  type="json">
+        <param name="noCache">true</param>
+        <param name="excludeNullProperties">false</param>
+        <param name="root">jsonString</param>
+    	</result>
+		</action>
+			<action name="getRecorridosPaginados" method="getRecorridosPaginados" class="actions.AdministradorRecorridoAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">getRecorridosPaginados</param>
 			</interceptor-ref>
 			<result name="success"  type="json">
         <param name="noCache">true</param>
@@ -177,7 +197,24 @@
 			<result name="success"  type="redirect">solicitudes</result>
 			<result name="not_logged" type="redirect">/index</result>
 		</action>
-		
+			<action name="bajaRecorrido" method="bajaRecorrido"		class="actions.AdministradorRecorridoAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">"bajaRecorrido"</param>
+			</interceptor-ref>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success" type="redirect" >listar</result>
+			<result name="input"  >/pages/recorridos/editarRecorrido.jsp</result>
+			<result name="not_logged" type="redirect">/login</result>
+		</action>
+		<action name="modificar" method="modificar"		class="actions.AdministradorRecorridoAction">
+			<interceptor-ref name="validation">
+				<param name="excludeMethods">"modificar"</param>
+			</interceptor-ref>
+			<result name="error">/pages/error/error.jsp</result>
+			<result name="success" type="redirect" >listar</result>
+			<result name="input"  >/pages/recorridos/editarRecorrido.jsp</result>
+			<result name="not_logged" type="redirect">/login</result>
+		</action>
 		<action name="registrar" method="registrar"
 			class="actions.AdministradorRecorridoAction">
 			<interceptor-ref name="validation">
@@ -185,10 +222,9 @@
 			</interceptor-ref>
 			<result name="error">/pages/error/error.jsp</result>
 			<result name="success">/pages/recorridos/crearRecorrido.jsp</result>
-			<result name="not_logged" type="redirect">/index</result>
+			<result name="not_logged" type="redirect">/login</result>
 		</action>
-		<action name="listar" method="listar"
-			class="actions.AdministradorRecorridoAction">
+		<action name="listar" method="listar"			class="actions.AdministradorRecorridoAction">
 			<interceptor-ref name="validation">
 				<param name="excludeMethods">listar</param>
 			</interceptor-ref>
@@ -197,13 +233,16 @@
 			</result>
 			<result name="not_logged" type="redirect">/index</result>
 		</action>
+		
+		
+		
 		<action name="misRecorridos" method="misRecorridos"
 			class="actions.AdministradorRecorridoAction">
 			<interceptor-ref name="validation">
 				<param name="excludeMethods">misRecorridos</param>
 			</interceptor-ref>
 			<result name="error">/pages/error/error.jsp</result>
-			<result name="success">/pages/recorridos/listarRecorridos.jsp
+			<result name="success">/pages/recorridos/misRecorridos.jsp
 			</result>
 			<result name="not_logged" type="redirect">/index</result>
 		</action>
@@ -213,7 +252,7 @@
         <param name="validateAnnotatedMethodOnly">true</param>
     </interceptor-ref>
 			<result name="error">/pages/error/error.jsp</result>
-			<result name="success">/pages/recorridos/listarRecorridos.jsp</result>
+			<result name="success" type="redirect">misRecorridos</result>
 			<result name="input">/pages/recorridos/crearRecorrido.jsp
 			</result>
 			<result name="not_logged" type="redirect">/index</result>

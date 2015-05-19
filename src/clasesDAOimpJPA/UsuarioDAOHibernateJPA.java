@@ -82,7 +82,7 @@ public class UsuarioDAOHibernateJPA extends GenericDAOHibernateJPA<Usuario> impl
 			Query consulta = this
 					.getEm()
 					.createQuery(
-							"select r from Recorrido r where r.creador.id= :id and r.estado = true");
+							"select distinct r from Recorrido r where r.creador.id= :id and r.estado = true");
 			consulta.setParameter("id", id);
 			return  (List<Recorrido>) consulta.getResultList();
 		}

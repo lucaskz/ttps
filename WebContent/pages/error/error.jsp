@@ -10,7 +10,6 @@
 	<div class="container">
 	
 		Error DB
-		<s:fielderror />
 	
 	</div>
 	<t:footer></t:footer>

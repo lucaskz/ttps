@@ -55,7 +55,7 @@ public class Recorrido {
 	@Enumerated(EnumType.STRING)
 	private List<DiasSemana> dias;
 	
-	@ManyToOne (cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+	@ManyToOne 
 	@JoinColumn(name="EVENT_ID")
 	private Evento evento;
 	
@@ -68,6 +68,16 @@ public class Recorrido {
 	private Usuario creador;
 	
 	private Date fecha;
+	
+	private String polygon;
+	
+	private String startA;
+	
+	private String startF;
+	
+	private String endA;
+	
+	private String endF;
 	
 	public void addConductor(Usuario pasajero) {
 
@@ -245,6 +255,46 @@ public class Recorrido {
 
 	public void setSolicitudes(Collection<Solicitud> solicitudes) {
 		this.solicitudes = solicitudes;
+	}
+
+	public String getPolygon() {
+		return polygon;
+	}
+
+	public void setPolygon(String polygon) {
+		this.polygon = polygon;
+	}
+
+	public String getStartA() {
+		return startA;
+	}
+
+	public void setStartA(String startA) {
+		this.startA = startA;
+	}
+
+	public String getStartF() {
+		return startF;
+	}
+
+	public void setStartF(String startF) {
+		this.startF = startF;
+	}
+
+	public String getEndA() {
+		return endA;
+	}
+
+	public void setEndA(String endA) {
+		this.endA = endA;
+	}
+
+	public String getEndF() {
+		return endF;
+	}
+
+	public void setEndF(String endB) {
+		this.endF = endB;
 	}
 
 }

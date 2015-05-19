@@ -14,8 +14,7 @@ import org.apache.struts2.ServletActionContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import self.cotiza.CertificadoFlota;
-import self.util.CollectionPaginator;
+import util.CollectionPaginator;
 import aspects.MailSendAspect;
 import clases.Denuncia;
 import clases.Estado;
@@ -78,7 +77,7 @@ public class AdministradorRecorridoAction extends GenericAction {
 	private String asientos;
 	private String idRecorrido;
 	
-	private String[] js = {"recorridos"};
+	private String[] js = {"recorrido"};
 
 	private List<HashMap<String, String>> opcionEventos;
 
@@ -109,12 +108,39 @@ public class AdministradorRecorridoAction extends GenericAction {
 		if (isLogged()) {
 			updateUserData();
 		}		
+		if (!isLogged()) {
+			return "not_logged";
+		}
 		// Muestra solo los recorridos q no son parte del usuario
 		HttpServletRequest request = ServletActionContext.getRequest();
-		request.getSession().setAttribute("seccion", "recorridos");
-		request.getSession().setAttribute("accion", "listar");
+
 
 		return "success";
+	}
+	
+	public String getRecorridosPaginados(){
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		if (isLogged()) {
+			updateUserData();
+		}		
+		// Muestra solo los recorridos q no son parte del usuario
+		HttpServletRequest request = ServletActionContext.getRequest();
+		int paginas = 5;
+		if(request.getParameter("paginas")!=null){
+			paginas = Integer.parseInt(request.getParameter("paginas"));
+		}
+		int pagina = 1;
+		if(request.getParameter("pagina")!=null){
+			pagina = Integer.parseInt(request.getParameter("pagina"));
+		}
+		recorridos = recorridoDAO.recuperarRecorridos(user.getId());
+		Gson gson = new Gson();
+		CollectionPaginator<Collection<HashMap<String,String>>> paginador = new CollectionPaginator((List) recorridos);
+		jsonString = gson.toJson(paginar(paginador, paginas ,pagina));
+		request.getSession().setAttribute("seccion", "recorridos");
+		request.getSession().setAttribute("accion", "listar");
+		return "success";
+
 	}
 
 	public String recorrido() {
@@ -132,13 +158,93 @@ public class AdministradorRecorridoAction extends GenericAction {
 			addFieldError("recorrido", getText("mensaje.recorrido.parametroRecorrido"));
 			return "success";
 		}
-		recorrido = recorridoDAO.findRecorridoById(Integer
-				.parseInt(request.getParameter("recorrido")));
+		recorrido = recorridoDAO.findRecorridoCreadorParticipanteById(Integer.parseInt(request.getParameter("recorrido")),user.getId());
+		if(recorrido==null){
+			addFieldError("recorrido", getText("mensaje.recorrido.noEncontradoInvalido"));
+			return "not_found";
+		}
+			
 		if (recorrido.getCreador().getId() == user.getId()) {
 			// Soy creador muestro el editor
 			request.getSession().setAttribute("editarRecorrido", "true");
 			return "edit_recorrido";
+		}		
+		return "success";
+	}
+	
+	public String bajaRecorrido(){
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		if (isLogged()) {
+			updateUserData();
 		}
+		if (!isLogged()) {
+			return "not_logged";
+		}
+		HttpServletRequest request = ServletActionContext.getRequest();
+		if (request.getParameter("recorrido") == null || request.getParameter("recorrido").isEmpty()) {
+			addFieldError("recorrido", getText("mensaje.recorrido.parametroRecorrido"));
+			return "success";
+		}
+		
+		recorrido = recorridoDAO.findRecorridoCreadorParticipanteById(Integer.parseInt(request.getParameter("recorrido")),user.getId());
+		if(recorrido==null){
+			addFieldError("recorrido", getText("mensaje.recorrido.noEncontradoInvalido"));
+			return "not_found";
+		}
+		if (recorrido.getCreador().getId() == user.getId()) {
+			// Soy creador muestro el editor
+			recorrido.setEstado(false);
+			recorridoDAO.modificacion(recorrido);
+			return "success";
+		}
+		request.getSession().setAttribute("seccion", "recorridos");
+		request.getSession().setAttribute("accion", "misRecorridos");
+
+		return "success";
+	}
+	
+	public String modificar() throws ParseException{
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		if (isLogged()) {
+			updateUserData();
+		}
+		if (!isLogged()) {
+			return "not_logged";
+		}
+		HttpServletRequest request = ServletActionContext.getRequest();
+		if (request.getParameter("recorrido") == null || request.getParameter("recorrido").isEmpty()) {
+			addFieldError("recorrido", getText("mensaje.recorrido.parametroRecorrido"));
+			return "success";
+		}
+		
+		recorrido = recorridoDAO.findRecorridoCreadorParticipanteById(Integer.parseInt(request.getParameter("recorrido")),user.getId());
+		if(recorrido==null){
+			addFieldError("recorrido", getText("mensaje.recorrido.noEncontradoInvalido"));
+			return "not_found";
+		}
+		if (recorrido.getCreador().getId() == user.getId()) {
+			// Soy creador muestro el editor
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+			if(request.getParameter("fecha")!=null)
+				recorrido.setFecha(dateFormatter.parse(request.getParameter("fecha")));
+			DateFormat timeFormatter = new SimpleDateFormat("HH:mm");
+			recorrido.setDireccionDesde(request.getParameter("desde"));
+			recorrido.setDireccionHasta(request.getParameter("hasta"));
+			if(request.getParameter("partida")!=null && !request.getParameter("partida").equals("")){
+				java.sql.Time timePartida = new java.sql.Time(timeFormatter.parse(request.getParameter("partida")).getTime());
+				recorrido.setHoraPartida(timePartida);
+			}
+			if(request.getParameter("regreso")!=null && !request.getParameter("regreso").equals("")){
+				java.sql.Time timeRegreso = new java.sql.Time(timeFormatter.parse(	request.getParameter("regreso")).getTime());
+				recorrido.setHoraRegreso(timeRegreso);
+			}
+			request.getSession().setAttribute("editarRecorrido", "true");
+			recorridoDAO.modificacion(recorrido);
+			return "success";
+		}
+		request.getSession().setAttribute("seccion", "recorridos");
+		request.getSession().setAttribute("accion", "misRecorridos");
+
 		return "success";
 	}
 
@@ -356,6 +462,15 @@ public class AdministradorRecorridoAction extends GenericAction {
 			recorrido.setEvento(evento);
 		}
 		
+		if(request.getParameter("polygon")!=null & !request.getParameter("polygon").equals("")){
+			//LLegaron cordenadas seleccionadas del mapa , lo guardo para despues generar la imagen static!
+			recorrido.setPolygon(request.getParameter("polygon"));
+			recorrido.setStartA(request.getParameter("startA"));
+			recorrido.setStartF(request.getParameter("startF"));
+			recorrido.setEndA(request.getParameter("endA"));
+			recorrido.setEndF(request.getParameter("endF"));
+		}
+		
 		user.addRecorrido(recorrido);
 
 		// recorridoDAO.modificacion(recorrido);
@@ -377,10 +492,11 @@ public class AdministradorRecorridoAction extends GenericAction {
 		if(request.getParameter("paginas")!=null){
 			paginas = Integer.parseInt(request.getParameter("paginas"));
 		}
+		
 		recorridos = recorridoDAO.getRecorridoByVoto(user.getId(),paginas);
 		Gson gson = new Gson();
-		jsonString = gson.toJson(recorridos);
-		
+		CollectionPaginator<Collection<HashMap<String,String>>> paginador = new CollectionPaginator((List) recorridos);
+		jsonString = gson.toJson(paginar(paginador, paginas ,1));
 		request.getSession().setAttribute("seccion", "recorridos");
 		request.getSession().setAttribute("accion", "listar");
 		return "success";
@@ -571,6 +687,14 @@ public class AdministradorRecorridoAction extends GenericAction {
 
 	public void setJsonString(String jsonString) {
 		this.jsonString = jsonString;
+	}
+
+	public String[] getJs() {
+		return js;
+	}
+
+	public void setJs(String[] js) {
+		this.js = js;
 	}
 
 

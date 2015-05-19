@@ -22,29 +22,29 @@
 				<input type="hidden" name="eventoId" value="<s:property value="evento.id" />"/>
 
 					<div class="form-group">
-						<label for="inputName">Nombre del evento</label> <input type="text"
+						<label for="inputName"><s:text name="evento.form.nomrbe" /></label> <input type="text"
 							class="form-control" id="inputName" name="nombre" value="<s:property value="evento.nombre" />"
 							placeholder="Ingresa nombre del evento">
 					</div>
 					<div class="form-group">
-						<label for="inputFecha">Fecha</label> 
+						<label for="inputFecha"><s:text name="evento.form.fecha" /></label> 
 						
 							<sx:datetimepicker name="fecha"  cssClass="form-control"  displayFormat="dd-MMM-yyyy" value="%{evento.fecha}"/>
 						
 						
 					</div>
 					<div class="form-group">
-						<label for="inputDireccion">Direccion</label> <input type="text"
+						<label for="inputDireccion"><s:text name="evento.form.direccion" /></label> <input type="text"
 							class="form-control" id="inputDireccion" name="direccion" value="<s:property value="evento.direccion" />"
 							placeholder="Ingresa la dirección">
 					</div>
 					<div class="form-group">
-						<label for="inputHora">Hora</label> <input
+						<label for="inputHora"><s:text name="evento.form.hora" /></label> <input
 							name="hora" type="time" class="form-control" id="inputHora" value="<s:property value="evento.hora" />"
 							placeholder="Hora del evento">
 					</div>
 					<div class="form-group">
-						<label for="inputCiudad">Ciudad</label> <input
+						<label for="inputCiudad"><s:text name="evento.form.ciudad" /></label> <input
 							name="ciudad" type="text" class="form-control" id="inputCiudad" value="<s:property value="evento.ciudad" />"
 							placeholder="Ciudad del evento">
 					</div>
@@ -52,16 +52,16 @@
 
 
 					<button type="submit"
-						class=" btn btn-primary btn-lg btn btn-success">Submit</button>
+						class=" btn btn-primary btn-lg btn btn-success"><s:text name="boton.enviar" /></button>
 
 				</div>
 				
 				<div class="col-md-4 ">
 					<div class="form-group">
-						<label for="inputFile">Foto Evento</label>
+						<label for="inputFile"><s:text name="evento.form.fotoEvento" /></label>
 						<s:file onchange="PreviewImage();" id="inputFile" name="foto"
 							label="Select a File to upload" size="40" />
-						<p class="help-block">Suba una foto del evento.</p>
+						<p class="help-block"><s:text name="evento.form.fotoDescripcion" /></p>
 					</div>
 				</div>
 				<div class="col-md-4 ">

@@ -17,19 +17,18 @@
 			<div class="col-sm-9 col-md-11 no-float " >
 
 					<div class="form-group">
-						<label for="inputAsunto">Asunto</label> <input
+						<label for="inputAsunto"><s:text name="mensaje.form.asunto" /></label> <input
 							name="asunto" type="text" class="form-control"
 							id="inputAsunto" placeholder="Asunto del mensaje" value="<s:property value="mensaje.asunto" />" readonly> 
 					</div>
 
 					<div class="form-group">
-						<label for="inputMensaje">Mensaje</label>
+						<label for="inputMensaje"><s:text name="mensaje.form.mensaje" /></label>
 						<textarea readonly class="form-control" id="inputMensaje" name="texto" rows="4"><s:property value="mensaje.texto" /></textarea> 
 					</div>
 
 					<!-- /.col-lg-6 -->
 				
-				<s:fielderror />
 
 			</div>
 		</div>

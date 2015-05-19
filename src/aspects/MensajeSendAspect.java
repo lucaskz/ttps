@@ -59,6 +59,7 @@ public class MensajeSendAspect {
 			m.setCreador(((Usuario)args[0]));
 			m.setTexto("Tienes una nueva solicitud pendiente de el usuario "+((Usuario)args[0]).getNombre());
 			m.setReceptor((Usuario)result);
+			m.setLeido(false);
 			mensajeDAO.alta(m);
 		}
 		return result;

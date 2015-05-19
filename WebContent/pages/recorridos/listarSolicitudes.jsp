@@ -18,10 +18,10 @@
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Desde</th>
-							<th>Hasta</th>
-							<th>Solicitante</th>
-							<th>Estado</th>
+							<th><s:text name="solicitud.tabla.desde" /></th>
+							<th><s:text name="solicitud.tabla.hasta" /></th>
+							<th><s:text name="solicitud.tabla.solicitante" /></th>
+							<th><s:text name="solicitud.tabla.estado" /></th>
 							<th></th>
 						</tr>
 					</thead>

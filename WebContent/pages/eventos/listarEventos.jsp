@@ -25,19 +25,19 @@
 						</div>
 						<div class="col-xs-4 col-sm-6">
 							<p>
-								Ciudad :
+								<s:text name="evento.form.ciudad" /> :
 								<s:property value="ciudad" />
 							</p>
 							<p>
-								Direccion :
+								<s:text name="evento.form.direccion" /> :
 								<s:property value="direccion" />
 							</p>
 							<p>
-								Fecha :
+								<s:text name="evento.form.fecha" /> :
 								<s:property value="fecha" />
 							</p>
 							<p>
-								Hora :
+								<s:text name="evento.form.hora" /> :
 								<s:property value="hora" />
 							</p>
 						</div>

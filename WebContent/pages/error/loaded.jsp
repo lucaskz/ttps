@@ -10,7 +10,6 @@
 	<div class="container">
 	
 		DB Updated.
-		<s:fielderror />
 	
 	</div>
 	<t:footer></t:footer>

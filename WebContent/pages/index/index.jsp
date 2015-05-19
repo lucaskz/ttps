@@ -47,122 +47,28 @@
     <div class="container">
 		<!-- Example row of columns -->
 		<div class="row">
+			<s:iterator value="recorridos" var="rActual">
 			<div class="col-md-4">
-				<h2>Heading</h2>
+				<h2><s:text name="sidebarRecorrido.seccion.recorrido" /> # <s:property value="id"/></h2>
 				<div class="row">
 					<div class="col-xs-8 col-sm-6">
 						<img src="${pageContext.request.contextPath}/img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"
 								style="max-height: 140px;">
 					</div>
 					<div class="col-xs-4 col-sm-6">
-						<p>Origen :</p>
-						<p>Destino :</p>
+						<p><s:text name="recorrido.form.direccionDesde" /> : <s:property value="direccionDesde"/></p>
+						<p><s:text name="recorrido.form.direccionHasta" /> : <s:property value="direccionHasta"/></p>
+						<p><s:text name="recorrido.lista.pasajeros" /> :  <s:property value="rActual.pasajeros.size()"/></p>
 					</div>
 				</div>
 
 
 				<p>
-					<a class="btn btn-default" href="#" role="button">View details
+					<a class="btn btn-default"  href="${pageContext.request.contextPath}/recorridos/listar" role="button" >View details
 						&raquo;</a>
 				</p>
 			</div>
-			<div class="col-md-4">
-				<h2>Heading</h2>
-				<div class="row">
-					<div class="col-xs-8 col-sm-6">
-						<img src="${pageContext.request.contextPath}/img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"
-								style="max-height: 140px;">
-					</div>
-					<div class="col-xs-4 col-sm-6">
-						<p>Origen :</p>
-						<p>Destino :</p>
-					</div>
-				</div>
-
-
-				<p>
-					<a class="btn btn-default" href="#" role="button">View details
-						&raquo;</a>
-				</p>
-			</div>
-			<div class="col-md-4">
-				<h2>Heading</h2>
-				<div class="row">
-					<div class="col-xs-8 col-sm-6">
-						<img src="${pageContext.request.contextPath}/img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"
-								style="max-height: 140px;">
-					</div>
-					<div class="col-xs-4 col-sm-6">
-						<p>Origen :</p>
-						<p>Destino :</p>
-					</div>
-				</div>
-
-
-				<p>
-					<a class="btn btn-default" href="#" role="button">View details
-						&raquo;</a>
-				</p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-4">
-				<h2>Heading</h2>
-				<div class="row">
-					<div class="col-xs-8 col-sm-6">
-						<img src="${pageContext.request.contextPath}/img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"
-								style="max-height: 140px;">
-					</div>
-					<div class="col-xs-4 col-sm-6">
-						<p>Origen :</p>
-						<p>Destino :</p>
-					</div>
-				</div>
-
-
-				<p>
-					<a class="btn btn-default" href="#" role="button">View details
-						&raquo;</a>
-				</p>
-			</div>
-			<div class="col-md-4">
-				<h2>Heading</h2>
-				<div class="row">
-					<div class="col-xs-8 col-sm-6">
-						<img src="${pageContext.request.contextPath}/img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"
-								style="max-height: 140px;">
-					</div>
-					<div class="col-xs-4 col-sm-6">
-						<p>Origen :</p>
-						<p>Destino :</p>
-					</div>
-				</div>
-
-
-				<p>
-					<a class="btn btn-default" href="#" role="button">View details
-						&raquo;</a>
-				</p>
-			</div>
-			<div class="col-md-4">
-				<h2>Heading</h2>
-				<div class="row">
-					<div class="col-xs-8 col-sm-6">
-						<img src="img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"
-								style="max-height: 140px;">
-					</div>
-					<div class="col-xs-4 col-sm-6">
-						<p>Origen :</p>
-						<p>Destino :</p>
-					</div>
-				</div>
-
-
-				<p>
-					<a class="btn btn-default" href="#" role="button">View details
-						&raquo;</a>
-				</p>
-			</div>
+			</s:iterator>
 		</div>
 		<!-- end Home news -->
     </div>

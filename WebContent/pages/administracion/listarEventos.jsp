@@ -18,11 +18,11 @@
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Nombre</th>
-							<th>Fecha</th>
-							<th>Ciudad</th>
-							<th>Estado</th>
-							<th>Deshabilitar</th>
+							<th><s:text name="evento.tabla.nombre" /></th>
+							<th><s:text name="evento.tabla.fecha" /></th>
+							<th><s:text name="evento.tabla.ciudad" /></th>
+							<th><s:text name="evento.tabla.estado" /></th>
+							<th><s:text name="evento.tabla.deshabilitar" /></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -33,7 +33,7 @@
 							<td><s:property value="fecha"/></td>
 							<td><s:property value="ciudad"/></td>
 							<s:if test="#eactual.estado == true ">
-									<td>Habilitado</td>
+									<td><s:text name="estado.habilitado" /></td>
 								<td>
 									<button type="button" id="deshabilitar-usuario" evento="<s:property value="id"/>" class="btn btn-default quitarFixture" aria-label="Left Align">
 			 								<span class="glyphicon glyphicon-remove-circle" aria-hidden="true" ></span>
@@ -41,7 +41,7 @@
 								</td>
 								</s:if>
 								<s:else>
-									<td>Deshabilitado</td>
+									<td><s:text name="estado.deshabilitado" /></td>
 									<td></td>
 								</s:else>
 						</tr>

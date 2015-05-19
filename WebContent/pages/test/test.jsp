@@ -10,7 +10,6 @@
 	<div class="container">
 		TEST
 		
-		<s:fielderror />
 	
 	</div>
 	<t:footer></t:footer>

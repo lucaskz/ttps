@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -27,7 +28,7 @@ public class RecorridoDAOHibernateJPA extends GenericDAOHibernateJPA<Recorrido> 
 			Query consulta = this
 					.getEm()
 					.createQuery(
-							"select e from Recorrido as e  where e.id=?");
+							"select e from Recorrido as e  where e.id=? and e.estado=true");
 			consulta.setParameter(1, id);
 			return (Recorrido) consulta.getSingleResult();
 		}
@@ -43,7 +44,7 @@ public class RecorridoDAOHibernateJPA extends GenericDAOHibernateJPA<Recorrido> 
 	/**
 	 * Recibe la id del usuario como parametro. Retorna una lista de recorridos indicando en cada uno si puede calificarlo junto con la informacion del recorrido
 	 */
-	public Collection<HashMap<String,String>> recuperarRecorridos(int id) {
+	public List<HashMap<String,String>> recuperarRecorridos(int id) {
 		try {
 			Query consulta = this
 					.getEm()
@@ -52,7 +53,7 @@ public class RecorridoDAOHibernateJPA extends GenericDAOHibernateJPA<Recorrido> 
 							+ " CASE WHEN (  :id in (select pa.id from Recorrido reco left join reco.pasajeros pa where r.id=reco.id)   OR  :id in (select pa.id from Recorrido reco left join reco.conductores pa where reco.id = r.id )   )  THEN true ELSE false END, "
 							+ " CASE WHEN ( :id  in (select v.votante.id from Voto v where v.recorrido.id = r.id)  ) THEN true ELSE false END, "
 							+ " CASE WHEN ( :id in (select d.creador.id from Denuncia d where d.recorrido.id = r.id ) ) THEN true ELSE false END,"
-							+ " CASE WHEN (:id in (select s.solicitante.id from Solicitud s where s.recorrido.id = r.id ) ) THEN true ELSE false END from Recorrido r left OUTER  join r.evento eve where r.creador.id != :id and r.estado = true    ");
+							+ " CASE WHEN (:id in (select s.solicitante.id from Solicitud s where s.recorrido.id = r.id ) ) THEN true ELSE false END,r.polygon,r.startA,r.startF,r.endA,r.endF from Recorrido r left OUTER  join r.evento eve where r.creador.id != :id and r.estado = true    ");
 			/**
 			 * Notas para saber que viene de este query
 			 * 0 - direccion DESDE
@@ -66,6 +67,11 @@ public class RecorridoDAOHibernateJPA extends GenericDAOHibernateJPA<Recorrido> 
 			 * 8 - Si ya califique este recorrido anteriormente
 			 * 9 - Saber si ya denuncie este recorrido anteriormente
 			 * 10 - Saber si existe solicitud pendiente para este recorrido
+			 * 11 - polygon
+			 * 12 - startA
+			 * 13 - startF
+			 * 14 - endA
+			 * 15 - endF
 			 */
 							
 			consulta.setParameter("id", id);
@@ -98,7 +104,7 @@ public class RecorridoDAOHibernateJPA extends GenericDAOHibernateJPA<Recorrido> 
 			reco.put("fecha",String.valueOf(objects[5]));
 			// revisar si es String true o boolean true...
 			// Significa que el recorrido ya paso y ademas participé del mismo, es decir,puedo calificarlo..
-			if( (new Date()).after((Date) objects[5]) && String.valueOf(objects[7]).equals("true")  )				
+			if( objects[5]!=null  && (new Date()).after((Date) objects[5]) && String.valueOf(objects[7]).equals("true")  )				
 				reco.put("puedeCalificar", "true");	
 			if((boolean)objects[7] == true )
 				reco.put("participando", "true");
@@ -110,6 +116,14 @@ public class RecorridoDAOHibernateJPA extends GenericDAOHibernateJPA<Recorrido> 
 				reco.put("pendiente", "true");
 			if(objects.length >= 10+1)
 				reco.put("votos", String.valueOf(objects[9]));
+			if(objects[11]!=null){
+				reco.put("map", "true");
+				reco.put("polygon",String.valueOf(objects[11]));
+				reco.put("startA",String.valueOf(objects[12]));
+				reco.put("startF",String.valueOf(objects[13]));
+				reco.put("endA",String.valueOf(objects[14]));
+				reco.put("endF",String.valueOf(objects[15]));
+			}
 			recorridos.add(reco);
 		}
 		return recorridos;
@@ -154,6 +168,41 @@ public class RecorridoDAOHibernateJPA extends GenericDAOHibernateJPA<Recorrido> 
 			ArrayList<HashMap<String, String>> recorridos = generarRecorridos(resultados);
 			return recorridos;
 		}catch (NoResultException e) {
+
+
+			return null;
+		}
+	}
+
+	@Override
+	public Recorrido findRecorridoCreadorParticipanteById(int id,int idUser) {
+		try {
+			Query consulta = this
+					.getEm()
+					.createQuery(
+							"select distinct e from Recorrido as e  where e.id= :id and e.estado=true and (:user in (select c.id from Recorrido r join r.conductores  c where e.id=r.id) or :user in (select p.id from Recorrido re join re.pasajeros p where re.id=e.id) )");
+			consulta.setParameter("id", id);
+			consulta.setParameter("user", idUser);
+			return (Recorrido) consulta.getSingleResult();
+		}
+
+		catch (NoResultException e) {
+
+
+			return null;
+		}
+	}
+
+	@Override
+	public Collection<Recorrido> recuperarRecorridosActivos() {
+		try {
+			Query consulta = this
+					.getEm()
+					.createQuery("Select r from Recorrido r where r.estado = true order by size(r.pasajeros) ").setMaxResults(6);
+			return  consulta.getResultList();
+		}
+
+		catch (NoResultException e) {
 
 
 			return null;
