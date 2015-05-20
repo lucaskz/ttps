@@ -48,6 +48,7 @@ public class GenericAction extends ActionSupport {
 		Locale locale = new Locale(language, country);
 		ActionContext.getContext().setLocale(locale) ;
 		session.put(I18nInterceptor.DEFAULT_SESSION_ATTRIBUTE, locale);
+		session.put("idioma", locale);
 		return "success";
 		
 	}

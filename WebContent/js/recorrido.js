@@ -16,7 +16,7 @@ $(document).ready(function(){
 					 $('#recorrido-list').append(html);
 				 }
 				if(data.data!=null && data.data.length!=0){
-					$('input-paginador').empty();
+					$('#input-paginador').empty();
 					var source   = $("#paginador-template").html();
 					var template = Handlebars.compile(source);
 					var html    = template(data.input);

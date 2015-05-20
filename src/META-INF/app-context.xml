@@ -94,6 +94,8 @@
 	<bean id="logAspect" class="aspects.MailSendAspect" />
 	
 	<bean id="msjAspect" class="aspects.MensajeSendAspect" />
+	
+	<bean id="idiomaAspect" class="aspects.IdiomaAspect" />
 
 </beans>
 

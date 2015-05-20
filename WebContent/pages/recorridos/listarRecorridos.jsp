@@ -12,15 +12,15 @@
 							<div class="row">
 								<div class=" col-sm-1 col-md-1		col-md-offset-2" style="margin-top:10%">
 									{{#if participando}}										
-											<button class="btn btn-default "  onclick="window.document.location='../recorridos/recorrido?&recorrido={{id}}';">Ver Detalles</button>										
+											<button class="btn btn-default "  onclick="window.document.location='../recorridos/recorrido?&recorrido={{id}}';"><s:text name="recorrido.lista.verDetalles" /></button>										
 									{{else}}
 										{{#if pendiente}}
 											<button class="btn btn-default "  disabled>
-											 Pendiente
+											 <s:text name="recorrido.lista.pendiente" />
 											</button>
 										{{else}}
 											<button class="btn btn-default "  onclick="window.document.location='../recorridos/solicitar?&recorrido={{id}}';">
-											 	Unirse
+											 	<s:text name="recorrido.lista.unirse" />
 											</button>
 										{{/if}}
 									{{/if}}
@@ -31,12 +31,12 @@
 									{{/if}}
 								</div>
 								<div class=" col-sm-3 col-md-3		col-md-offset-1" style="margin-top:5%">
-									<h4>	Hora Partida:{{horaPartida}} </h4>
-									<h4>  Hora Regreso:{{horaRegreso}}</h4>										
+									<h4><s:text name="recorrido.lista.horaPartida" />{{horaPartida}} </h4>
+									<h4><s:text name="recorrido.lista.horaRegreso" />{{horaRegreso}}</h4>										
 								</div>
 								<div class="col-md-1">
 									{{#if calificado}}
-										<button class="btn btn-default btn btn-default" disabled >Ya calificado</button>
+										<button class="btn btn-default btn btn-default" disabled ><s:text name="recorrido.lista.yaCalificado" /></button>
 									{{else}}
 											{{#if puedeCalificar}}
 													<button class="btn btn-default btn btn-success"  onclick="window.document.location='../recorridos/upVote?&recorrido={{id}}';">
@@ -47,9 +47,9 @@
 								</div>
 								<div class="col-md-2 ">
 									 {{#if denunciado}}
-										 	<button  class="btn btn-default" disabled>Ya denunciado!</button>	
+										 	<button  class="btn btn-default" disabled><s:text name="recorrido.lista.yaDenunciado" /></button>	
 								 	{{else}}										
-											<button class="btn btn-default"  onclick="window.document.location='../recorridos/denunciar?&idRecorrido={{id}}';"> Denunciar</button>	
+											<button class="btn btn-default"  onclick="window.document.location='../recorridos/denunciar?&idRecorrido={{id}}';"> <s:text name="recorrido.lista.denunciar" /></button>	
 									{{/if}}
 								</div>
 							</div>
@@ -70,7 +70,7 @@
 							</div>
 							<div class="row">
 								<div class="col-sm-4">
-									Asientos: {{asientos}}
+									<s:text name="recorrido.form.asientos" />: {{asientos}}
 								</div>								
 							</div>
 </div>
