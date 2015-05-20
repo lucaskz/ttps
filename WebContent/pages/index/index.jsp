@@ -64,8 +64,7 @@
 
 
 				<p>
-					<a class="btn btn-default"  href="${pageContext.request.contextPath}/recorridos/listar" role="button" >View details
-						&raquo;</a>
+					<a class="btn btn-default"  href="${pageContext.request.contextPath}/recorridos/listar" role="button" ><s:text name="recorrido.lista.verDetalles" />	&raquo;</a>
 				</p>
 			</div>
 			</s:iterator>
