@@ -62,7 +62,7 @@ $(document).ready(function(){
 	$('body').on("click",".paginar",function(){	
 		$().getRecorridos($(this).attr('pagina'));
 		//Actualizo pagina actual.
-		PAGINA_ACTUAL = $(this).attr('pagina')
+		PAGINA_ACTUAL = $(this).attr('pagina');
 	});
 	
 	

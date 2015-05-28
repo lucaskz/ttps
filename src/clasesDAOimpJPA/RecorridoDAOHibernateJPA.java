@@ -9,6 +9,8 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import com.ftbl5bna.bna.dao.Imp.String;
+
 import clases.Denuncia;
 import clases.Evento;
 import clases.Recorrido;
@@ -117,8 +119,8 @@ public class RecorridoDAOHibernateJPA extends GenericDAOHibernateJPA<Recorrido> 
 			if(objects.length >= 10+1)
 				reco.put("votos", String.valueOf(objects[9]));
 			if(objects[11]!=null){
-				reco.put("map", "true");
-				reco.put("polygon",String.valueOf(objects[11]));
+				reco.put("map", "true");				
+				reco.put("polygon",new String((byte[])objects[11], "UTF-8"));
 				reco.put("startA",String.valueOf(objects[12]));
 				reco.put("startF",String.valueOf(objects[13]));
 				reco.put("endA",String.valueOf(objects[14]));
