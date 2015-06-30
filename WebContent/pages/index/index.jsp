@@ -52,8 +52,14 @@
 				<h2><s:text name="sidebarRecorrido.seccion.recorrido" /> # <s:property value="id"/></h2>
 				<div class="row">
 					<div class="col-xs-8 col-sm-6">
-						<img src="${pageContext.request.contextPath}/img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"
-								style="max-height: 140px;">
+						<s:if test="#rActual.polygon != null">
+							<img src="http://maps.googleapis.com/maps/api/staticmap?size=140x140&path=weight:3|color:blue|enc:<s:property value="polygon"/>&markers=color:red|label:Llegada|<s:property value="endA"/>,<s:property value="endF"/>&markers=color:red|label:Partida|<s:property value="startA"/>,<s:property value="startF"/>" />
+						</s:if>
+						<s:else>
+							<img src="${pageContext.request.contextPath}/img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"	style="max-height: 140px;">
+						</s:else>
+						
+						
 					</div>
 					<div class="col-xs-4 col-sm-6">
 						<p><s:text name="recorrido.form.direccionDesde" /> : <s:property value="direccionDesde"/></p>

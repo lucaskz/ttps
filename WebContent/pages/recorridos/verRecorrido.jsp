@@ -11,11 +11,13 @@
 			<t:recorridosSidebar></t:recorridosSidebar>
 			<div class="col-sm-9 col-md-11 no-float ">
 				<div class="row">					
-						<h2 style="padding-top:1em;text-align: center"class="list-group-item-heading">Recorrido #<s:property value="recorrido.id"/> </h2>
+						<h2 style="padding-top:1em;text-align: center"class="list-group-item-heading"><s:text name="recorrido.lista.recorridos" /> #<s:property value="recorrido.id"/> </h2>
 				</div>
 				<div class="row" style="padding-top:3em">
-					<div class="col-xs-5 col-sm-5 col-md-offset-1">
-						<img src="${pageContext.request.contextPath}/img/gmap.jpg" alt="gmap.jpg" class="img-thumbnail"								style="max-height: 140px;">
+					<div class="col-xs-5 col-sm-5 col-md-offset-1">						
+						<s:if test="%{recorrido.polygon != null}">
+							<img src="http://maps.googleapis.com/maps/api/staticmap?size=200x200&path=weight:3|color:blue|enc:<s:property value="recorrido.polygon"/>&markers=color:red|label:Llegada|<s:property value="recorrido.endA"/>,<s:property value="recorrido.endF"/>&markers=color:red|label:Partida|<s:property value="recorrido.startA"/>,<s:property value="recorrido.startF"/>" />
+						</s:if>
 					</div>
 					<div class="row">
 						<div class="col-xs-5 col-sm-5">

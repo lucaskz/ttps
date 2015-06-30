@@ -33,14 +33,19 @@
 							<td><s:property value="recorrido.direccionHasta"/></td>
 							<td><s:property value="solicitante.nombre"/></td>
 							<td><s:property value="estado"/></td>
-							<td>
-								<button type="button" class="btn btn-default  btn-success"   onclick="window.document.location='../recorridos/aceptarSolicitud?&solicitud=<s:property value="#sActual.id"/>';" aria-label="Left Align">
-											  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-								</button>
-								<button type="button" class="btn btn-default  btn-danger"   onclick="window.document.location='../recorridos/rechazarSolicitud?&solicitud=<s:property value="#sActual.id"/>';" aria-label="Left Align">
-											  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-								</button>
-							</td>
+							<s:if test='estado.toString() == "ACEPTADO" '>
+								<td></td>
+							</s:if>
+							<s:else>
+								<td>
+									<button type="button" class="btn btn-default  btn-success"   onclick="window.document.location='../recorridos/aceptarSolicitud?&solicitud=<s:property value="#sActual.id"/>';" aria-label="Left Align">
+												  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+									</button>
+									<button type="button" class="btn btn-default  btn-danger"   onclick="window.document.location='../recorridos/rechazarSolicitud?&solicitud=<s:property value="#sActual.id"/>';" aria-label="Left Align">
+												  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+									</button>
+								</td>
+							</s:else>							
 						</tr>
 					</s:iterator>
 					</tbody>

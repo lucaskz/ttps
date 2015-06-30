@@ -27,7 +27,7 @@
 								</div>
 								<div class="col-sm-2">
 									{{#if map}}
-										<img src="http://maps.googleapis.com/maps/api/staticmap?size=200x200&path=weight:3|color:blue|enc:{{polygon}}&markers=color:red|label:Llegada|{{endA}},{{endF}}&markers=color:red|label:Partida|{{startA}},{{startF}}" />
+										<img src="http://maps.googleapis.com/maps/api/staticmap?size=140x140&path=weight:3|color:blue|enc:{{polygon}}&markers=color:red|label:Llegada|{{endA}},{{endF}}&markers=color:red|label:Partida|{{startA}},{{startF}}" />
 									{{/if}}
 								</div>
 								<div class=" col-sm-3 col-md-3		col-md-offset-1" style="margin-top:5%">
@@ -99,16 +99,16 @@
 			<div class="col-sm-9 col-md-11 no-float ">
 				<div class="row">
 					<div class="col-md-4 col-md-offset-1">
-						<label class="control-label"># Recorridos</label>
+						<label class="control-label"># <s:text name="recorrido.lista.recorridos" /></label>
 						<label class="radio-inline"> <input type="radio" name="paginas"  value="5" checked> 5 </label>
       		  <label class="radio-inline"> <input type="radio" name="paginas"  value="10"> 10 </label>
        			 <label class="radio-inline"> <input type="radio" name="paginas"  value="15" > 15 </label>
 					</div>				
 					<div class="col-md-2 ">
-						<button class="btn btn-default" id="filtrar-votos" type="button">Mas Votados</button>
+						<button class="btn btn-default" id="filtrar-votos" type="button"><s:text name="recorrido.lista.filtroVoto" /> </button>
 					</div>
 					<div class="col-md-2 ">
-						<button class="btn btn-default" id="filtrar-pasajeros" type="button">Mas Pasajeros</button>
+						<button class="btn btn-default" id="filtrar-pasajeros" type="button"><s:text name="recorrido.lista.filtroPasajero" /></button>
 					</div>
 				</div>
 				<div class="row list-group" id="recorrido-list">
