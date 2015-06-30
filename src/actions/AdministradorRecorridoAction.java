@@ -463,9 +463,8 @@ public class AdministradorRecorridoAction extends GenericAction {
 		}
 		
 		if(request.getParameter("polygon")!=null & !request.getParameter("polygon").equals("")){
-			//LLegaron cordenadas seleccionadas del mapa , lo guardo para despues generar la imagen static!
-			String polygon = request.getParameter("polygon");			
-			recorrido.setPolygon(texto.getBytes(Charset.forName("UTF-8")));			 
+			//LLegaron cordenadas seleccionadas del mapa , lo guardo para despues generar la imagen static!	
+			recorrido.setPolygon(request.getParameter("polygon"));			 
 			recorrido.setStartA(request.getParameter("startA"));
 			recorrido.setStartF(request.getParameter("startF"));
 			recorrido.setEndA(request.getParameter("endA"));

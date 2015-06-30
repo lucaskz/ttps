@@ -1,5 +1,13 @@
 package aspects;
 
+import java.util.Map;
+
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Aspect;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.interceptor.I18nInterceptor;
+
 @Aspect
 public class IdiomaAspect {
 

@@ -11,8 +11,6 @@ import javax.persistence.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import com.ftbl5bna.bna.model.Lob;
-
 @Entity
 public class Recorrido {
 	@Id @GeneratedValue
@@ -72,7 +70,7 @@ public class Recorrido {
 	private Date fecha;
 	
 	@Lob
-	private byte[] polygon;
+	private String polygon;
 	
 	private String startA;
 	
@@ -260,11 +258,11 @@ public class Recorrido {
 		this.solicitudes = solicitudes;
 	}
 
-	public byte[] getPolygon() {
+	public String getPolygon() {
 		return polygon;
 	}
 
-	public void setPolygon(byte[] polygon) {
+	public void setPolygon(String polygon) {
 		this.polygon = polygon;
 	}
 
