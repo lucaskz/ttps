@@ -22,4 +22,6 @@ public interface RecorridoDAO extends GenericDAO<Recorrido>{
 	public Recorrido findRecorridoCreadorParticipanteById(int parseInt, int i);
 
 	public Collection<Recorrido> recuperarRecorridosActivos();
+	
+	public Collection<Recorrido> recuperarRecorridosPorDireccion(int userId,String palabra);
 }

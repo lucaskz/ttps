@@ -100,15 +100,21 @@
 				<div class="row">
 					<div class="col-md-4 col-md-offset-1">
 						<label class="control-label"># <s:text name="recorrido.lista.recorridos" /></label>
-						<label class="radio-inline"> <input type="radio" name="paginas"  value="5" checked> 5 </label>
-      		  <label class="radio-inline"> <input type="radio" name="paginas"  value="10"> 10 </label>
-       			 <label class="radio-inline"> <input type="radio" name="paginas"  value="15" > 15 </label>
+						<label class="radio-inline paginar"> <input type="radio" name="paginas"  value="5" checked> 5 </label>
+      					<label class="radio-inline paginar"> <input type="radio" name="paginas"  value="10"> 10 </label>
+       					<label class="radio-inline paginar"> <input type="radio" name="paginas"  value="15" > 15 </label>
 					</div>				
 					<div class="col-md-2 ">
 						<button class="btn btn-default" id="filtrar-votos" type="button"><s:text name="recorrido.lista.filtroVoto" /> </button>
 					</div>
 					<div class="col-md-2 ">
 						<button class="btn btn-default" id="filtrar-pasajeros" type="button"><s:text name="recorrido.lista.filtroPasajero" /></button>
+					</div>
+					<div class="col-md-2" >
+					    <div class="right-inner-addon">
+					        <i class="icon-search"></i>
+					        <input type="search" id="reco-filter" class="form-control"  placeholder="<s:text name="evento.form.direccion" />" />
+					    </div>
 					</div>
 				</div>
 				<div class="row list-group" id="recorrido-list">

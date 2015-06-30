@@ -133,7 +133,12 @@ public class AdministradorRecorridoAction extends GenericAction {
 		if(request.getParameter("pagina")!=null){
 			pagina = Integer.parseInt(request.getParameter("pagina"));
 		}
-		recorridos = recorridoDAO.recuperarRecorridos(user.getId());
+		String filtro = null , palabra = null;
+		if(request.getParameter("filtro")!=null){
+			filtro = request.getParameter("filtro");
+			palabra = request.getParameter("palabra");
+		}
+		recorridos = ( filtro!= null && filtro.equals("direccion") && palabra!=null) ? recorridoDAO.recuperarRecorridosPorDireccion(user.getId(),palabra) : recorridoDAO.recuperarRecorridos(user.getId());		
 		Gson gson = new Gson();
 		CollectionPaginator<Collection<HashMap<String,String>>> paginador = new CollectionPaginator((List) recorridos);
 		jsonString = gson.toJson(paginar(paginador, paginas ,pagina));

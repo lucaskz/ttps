@@ -41,6 +41,52 @@ public class RecorridoDAOHibernateJPA extends GenericDAOHibernateJPA<Recorrido> 
 		}
 		
 	}
+	
+	/**
+	 * Recibe la id del usuario como parametro. Retorna una lista de recorridos indicando en cada uno si puede calificarlo junto con la informacion del recorrido
+	 */
+	public List<HashMap<String,String>> recuperarRecorridosPorDireccion(int id,String palabra) {
+		try {
+			Query consulta = this
+					.getEm()
+					.createQuery(
+							"select r.direccionDesde , r.direccionHasta ,r.horaPartida ,r.horaRegreso ,r.asientos, eve.fecha, r.id,"
+							+ " CASE WHEN (  :id in (select pa.id from Recorrido reco left join reco.pasajeros pa where r.id=reco.id)   OR  :id in (select pa.id from Recorrido reco left join reco.conductores pa where reco.id = r.id )   )  THEN true ELSE false END, "
+							+ " CASE WHEN ( :id  in (select v.votante.id from Voto v where v.recorrido.id = r.id)  ) THEN true ELSE false END, "
+							+ " CASE WHEN ( :id in (select d.creador.id from Denuncia d where d.recorrido.id = r.id ) ) THEN true ELSE false END,"
+							+ " CASE WHEN (:id in (select s.solicitante.id from Solicitud s where s.recorrido.id = r.id ) ) THEN true ELSE false END,r.polygon,r.startA,r.startF,r.endA,r.endF from Recorrido r left OUTER  join r.evento eve where r.creador.id != :id and r.estado = true and (r.direccionDesde like :direccion or r.direccionHasta like :direccion)    ");
+			/**
+			 * Notas para saber que viene de este query
+			 * 0 - direccion DESDE
+			 * 1 - direccion HAstA
+			 * 2 - hora PARTIDA
+			 * 3 - hora REGRESO
+			 * 4 - asientos disponibles
+			 * 5 - fecha del evento ( si existe ) 
+			 * 6 - id del recorrido en cuestion
+			 * 7 - Pertenezco al recorrido // Junto con la fecha de hoy y la del recorrido -> puedo calificar el recorrido
+			 * 8 - Si ya califique este recorrido anteriormente
+			 * 9 - Saber si ya denuncie este recorrido anteriormente
+			 * 10 - Saber si existe solicitud pendiente para este recorrido
+			 * 11 - polygon
+			 * 12 - startA
+			 * 13 - startF
+			 * 14 - endA
+			 * 15 - endF
+			 */
+							
+			consulta.setParameter("id", id);
+			consulta.setParameter("direccion",  "%" + palabra + "%");
+			Collection<Object[]> resultados = consulta.getResultList();
+			ArrayList<HashMap<String, String>> recorridos = generarRecorridos(resultados);
+			return recorridos;
+		}catch (NoResultException e) {
+
+
+			return null;
+		}
+		
+	}
 
 	/**
 	 * Recibe la id del usuario como parametro. Retorna una lista de recorridos indicando en cada uno si puede calificarlo junto con la informacion del recorrido
